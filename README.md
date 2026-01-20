@@ -1,6 +1,3 @@
-<img width="50" height="450" alt="image" src="https://github.com/user-attachments/assets/264bc34d-be46-4a1c-b987-7b84f7153900" />
-
-
 # 000iac
 IaC 수업
 
