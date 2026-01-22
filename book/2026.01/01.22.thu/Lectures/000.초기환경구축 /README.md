@@ -1,5 +1,6 @@
 # PC15 JinieFerry Log 2026.01.22.thu
-
+---
+## 10기본환경구축
 1) 인터페이스 이름 / 현재 IP / 게이트웨이 확인  
 1-1. 인터페이스 이름 확인
 ```
@@ -131,3 +132,4 @@ Password: (1234)
 ```
 
 <img width="1080" height="875" alt="image" src="https://github.com/user-attachments/assets/19d6d384-4bcf-4f9d-b72d-928ead3302c3" />
+---
