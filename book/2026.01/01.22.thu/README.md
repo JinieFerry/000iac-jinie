@@ -46,7 +46,7 @@ network:
     enp0s3:
       dhcp4: no
       addresses:
-        - 192.168.113.251/16
+        - 192.168.115.251/16 #192.168.1+자기PC번호(15)=115
       routes:
         - to: default
           via: 192.168.10.1
@@ -90,6 +90,18 @@ enp0s3           UP             192.168.10.187/16 fe80::a00:27ff:fe0f:3447/64
 master@vmmaster15:~$ ip route | grep default
 default via 192.168.10.1 dev enp0s3 proto static
 ```
+```
+# IP 주소 확인
+ip addr show enp0s3
+
+# 게이트웨이 설정 확인
+ip route
+
+# 외부 네트워크 연결 테스트 (DNS 작동 확인)
+ping -c 3 google.com
+```
+<img width="947" height="512" alt="image" src="https://github.com/user-attachments/assets/ca57c438-e428-447b-a157-7ab08d721100" />
+
 
 5.pc서버도 바꿔주기
 <img width="734" height="649" alt="image" src="https://github.com/user-attachments/assets/6abf4f06-a1f5-453b-99fd-14536ae8fcfd" />
