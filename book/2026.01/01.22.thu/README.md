@@ -90,21 +90,24 @@ enp0s3           UP             192.168.10.187/16 fe80::a00:27ff:fe0f:3447/64
 master@vmmaster15:~$ ip route | grep default
 default via 192.168.10.1 dev enp0s3 proto static
 ```
+
+5.pc서버도 바꿔주기
+<img width="734" height="649" alt="image" src="https://github.com/user-attachments/assets/6abf4f06-a1f5-453b-99fd-14536ae8fcfd" />
+pc제어판에서 네트워크 설정 (버추얼박스)그대로 맞춰주기
+![Uploading image.png…]()
+
+![Uploading image.png…]()
+
+<img width="421" height="533" alt="image" src="https://github.com/user-attachments/assets/ae91ae20-b657-43c2-8be2-b4828129a6d8" />
+
+<img width="465" height="518" alt="image" src="https://github.com/user-attachments/assets/c86851e8-11dd-4cd4-8355-e8455b93eef4" />
+
+6. VM에직접 열기
+
 ```
-master@vmmaster15:~$ ping -c 3 8.8.8.8
-PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
-64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=30.6 ms
-64 bytes from 8.8.8.8: icmp_seq=2 ttl=117 time=28.7 ms
-64 bytes from 8.8.8.8: icmp_seq=3 ttl=117 time=28.5 ms
-
---- 8.8.8.8 ping statistics ---
-3 packets transmitted, 3 received, 0% packet loss, time 2444ms
-rtt min/avg/max/mdev = 28.514/29.262/30.616/0.959 ms
+master01 login: master
+Password: (1234)
 ```
-정상 기준:
 
-enp0s3 → 192.168.10.187/16
+<img width="1080" height="875" alt="image" src="https://github.com/user-attachments/assets/19d6d384-4bcf-4f9d-b72d-928ead3302c3" />
 
-default via → 192.168.10.1
-
-ping 성공
