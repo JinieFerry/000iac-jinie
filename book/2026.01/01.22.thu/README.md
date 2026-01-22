@@ -43,18 +43,17 @@ network:
   version: 2
   renderer: networkd
   ethernets:
-    ens33:                  # 1번 항목에서 확인한 인터페이스 이름
-      dhcp4: no             # DHCP 비활성화
+    enp0s3:
+      dhcp4: no
       addresses:
-        - 192.168.1.100/24  # 고정 IP 주소 및 서브넷 마스크(Netmask)
+        - 192.168.113.251/16
       routes:
         - to: default
-          via: 192.168.1.1  # 게이트웨이(Gateway) 주소
+          via: 192.168.10.1
       nameservers:
         addresses:
-          - 8.8.8.8         # 기본 DNS (Google)
-          - 8.8.4.4         # 보조 DNS (Google)
-
+          - 168.126.63.1
+          - 8.8.8.8
 ```
 
 
