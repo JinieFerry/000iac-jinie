@@ -116,9 +116,9 @@ ping -c 3 google.com
 
 
 pc제어판에서 네트워크 설정 (버추얼박스)그대로 맞춰주기
-![Uploading image.png…]()
+<img width="809" height="514" alt="image" src="https://github.com/user-attachments/assets/f2cdeb81-8133-4f30-8cc0-baa2caf7ee6c" />
 
-![Uploading image.png…]()
+<img width="569" height="401" alt="image" src="https://github.com/user-attachments/assets/c458d0d3-3bc4-46b8-9db0-38da41f1b052" />
 
 <img width="421" height="533" alt="image" src="https://github.com/user-attachments/assets/ae91ae20-b657-43c2-8be2-b4828129a6d8" />
 
@@ -133,3 +133,25 @@ Password: (1234)
 
 <img width="1080" height="875" alt="image" src="https://github.com/user-attachments/assets/19d6d384-4bcf-4f9d-b72d-928ead3302c3" />
 ---
+
+ 
+## 000.기초작업단계 Jinie.ver
+기존 vmmaster015의 설정을 새로운 설정에 맞춰 바꿔주고, 이름도 vmmaster01로 저장 
+<img width="962" height="594" alt="image" src="https://github.com/user-attachments/assets/2caafbcf-f974-46fa-ab08-a5ec0bf5ce0d" />
+
+vmmaster01을 복제해서 vm1,vm2,vm3 생성
+<img width="569" height="401" alt="image" src="https://github.com/user-attachments/assets/0d43529b-10b9-4c2e-871e-ca140ab42836" />
+"모든 ~ 새Mac주소 생성"체크  
+vm1
+<img width="962" height="594" alt="image" src="https://github.com/user-attachments/assets/813bc860-669a-4f5d-a38d-9ea42800d009" />
+vm2
+<img width="569" height="401" alt="image" src="https://github.com/user-attachments/assets/f682a7dc-cd6a-4268-8473-4daae0173000" />
+vm3
+<img width="569" height="401" alt="image" src="https://github.com/user-attachments/assets/b8a6faa0-6834-4a5a-b44a-f2a79f2af65a" />
+
+
+
+
+
+
+
