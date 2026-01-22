@@ -23,7 +23,8 @@ default via 192.168.10.1 dev enp0s3 proto dhcp src 192.168.10.187 metric 100
 ls /etc/netplan/
 ```
 
-2-2. 편집할 파일 선택
+2-2. 편집할 파일 선택 
+둘 중에 하나 01-netcfg.yaml, 50-cloud-init.yaml
 ```
 sudo vi /etc/netplan/50-cloud-init.yaml
 ```
@@ -42,19 +43,20 @@ network:
   version: 2
   renderer: networkd
   ethernets:
-    enp0s3:
-      dhcp4: no
+    ens33:                  # 1번 항목에서 확인한 인터페이스 이름
+      dhcp4: no             # DHCP 비활성화
       addresses:
-        - 192.168.10.187/16
+        - 192.168.1.100/24  # 고정 IP 주소 및 서브넷 마스크(Netmask)
       routes:
         - to: default
-          via: 192.168.10.1
+          via: 192.168.1.1  # 게이트웨이(Gateway) 주소
       nameservers:
         addresses:
-          - 8.8.8.8
-          - 8.8.4.4
+          - 8.8.8.8         # 기본 DNS (Google)
+          - 8.8.4.4         # 보조 DNS (Google)
+
 ```
-<img width="946" height="1040" alt="image" src="https://github.com/user-attachments/assets/4ec790e0-1b48-413c-8a43-eec874b9b920" />
+
 
 3) 저장 후 적용
 
