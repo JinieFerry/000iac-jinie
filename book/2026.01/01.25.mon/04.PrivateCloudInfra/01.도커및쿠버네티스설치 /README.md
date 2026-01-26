@@ -52,4 +52,7 @@ newgrp docker
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/888d10a4-740e-47eb-bd55-92e87bca0373" />
 
+6. 브라우저 열어서 서비스 확인
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/5e32af09-e3ed-421c-a445-198c4f2cfd7a" />
+
 
