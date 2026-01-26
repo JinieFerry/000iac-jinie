@@ -65,4 +65,32 @@ sudo shutdown -h now
 
 # 2 쿠버네티스 설치
 
+1. 시스템 환경 설정 (모든 노드 공통)
+쿠버네티스가 정상적으로 컨테이너를 관리하기 위해 리눅스 시스템의 몇 가지 기본 설정을 변경해야 합니다.
+```
+# 시스템 패키지 업데이트
+sudo apt update && sudo apt upgrade -y
 
+# Swap 메모리 비활성화 (k8s 스케줄러가 리소스를 정확히 계산하기 위해 필수)
+sudo swapoff -a
+sudo sed -i '/swap/s/^/#/' /etc/fstab # 재부팅 시에도 적용되도록 설정
+
+# 네트워크 브리지 모듈 로드 및 커널 파라미터 설정
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
+# iptables가 브리지된 트래픽을 볼 수 있도록 설정
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+
+# 설정 적용
+sudo sysctl --system
+```
