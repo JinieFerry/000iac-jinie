@@ -1,3 +1,4 @@
+# 1 도커 설치
 ```
 # 1. 시스템 패키지 업데이트
 sudo apt update
@@ -54,5 +55,14 @@ newgrp docker
 
 6. 브라우저 열어서 서비스 확인
 <img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/5e32af09-e3ed-421c-a445-198c4f2cfd7a" />
+
+7. 스냅샷 찍기 (셧다운 한번 하고 스냅샷)
+```
+sudo shutdown -h now
+```
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4830c724-3913-438c-984e-b280905c40d7" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/a998d277-b5c8-46bc-ab99-b8bd43e2669d" />
+
+# 2 쿠버네티스 설치
 
 
