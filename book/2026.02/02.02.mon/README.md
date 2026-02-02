@@ -61,3 +61,6 @@ error: key, cni 에서 에러 많이 날 것 -> reset
 #### 4. gpt 내가 원하는 yaml 생성
 
 #### 5.Token: join할 때 필요
+
+master의 .ssh에 저장해둔 ssh 키: .pub으로 연결    
+=> master에서 모든 다른 노드로 접속할 수 있게 연결
