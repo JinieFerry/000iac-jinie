@@ -129,12 +129,84 @@ $ ssh master@vm3 # yes
 # vm4
 $ ssh master@vm4 # yes
 ```
-4-0. -K 안먹음: yes 입력 : 아마도 master passwd가 1234여서 보안 정책이 강해져서 막히는 듯 (bad password issue)
-4. vmmaster1 k8s_setup_playbook.yaml파일 전체를 02.02 버전으로 수정하기
+
+
+4. k8s_reset.yaml 파일 만들기: 클러스터 초기화 해야 할 때
+```
+# vmmaster1에서
+$ cd k8s_install
+$ nano k8s_reset.yaml
+```
+
+##### k8s_reset.yaml
+```
+---
+- name: Kubernetes 클러스터 환경 강제 초기화
+  hosts: all
+  become: yes
+  tasks:
+    - name: kubeconfig 존재 여부 확인
+      stat:
+        path: /etc/kubernetes/admin.conf
+      register: kube_config
+
+    - name: 클러스터 정보 강제 삭제 (멈춤 방지 로직 적용)
+      shell: |
+        # 1. 서비스 중지 및 관련 프로세스 강제 종료
+        systemctl stop kubelet || true
+        killall -9 kubelet kube-proxy 2>/dev/null || true
+        
+        # 2. 런타임 내 실행 중인 모든 컨테이너 중지
+        crictl ps -q | xargs -r crictl stop || true
+        
+        # 3. 마운트된 볼륨 해제 (Lazy unmount로 프로세스 점유 무관하게 해제)
+        df | grep /var/lib/kubelet | awk '{print $6}' | xargs -r umount -l || true
+        
+        # 4. kubeadm 초기화 실행
+        kubeadm reset -f
+        
+        # 5. CNI 설정 및 잔여 데이터 완전 삭제
+        rm -rf /etc/cni/net.d /var/lib/kubelet/* /etc/kubernetes/*
+        ip link delete cni0 || true
+        ip link delete flannel.1 || true
+        
+        # 6. iptables 규칙 초기화 (네트워크 꼬임 방지 핵심)
+        iptables -F && iptables -t nat -F && iptables -X
+      when: kube_config.stat.exists
+      async: 120  # 대규모 볼륨 해제 시 멈춤 방지를 위해 비동기 처리
+      poll: 5
+```
+5-0. -K 안먹음: yes 입력 : 아마도 master passwd가 1234여서 보안 정책이 강해져서 막히는 듯 (bad password issue) 에러
++ master passwd, root passwd 모두 8자리로 바꾸기 ㅣ 똑같이 K8s 소스 리스트 추가 및 패키지 설치에서 막힘
++ fstab # 한개만 남기고 제거하기
+
++ 패스워드 12345678로 모두 통일
+```
+# vmmaster1,vm1~3 모두에서 실행: 12345678로 통일
+$ sudo passwd master #ansible로 실행하는 BECOME패스워드가 이거랑 같음
+$ sudo passwd root 
+```
+
++ fstab 중복 # 제거
+```
+#vmmaster1에서
+$ cd /etc
+$ sudo vi fstab # 중복된 # 위에서 x로 지우기
+# 저장하고 나가기 : esc
+$ :wq!
+```
+
++ apt 업데이트
+```
+$ sudo apt update
+$ sudo apt upgrade
+```
+  
+5. vmmaster1 k8s_setup_playbook.yaml파일 전체를 02.02 버전으로 수정하기
 ```
 # vi로 열어야 명령어 단축키 옵션 사용 가능
 $ vi k8s_setup_playbook.yaml
-# esc누르고 2yy: 2줄 복사, p: 붙여넣기로 vm3,vm4 추가하기
+# esc누르고 dG:전체 줄 삭제 2yy: 2줄 복사, p: 붙여넣기로 vm3,vm4 추가하기
 $ 192.168.115.3 vm3
 $ 192.168.115.4 vm4
 
