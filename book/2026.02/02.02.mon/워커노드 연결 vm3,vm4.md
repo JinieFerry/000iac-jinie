@@ -69,7 +69,7 @@ master의 .ssh에 저장해둔 ssh 키: .pub으로 연결
 Jinie Log
 ----
 
-1. vm3,vm4 설정
+0. vm3,vm4 설정
 ```
 # 아이피 확인
 $ ip a
@@ -104,7 +104,7 @@ $ ping -c 2 8.8.8.8
 
 
 
-2. vmmaster1의 공개키 복사: id_ed25519.pub
+1. vmmaster1의 공개키 복사: id_ed25519.pub
 ```
 #vmmaste1에서 이동
 $ cd ~/.ssh
@@ -113,7 +113,7 @@ $ cat id_ed25519.pub #공개키 복사
 ```
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEAJtJP2fyKnKlifzo6EByU99AwY611T8OebgYMTA+IG master@vmmaster1
 
-3.vm3와 vm4에게 vmmaster1의 공개키 넣어주기
+2.vm3와 vm4에게 vmmaster1의 공개키 넣어주기
 ```
 # vm3과 vm4에서 이동
 $ cd ~/.ssh
@@ -122,10 +122,26 @@ $ sudo nano authorized_keys #여기에 vmamster1의 공개키 전체 붙여넣�
 
 ```
 
-4. vmmaster1에서 vm3,vm4 접속 확인
+3. vmmaster1에서 vm3,vm4 접속 확인
 ```
 #vm3
 $ ssh master@vm3 # yes
 # vm4
 $ ssh master@vm4 # yes
 ```
+4-0. -K 안먹음: yes 입력 : 아마도 master passwd가 1234여서 보안 정책이 강해져서 막히는 듯 (bad password issue)
+4. vmmaster1 k8s_setup_playbook.yaml파일 전체를 02.02 버전으로 수정하기
+```
+# vi로 열어야 명령어 단축키 옵션 사용 가능
+$ vi k8s_setup_playbook.yaml
+# esc누르고 2yy: 2줄 복사, p: 붙여넣기로 vm3,vm4 추가하기
+$ 192.168.115.3 vm3
+$ 192.168.115.4 vm4
+
+#esc: 저장하고 나오기
+$ wq!
+```
+
+#### 깨끗하게 노드 유지하기
+k8s설치+워커노드 연결 후에 마스터랑 워커노드 스냅샷 찍은 후에 파일/ media/vdi 불변으로 변경하기
+<img width="1269" height="706" alt="image" src="https://github.com/user-attachments/assets/77b6d554-16cd-46cf-ac8e-10aa45f6756d" />
