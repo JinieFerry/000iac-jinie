@@ -32,3 +32,32 @@ Flannel 부터 시작함 작은 규모 부터 하려고
 <img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/1c1b5b29-17de-4c85-b4cf-dd593a36badf" />
 <img width="962" height="692" alt="image" src="https://github.com/user-attachments/assets/60acdca6-9302-41f7-8af7-c050f989b347" />
 
+### vm 3,4 추가
+
+워커 노드 2개 더 만들기
+
+#### 1. k8s 설치 완료 전의 스냅샷에서 복제해서 vm3,vm4 생성
+cpu: 1개
+시스템 / 마더보드/ Base memory: 1000gb로 (마스터는 4000), UEFI 체크
+hdd: 10g
+<img width="955" height="692" alt="image" src="https://github.com/user-attachments/assets/414ebb3e-ddb9-4ed2-a9bb-35e80b34806f" />
+Mac address 새로고침
+<img width="802" height="512" alt="image" src="https://github.com/user-attachments/assets/e7279fde-aef8-4ef9-a544-353a52c46b34" />
+
+
+#### 2. hostname/hosts/고정 IP/SSH 키 넘기기: master노드에서 넘어갈 수 있게
+
+```
+$ cd /etc/hosts
+```
+127.0.1 localhost
+127.1.1 vm3 vm4
+gw: 127.10.1
+vm3,vm4 자기거 빼고 마스터 등록하고
+
+#### 3. yaml로 두 대 동시에 k8s 설치하기  
+error: key, cni 에서 에러 많이 날 것 -> reset
+
+#### 4. gpt 내가 원하는 yaml 생성
+
+#### 5.Token: join할 때 필요
