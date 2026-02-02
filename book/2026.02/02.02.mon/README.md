@@ -26,3 +26,7 @@ CNI와 TOKEN에서 에러가 제일 많이 났음
 CNI는 가상의 프로그램으로 만든 네트워크 카드:Container Network Interface    
 Flannel 부터 시작함 작은 규모 부터 하려고   
 
+마스터 노드 'k8s 설정 완료'로 스냅샷 
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/1c1b5b29-17de-4c85-b4cf-dd593a36badf" />
+<img width="962" height="692" alt="image" src="https://github.com/user-attachments/assets/60acdca6-9302-41f7-8af7-c050f989b347" />
+
