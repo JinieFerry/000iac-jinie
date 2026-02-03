@@ -37,10 +37,87 @@ $ kubectl exec -it <pod네임>/bin/shell #alpine이라 bin 밑에 shell임
 <img width="1376" height="790" alt="image" src="https://github.com/user-attachments/assets/3f294710-f1b8-4dd1-a940-c12f97e9ed30" />
 <img width="1376" height="796" alt="image" src="https://github.com/user-attachments/assets/6fca39fb-850e-43bc-957f-aab23bc8dc6e" />
 
-### 실습 1
+### 실습 1 <- 할 수 있는 개 수 까지만 (2-3개)
 목적: 디플로이먼트 5개가 유지 되도록   
 디플로이먼트와 node포트를 실습하는 것   
 index.html을 바꿔서 ~~를 실감하기, 주입하기: container가 웹서비스를 하고 있는데 exec로 주입할 수 있음: 들어가서 index.html으로 "여기는 ~~페이지입니다"라고 웹에 띄울 화면 내용을 바꿔서 웹으로 접속해서 확인하기.     
 로드발란싱은 proxy가 한다는 것을 체감하면 됨   
+
+### 리마인드 실습 : 자주 쓰는 명령어
+
+```
+#vmmaster1에서
+
+$ k cluster-info # 잘 돌고 있는지 확인
+
+$ k get node # AGE는 나이: shutdown 안 한 만큼의 시간
+```
+
+===
+Jinie Log
+===
+
+##### 실습참고 원본
+2026.02.03.Tue 17:28 ~ 짧게 실습 연습
+
+https://github.com/putto4u/04.PrivateCloudInfra/blob/main/21.exec/010.%20%EC%97%94%EC%A7%84x%20%EC%95%BC%EB%AF%88%EB%A1%9C%20%EB%B0%B0%ED%8F%AC1.md
+
+04.PrivateCloudInfra/21.exec/010. 엔진x 야믈로 배포1.md
+=> nginx web 말고 python 3.9-slim으로 배포 수정해서 하기
+
+#### 디렉토리 정리(vmmaster1)
++ 
++ k8s_install -> k8s_lab 으로 수정
+```
+# mv옵션 원래디렉토리명 바꾸고 싶은 디렉토리명
+$ mv k8s_install k8s_lab
+
+# 디렉토리로 이동
+$ cd k8s_lab
+$ ls
+
+# 실습 별 디렉토리 분리
+
+# 이전의 k8s_install 디렉토리로 진행한 실습
+# 새 디렉토리00_cluster_setup 생성
+$ mkdir -p 00_cluster_setup
+
+# k8s_install 디렉토리 안에 있던 실습 파일 모두 00_cluster_setup으로 이동
+$ mv hosts.ini k8s_reset.yaml k8s_setup_playbook.yaml kubeadm-init.yaml 00_cluster_setup/
+
+# 확인
+$ ls
+
+# 2026.02.03.화 디플로이 실습 디렉토리 생성
+$ mkdir -p 01_yaml_nginx
+```
+<img width="922" height="86" alt="image" src="https://github.com/user-attachments/assets/0744060d-4216-43c7-a9e5-44bfaa8871df" />
+<img width="909" height="139" alt="image" src="https://github.com/user-attachments/assets/5eb213ab-9181-48a7-8588-c3eb368ecd13" />
+<img width="925" height="212" alt="image" src="https://github.com/user-attachments/assets/d9e97dd2-9ace-4360-b29b-8707bf7f3db1" />
+
+#### 디플로이 실습
+```
+# 디렉토리 구조 확인
+$ tree ~/k8s_lab
+```
+
+# 디플로이 실습 디렉토리로 이동
+$ cd 
+```
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+$ k get node -o wide # 더 길게 나옴
+```
+결과: 강사님이랑 똑같은 상태
+vm1: not reade
+vmmaster1 ready
+<img width="575" height="101" alt="image" src="https://github.com/user-attachments/assets/a6697ee6-0875-47b2-9623-bcdfa8e5ce41" />
+```
+$ k get pod
+$ k get service
+$ kubectl apply -f app.yaml #-f:파일명 옵션
+$ kubectl describe pod #전체파드 #뒤에 특정파드 붙여서 짧게도 볼 수 있음
+$ kubectl exec -it my-web /bin/sh
+```
 
 내일은 pvc 볼륨 하나 만들어서 할 것
