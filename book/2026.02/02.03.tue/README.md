@@ -66,7 +66,6 @@ https://github.com/putto4u/04.PrivateCloudInfra/blob/main/21.exec/010.%20%EC%97%
 => nginx web 말고 python 3.9-slim으로 배포 수정해서 하기
 
 #### 디렉토리 정리(vmmaster1)
-+ 
 + k8s_install -> k8s_lab 으로 수정
 ```
 # mv옵션 원래디렉토리명 바꾸고 싶은 디렉토리명
@@ -100,13 +99,21 @@ $ mkdir -p 01_yaml_nginx
 # 디렉토리 구조 확인
 $ tree ~/k8s_lab
 ```
-
-# 디플로이 실습 디렉토리로 이동
-$ cd 
+디렉토리 구조
 ```
+master@vmmaster1:~$ tree ~/k8s_lab
+/home/master/k8s_lab
+├── 00_cluster_setup
+│   ├── hosts.ini
+│   ├── k8s_reset.yaml
+│   ├── k8s_setup_playbook.yaml
+│   └── kubeadm-init.yaml
+└── 01_yaml_nginx
+    └── python_web
+        └── python-web.yaml
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-$ k get node -o wide # 더 길게 나옴
+4 directories, 5 files                                                                                                                                                                                
+`$ k get node -o wide` # -o wide 붙이면 더 길게 나옴
 ```
 결과: 강사님이랑 똑같은 상태
 vm1: not reade
