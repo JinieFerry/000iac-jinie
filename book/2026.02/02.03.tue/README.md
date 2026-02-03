@@ -33,4 +33,8 @@ $ kubectl exec -it <pod네임>/bin/shell #alpine이라 bin 밑에 shell임
 
 <img width="1199" height="785" alt="image" src="https://github.com/user-attachments/assets/dfedecfb-b19b-40bb-b80b-4e1f172b1618" />
 
+업그레이드 버전
+<img width="1376" height="790" alt="image" src="https://github.com/user-attachments/assets/3f294710-f1b8-4dd1-a940-c12f97e9ed30" />
+<img width="1376" height="796" alt="image" src="https://github.com/user-attachments/assets/6fca39fb-850e-43bc-957f-aab23bc8dc6e" />
+
 내일은 pvc 볼륨 하나 만들어서 할 것
