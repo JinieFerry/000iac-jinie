@@ -15,3 +15,12 @@ etd는 읽는 것과 쓰는 것 모두 api를 통해서 함. 덮어쓰지 않고
 , 자기 클러스터 안에 있는 모든 파드들의 IP를 알고, 수백개가 있어도 각 수백개에 들어있는 각 파드들의 아이피를 다 갖고 있는 것이 특징임:느려질 수 있음    
 실무에서는 파드 볼 일이 거의 없음: 한 개 여도 디플로이컨트로 함    
 
+### 실습1
+1. 내 서버에서 NginX Deployment 2~3~5개: Nodeport 8080,30080 Pod 서비스
+2. 웹 브라우저 접속 확인 http://192.168.115.251:30080
+3. index.htmml "내 ip는 ~.x.x.x입니다."
+4. pod 중 1개만 index.html 주입 : 두 개 중 하나만 3이 들어가고, 나머지 하나에는 원래의 엔진엑스 디폴트가 보일 것
+```
+$ kubectl exec -it <pod네임>/bin/shell #alpine이라 bin 밑에 shell임
+# cp index.html/usr/share/nginx/index.html
+```
