@@ -15,7 +15,7 @@ etd는 읽는 것과 쓰는 것 모두 api를 통해서 함. 덮어쓰지 않고
 , 자기 클러스터 안에 있는 모든 파드들의 IP를 알고, 수백개가 있어도 각 수백개에 들어있는 각 파드들의 아이피를 다 갖고 있는 것이 특징임:느려질 수 있음    
 실무에서는 파드 볼 일이 거의 없음: 한 개 여도 디플로이컨트로 함    
 
-### 실습1
+### 실습1 : 하지않기로 함
 0. 새로 디렉토리 만들기: exec_lab 3k8s_install도 라벨링 맞춰서 바꿈(k8s_lab)
 1. 내 서버에서 NginX Deployment 2~3~5개: Nodeport 8080,30080 Pod 서비스
 2. 웹 브라우저 접속 확인 http://192.168.115.251:30080
@@ -36,5 +36,11 @@ $ kubectl exec -it <pod네임>/bin/shell #alpine이라 bin 밑에 shell임
 업그레이드 버전
 <img width="1376" height="790" alt="image" src="https://github.com/user-attachments/assets/3f294710-f1b8-4dd1-a940-c12f97e9ed30" />
 <img width="1376" height="796" alt="image" src="https://github.com/user-attachments/assets/6fca39fb-850e-43bc-957f-aab23bc8dc6e" />
+
+### 실습 1
+목적: 디플로이먼트 5개가 유지 되도록   
+디플로이먼트와 node포트를 실습하는 것   
+index.html을 바꿔서 ~~를 실감하기, 주입하기: container가 웹서비스를 하고 있는데 exec로 주입할 수 있음: 들어가서 index.html으로 "여기는 ~~페이지입니다"라고 웹에 띄울 화면 내용을 바꿔서 웹으로 접속해서 확인하기.     
+로드발란싱은 proxy가 한다는 것을 체감하면 됨   
 
 내일은 pvc 볼륨 하나 만들어서 할 것
