@@ -66,4 +66,10 @@ $ sudo vi su
 $ sudo mkdir -p /mnt/my_data
 $ sudo mount
 ```
- 
+장비를 렉에 깔 때,볼륨 디렉토리에 얹을 때 마운트라고 표현
+```
+#vmmaster1
+# 777줬음 (쓸 수 있게)
+
+
+```
