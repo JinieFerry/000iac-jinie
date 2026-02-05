@@ -4,3 +4,6 @@
 3. Binding 확인: path가 다르다는 이야기
 Bound로 떨어진 다음
 4. PVC 실행
+
+vm1->vm피씨번호-01
+vm1->vm15-01
