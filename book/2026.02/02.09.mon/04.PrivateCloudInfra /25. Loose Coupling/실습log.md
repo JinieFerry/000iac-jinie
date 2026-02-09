@@ -250,3 +250,4 @@ delete history : 모두 지움
  1747  history
 
 ```
+테인트 풀기
