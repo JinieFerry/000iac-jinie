@@ -2,6 +2,7 @@ https://github.com/putto4u/04.PrivateCloudInfra/tree/main/25.%20%EC%8B%A4%EB%AC%
 # 04.PrivateCloudInfra/25. 실무구축Loose Coupling/
  ### 0025. fastAPI서버구축.md ###
 ```
+# vmmaster1 - a
    k get nodes
    k get pod
    k get svc
@@ -60,6 +61,7 @@ spec:
   type: NodePort
 ```
 ```
+# vmmaster1 - a
    kubectl apply -f fastapi-origin.yaml
    kubectl apply -f fastapi-ori.yaml
    k get pods -n wb-prod  -l app=fastapi -w
@@ -71,6 +73,7 @@ spec:
 ```
 ```
  ### 0030. fastAPI용 pvc.md ###
+# vmmaster1 - a
    vi fast-pvc.yaml
 ```
 + fast-pvc.yaml
@@ -91,12 +94,14 @@ spec:
 
 ```
 ```
+# vmmaster1 - a
    kubectl apply -f fast-pvc.yaml
 ```
 브라우저 접속 확인: 192.168.11x.251:30001
 <img width="910" height="1029" alt="image" src="https://github.com/user-attachments/assets/a09150de-d893-48bb-96ec-d6a2b0c972c7" />
 
 ```
+# vmmaster1 - a
    vi fast-pvc.yaml 
    kubectl get pvc back-pvc -n wb-prod
    history
@@ -112,6 +117,7 @@ spec:
 ```
  ### 0035. fast pvc 연결.md ###
  ```
+# vmmaster1 - a
    cd
    cd k8s_lab/
    ls
@@ -161,6 +167,7 @@ spec:
 
 ### 0035. fast pvc 연결.md ###
 ```
+# vmmaster1 - a
    mv fastapi-mount.yaml fastapi-mount.yml
    k apply -f fastapi-mount.yml 
    k get pods -n wb-prod 
@@ -180,10 +187,11 @@ spec:
    k get deployments.apps -o wide
    k get svc
    k exec -it fastapi-6648b9b789-j27fj 
-   ### open another vmmaster1 tab###
+   ### open another vmmaster1 tab : vmmaster1 - b ###
 ```
-   ### that another vmmaster1 ###
+   ### that another vmmaster1 : vmmaster1 - b ###
    ```
+# vmmaster1 - b
    cd /opt
    ls
    cd local-path-provisioner/
@@ -192,9 +200,40 @@ spec:
    ls
    touch imsi
    ls
-   history
+   ```
 
- 2058  history ~11:56~
+ 2058  history ~11:56~ 
+   ### go to opend another vmmaster1 tap: vmmaster1 - b ###
+   ### came here:opend another vmmaster1 tap: vmmaster1 - b  ###
 ```
+# vmmaster1 - b
+master@vmmaster1:/opt/local-path-provisioner/pvc-f5ab901c-cad1-4015-a340-f0d182d7cd3e_wb-prod_back-pvc$ vi main.py
+````
+ ### create your own index.html code with ai and test it ###
+ ```
+# vmmaster1 - b
+master@vmmaster1:/opt/local-path-provisioner/pvc-f5ab901c-cad1-4015-a340-f0d182d7cd3e_wb-prod_back-pvc$ vi main.py
+master@vmmaster1:/opt/local-path-provisioner/pvc-f5ab901c-cad1-4015-a340-f0d182d7cd3e_wb-prod_back-pvc$ ls
+imsi  index.html  main.py
+master@vmmaster1:/opt/local-path-provisioner/pvc-f5ab901c-cad1-4015-a340-f0d182d7cd3e_wb-prod_back-pvc$
+```
+### go back to first vmmaster1 tap:  vmmaster1 - a ###
+### came back here: first vmmaster1 tap:  vmmaster1 - a ###
+   ```
+# vmmaster1 - a
+   cd
+   cd /opt
+   ls
+   cd local-path-provisioner/
+   ls
+   cp main.py ./pvc-f5ab901c-cad1-4015-a340-f0d182d7cd3e_wb-prod_back-pvc/
+   ls
+   cd pvc-f5ab901c-cad1-4015-a340-f0d182d7cd3e_wb-prod_back-pvc/
+   ls
+   nano main.py
+   history
+```
+ 2119  ~~~ 12:26 ~~~
+ 2120  history
 
 ```
