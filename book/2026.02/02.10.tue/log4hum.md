@@ -1,4 +1,5 @@
-#### 04.PrivateCloudInfra/25. 실무구축Loose Coupling/
+https://github.com/putto4u/04.PrivateCloudInfra/tree/main/25.%20%EC%8B%A4%EB%AC%B4%EA%B5%AC%EC%B6%95Loose%20Coupling
+## 04.PrivateCloudInfra/25. 실무구축Loose Coupling/
 ```
  1995  0210 putto
  ### 0025. fastAPI서버구축.md ###
