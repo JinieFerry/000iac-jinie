@@ -2,17 +2,17 @@
 ```
  1995  0210 putto
  ### 0025. fastAPI서버구축.md ###
- 1996  k get nodes
- 1997  k get pod
- 1998  k get svc
- 1999  k get deployments.apps 
- 2000  k get ingress
- 2001  k get namespaces 
- 2002  cd k8s_lab/
- 2003  ls
- 2004  rm fast*
- 2005  ls
- 2006  vi fastaoi-ori.yaml
+   k get nodes
+   k get pod
+   k get svc
+   k get deployments.apps 
+   k get ingress
+   k get namespaces 
+   cd k8s_lab/
+   ls
+   rm fast*
+   ls
+   vi fastaoi-ori.yaml
 ```
 + fastaoi-ori.yaml
 ```
