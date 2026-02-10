@@ -238,4 +238,10 @@ master@vmmaster1:/opt/local-path-provisioner/pvc-f5ab901c-cad1-4015-a340-f0d182d
  2119  ~~~ 12:26 ~~~
  2120  history: index.html을 #/app/data로 이동시키기 위해서 (ai로 만든 근사한 사이트로 브라우저 접속 시 보이도록 적용시키려고 index.html을 이동)
 fastapi는 main.py를 가장 먼저 실행시킴 index.html이 아니라 그래서 다시 ai로 근사한 html을 만들어서 main.py 파일을 작성하고 브라우저에 뜨는 디렉토리로 카피함.      
+
 ```
+# vmamster1 - a
+# try: change the mountpoint putto alone
+```
+##### delete cache and try 192.168.11x.251:30001 and check but not updated : failed ######
+
