@@ -60,18 +60,18 @@ spec:
   type: NodePort
 ```
 ```
- 2007  kubectl apply -f fastapi-origin.yaml
- 2008  kubectl apply -f fastapi-ori.yaml
- 2009  k get pods -n wb-prod  -l app=fastapi -w
- 2010  k apply -f fastaoi-ori.yaml 
- 2011  k get pods -n wb-prod  -l app=fastAPI -W
- 2012  k get pods -n wb-prod  -l app=fastAPI -w
- 2013  kubectl get svc -n wb-prod fastapi-service
- 2014  ls
+   kubectl apply -f fastapi-origin.yaml
+   kubectl apply -f fastapi-ori.yaml
+   k get pods -n wb-prod  -l app=fastapi -w
+   k apply -f fastaoi-ori.yaml 
+   k get pods -n wb-prod  -l app=fastAPI -W
+   k get pods -n wb-prod  -l app=fastAPI -w
+   kubectl get svc -n wb-prod fastapi-service
+   ls
 ```
 ```
  ### 0030. fastAPI용 pvc.md ###
- 2015  vi fast-pvc.yaml
+   vi fast-pvc.yaml
 ```
 + fast-pvc.yaml
 ```
@@ -97,27 +97,27 @@ spec:
 <img width="910" height="1029" alt="image" src="https://github.com/user-attachments/assets/a09150de-d893-48bb-96ec-d6a2b0c972c7" />
 
 ```
- 2017  vi fast-pvc.yaml 
- 2018  kubectl get pvc back-pvc -n wb-prod
- 2019  history
- 2020  cd /opt
- 2021  ls
- 2022  cd local-path-provisioner/
- 2023  ls
- 2024  cd pvc-f5ab901c-cad1-4015-a340-f0d182d7cd3e_wb-prod_back-pvc/
- 2025  ls
- 2026  vi index.html 
- 2027  cd k8s_lab
- 2028  cd ..
+   vi fast-pvc.yaml 
+   kubectl get pvc back-pvc -n wb-prod
+   history
+   cd /opt
+   ls
+   cd local-path-provisioner/
+   ls
+   cd pvc-f5ab901c-cad1-4015-a340-f0d182d7cd3e_wb-prod_back-pvc/
+   ls
+   vi index.html 
+   cd k8s_lab
+   cd ..
 ```
  ### 0035. fast pvc 연결.md ###
  ```
- 2029  cd
- 2030  cd k8s_lab/
- 2031  ls
- 2032  cd 03_loosepj/
- 2033  ls
- 2034  vi fastapi-mount.yaml
+   cd
+   cd k8s_lab/
+   ls
+   cd 03_loosepj/
+   ls
+   vi fastapi-mount.yaml
 ```
 ```
 apiVersion: apps/v1
