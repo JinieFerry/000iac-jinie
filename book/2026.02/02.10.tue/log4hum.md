@@ -245,3 +245,35 @@ fastapi는 main.py를 가장 먼저 실행시킴 index.html이 아니라 그래�
 ```
 ##### delete cache and try 192.168.11x.251:30001 and check but not updated : failed ######
 
+==========    
+LUNCH TIME   
+==========
+
+#### ~~~ vmmaster1 - a : 14:30 ~~~ ####
+```
+   cd 
+   cd k8s_lab/
+   ls
+   mv fastaoi-ori.yaml fastapi-ori.yaml
+   k delete deployments.apps fastapi
+   k get pod
+   cd /opt
+   cd local-path-provisioner/
+   ls
+   cd pvc-f5ab901c-cad1-4015-a340-f0d182d7cd3e_wb-prod_back-pvc/
+   ### go to 1b ###
+```
+####  ~~~ vmmaster1 - b : 14:30 ~~~ ####
+``` 
+   ### i am 1b ###
+   vi fastapi-mount.yml 
+   k get deployments.apps 
+   k get pod
+   ls
+   k apply -f fastapi-mount.yml 
+   k get pods
+   vi fastapi-mount.yml 
+   ## (ch) mountPath: /app/data -> /app ##
+```
+master@vmmaster1:/opt/l
+
