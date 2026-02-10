@@ -1,8 +1,7 @@
 https://github.com/putto4u/04.PrivateCloudInfra/tree/main/25.%20%EC%8B%A4%EB%AC%B4%EA%B5%AC%EC%B6%95Loose%20Coupling
-## 04.PrivateCloudInfra/25. 실무구축Loose Coupling/
-```
- 1995  0210 putto
+# 04.PrivateCloudInfra/25. 실무구축Loose Coupling/
  ### 0025. fastAPI서버구축.md ###
+```
    k get nodes
    k get pod
    k get svc
@@ -155,5 +154,46 @@ spec:
 ```
  2035  history ~11:20~
 
++ after k get svc check
+<img width="910" height="1021" alt="image" src="https://github.com/user-attachments/assets/18cf5e3b-449a-4e64-9a76-d208e1e2b169" />
+<img width="915" height="1030" alt="image" src="https://github.com/user-attachments/assets/85cf6acd-b883-4fe2-9a27-9e5f002d5e55" />
+<img width="916" height="1026" alt="image" src="https://github.com/user-attachments/assets/8b557a45-65df-4e5e-96b4-fc276dee2534" />
+
+### 0035. fast pvc 연결.md ###
+```
+   mv fastapi-mount.yaml fastapi-mount.yml
+   k apply -f fastapi-mount.yml 
+   k get pods -n wb-prod 
+   kubectl exec -it fastapi-6648b9b789-j27fj -n wb-prod -- /bin/sh
+   ls
+   cd
+   cd /opt
+   ls
+   cd local-path-provisioner/
+   ls
+   cd
+   ls
+   cd k8s_lab/
+   cd 03_loosepj/
+   k get pod -o wide
+   k get deployments.apps 
+   k get deployments.apps -o wide
+   k get svc
+   k exec -it fastapi-6648b9b789-j27fj 
+   ### open another vmmaster1 tab###
+```
+   ### that another vmmaster1 ###
+   ```
+   cd /opt
+   ls
+   cd local-path-provisioner/
+   ls
+   cd pvc-f5ab901c-cad1-4015-a340-f0d182d7cd3e_wb-prod_back-pvc/
+   ls
+   touch imsi
+   ls
+   history
+
+ 2058  history ~11:56~
 ```
 ```
