@@ -586,5 +586,7 @@ k rollout restart deploy/fastapi  -n wb-prod
 + index.html 수정 후 (블랙->핑크) , main.py으로 fastapi 돌리므로 fastapi-mount.yaml or .yml에서 env 선언 (main,app)
 <img width="917" height="1030" alt="image" src="https://github.com/user-attachments/assets/48b36625-587e-48b1-a2f6-68a65d97bf88" />
 
-master@vmmaster1:/opt/l
+### 0036. 세 웹엔진 pvc 연결경로.md ###
+
+
 
