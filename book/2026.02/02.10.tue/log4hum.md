@@ -1,4 +1,6 @@
-https://github.com/putto4u/04.PrivateCloudInfra/tree/main/25.%20%EC%8B%A4%EB%AC%B4%EA%B5%AC%EC%B6%95Loose%20Coupling
+https://github.com/putto4u/04.PrivateCloudInfra/tree/main/25.%20%EC%8B%A4%EB%AC%B4%EA%B5%AC%EC%B6%95Loose%20Coupling    
+본 실습에서는 FastAPI 애플리케이션을 Kubernetes Deployment로 구성하고, Service(NodePort)를 통해 Pod와의 결합도를 낮췄다.
+또한, PersistentVolumeClaim을 활용하여 애플리케이션 컨테이너와 데이터 저장소를 분리함으로써 Loose Coupling 구조를 실무 환경에서 검증하였다.    
 # 04.PrivateCloudInfra/25. 실무구축Loose Coupling/
  ### 0025. fastAPI서버구축.md ###
 ```
