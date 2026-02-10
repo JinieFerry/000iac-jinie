@@ -91,7 +91,7 @@ spec:
 
 ```
 ```
- 2016  kubectl apply -f fast-pvc.yaml
+   kubectl apply -f fast-pvc.yaml
 ```
 브라우저 접속 확인: 192.168.11x.251:30001
 <img width="910" height="1029" alt="image" src="https://github.com/user-attachments/assets/a09150de-d893-48bb-96ec-d6a2b0c972c7" />
