@@ -154,7 +154,7 @@ spec:
 ```
  2035  history ~11:20~
 
-+ after k get svc check
++ after k get svc check each 30001/31080/30080
 <img width="910" height="1021" alt="image" src="https://github.com/user-attachments/assets/18cf5e3b-449a-4e64-9a76-d208e1e2b169" />
 <img width="915" height="1030" alt="image" src="https://github.com/user-attachments/assets/85cf6acd-b883-4fe2-9a27-9e5f002d5e55" />
 <img width="916" height="1026" alt="image" src="https://github.com/user-attachments/assets/8b557a45-65df-4e5e-96b4-fc276dee2534" />
