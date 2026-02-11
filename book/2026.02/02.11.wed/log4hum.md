@@ -1,4 +1,5 @@
 # 실습 교재: 04.PrivateCloudInfra/325. 실무구축 Loosecoupling
+2026.02.11 – Helm / Prometheus / Ingress 정리 로그       
 
 ```
    ### 04.25.40 ingress ###
@@ -48,3 +49,15 @@
  36               number: 80
 
 ```
+
++ externalIPs 직접 먹여서 해결 : 192.168.251/까지만 쳐도 접속 가능 + /view , /bucket
+```
+ 2216  kubectl get svc -n ingress-nginx ingress-nginx-controller -o yaml | egrep -n "type:|externalIPs|loadBalancerIP|ports:|nodePort" -n
+ 2217  kubectl -n ingress-nginx patch svc ingress-nginx-controller   -p '{"spec":{"externalIPs":["192.168.115.251"]}}'
+ 2218  kubectl get svc -n ingress-nginx ingress-nginx-controller -o wide
+
+```
+
+<img width="917" height="1030" alt="image" src="https://github.com/user-attachments/assets/7a6a37aa-4b31-4e4c-850b-d0ffbc489021" />
+<img width="917" height="1030" alt="image" src="https://github.com/user-attachments/assets/995d7d09-7afd-4606-b34d-3cc52d09fad9" />
+<img width="917" height="1030" alt="image" src="https://github.com/user-attachments/assets/540e2fe8-77f3-4d8a-a6ef-aa3b1c987086" />
