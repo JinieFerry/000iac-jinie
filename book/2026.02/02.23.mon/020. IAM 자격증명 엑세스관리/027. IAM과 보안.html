@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS IAM 정책 심층 분석 및 자동화 가이드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #fef2f2; }
+        ::-webkit-scrollbar-thumb { background: #fca5a5; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ef4444; }
+        
+        .block-animation {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .block-animation:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -8px rgba(153, 27, 27, 0.15);
+        }
+        
+        .expert-tip-bg {
+            background: linear-gradient(135deg, #450a0a 0%, #2a0404 100%);
+            border-left: 4px solid #ef4444; /* Red 500 */
+        }
+
+        .code-block {
+            font-family: 'Fira Code', 'Consolas', monospace;
+        }
+
+        /* Syntax highlighting colors */
+        .tf-keyword { color: #c678dd; }
+        .tf-string { color: #98c379; }
+        .tf-property { color: #d19a66; }
+        .tf-variable { color: #61afef; }
+        .tf-comment { color: #6b7280; font-style: italic; }
+        .json-key { color: #e06c75; }
+        .json-val { color: #98c379; }
+        .json-bool { color: #d19a66; }
+    </style>
+</head>
+<body class="antialiased p-4 md:p-8">
+
+    <div class="max-w-5xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden border border-slate-200">
+        
+        <!-- Header Section -->
+        <header class="bg-slate-900 text-white p-8 md:p-12 relative overflow-hidden">
+            <div class="absolute top-0 right-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
+                <i class="fas fa-id-card-clip text-9xl text-red-500"></i>
+            </div>
+            <div class="relative z-10">
+                <span class="bg-red-900 text-red-300 border border-red-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block shadow-sm">Security & Identity (Expert Practical)</span>
+                <h1 class="text-3xl md:text-5xl font-bold mb-4 leading-tight">클라우드 보안의 절대 방어선:<br><span class="text-red-400">AWS IAM 정책 심층 분석</span></h1>
+                <p class="text-lg md:text-xl text-slate-300 max-w-3xl">
+                    <a href="https://aws.amazon.com/ko/iam/" target="_blank" class="underline hover:text-white font-medium">AWS IAM(Identity and Access Management, 자격 증명 및 액세스 관리)</a>은 클라우드 인프라의 모든 진입점을 통제하는 중앙 신경망입니다. JSON(JavaScript Object Notation) 기반 정책의 세부 구조를 분해하고, <strong>최소 권한의 원칙(Principle of Least Privilege)</strong>을 달성하기 위한 테라폼(Terraform) 기반의 동적 권한 제어 실무를 학습합니다.
+                </p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="p-8 md:p-12 space-y-16">
+
+            <!-- Section: JSON Policy Structure -->
+            <section>
+                <div class="flex items-center mb-6 border-b-2 border-red-500 pb-2 inline-block">
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 flex items-center">
+                        <i class="fas fa-code text-red-600 mr-3"></i>IAM 정책의 핵심 구조: PARC 모델
+                    </h2>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm block-animation mb-6">
+                    <p class="text-slate-700 leading-relaxed mb-6">
+                        모든 IAM 정책 문서는 <strong>Statement(문구)</strong> 배열의 집합이며, 각 Statement는 권한을 정의하는 4가지 핵심 요소(Principal, Action, Resource, Condition)를 가집니다. 수석 아키텍트는 권한 부여 시 반드시 <code>*</code>(와일드카드) 사용을 배제하고 이 4가지 요소를 명확히 통제해야 합니다.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- JSON Example -->
+                        <div class="bg-slate-900 rounded-xl overflow-hidden shadow-lg border border-slate-800 flex flex-col">
+                            <div class="bg-slate-800 px-4 py-3 border-b border-slate-700 flex justify-between">
+                                <span class="text-red-400 text-sm font-bold"><i class="fas fa-file-code mr-2"></i>IAM Policy (JSON)</span>
+                            </div>
+                            <div class="p-4 text-sm text-slate-300 overflow-x-auto code-block leading-relaxed flex-grow">
+<pre><code>{
+  <span class="json-key">"Version"</span>: <span class="json-val">"2012-10-17"</span>,
+  <span class="json-key">"Statement"</span>: [
+    {
+      <span class="json-key">"Sid"</span>: <span class="json-val">"AllowS3ReadFromSpecificIP"</span>,
+      <span class="json-key">"Effect"</span>: <span class="json-val">"Allow"</span>,
+      <span class="json-key">"Principal"</span>: <span class="json-val">"*"</span>,
+      <span class="json-key">"Action"</span>: [
+        <span class="json-val">"s3:GetObject"</span>,
+        <span class="json-val">"s3:ListBucket"</span>
+      ],
+      <span class="json-key">"Resource"</span>: [
+        <span class="json-val">"arn:aws:s3:::my-secure-data"</span>,
+        <span class="json-val">"arn:aws:s3:::my-secure-data/*"</span>
+      ],
+      <span class="json-key">"Condition"</span>: {
+        <span class="json-key">"IpAddress"</span>: {
+          <span class="json-key">"aws:SourceIp"</span>: <span class="json-val">"203.0.113.0/24"</span>
+        }
+      }
+    }
+  ]
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Elements Explanation -->
+                        <div class="space-y-4">
+                            <div class="border border-slate-200 bg-slate-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-slate-800 mb-1"><span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-xs mr-2">P</span>Principal (보안 주체)</h4>
+                                <p class="text-xs text-slate-600">누구에게 권한을 부여할 것인가? (Identity-based 정책에서는 생략됨. Resource-based 정책, 즉 S3 버킷 정책이나 KMS 키 정책에서 필수 요소입니다.)</p>
+                            </div>
+                            <div class="border border-slate-200 bg-slate-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-slate-800 mb-1"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs mr-2">A</span>Action (작업)</h4>
+                                <p class="text-xs text-slate-600">어떤 API 호출을 허용/차단할 것인가? <code>서비스명:동사</code> 형태로 구성됩니다. (예: <code>s3:PutObject</code>, <code>ec2:StartInstances</code>)</p>
+                            </div>
+                            <div class="border border-slate-200 bg-slate-50 p-4 rounded-lg">
+                                <h4 class="font-bold text-slate-800 mb-1"><span class="bg-purple-100 text-purple-800 px-2 py-0.5 rounded text-xs mr-2">R</span>Resource (리소스)</h4>
+                                <p class="text-xs text-slate-600">어느 대상(서버, 버킷, DB)에 작업을 수행할 것인가? 전 세계적으로 고유한 식별자인 <strong>ARN(Amazon Resource Name)</strong>을 사용하여 범위를 특정합니다.</p>
+                            </div>
+                            <div class="border border-slate-200 bg-slate-50 p-4 rounded-lg border-l-4 border-l-amber-500">
+                                <h4 class="font-bold text-slate-800 mb-1"><span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-xs mr-2">C</span>Condition (조건) - <span class="text-amber-600">전문가 영역</span></h4>
+                                <p class="text-xs text-slate-600">언제 이 권한이 발동되는가? 특정 사내 IP 대역(SourceIp), 특정 VPC 엔드포인트(SourceVpce), 혹은 MFA(다중 인증)가 활성화되어 있을 때만 접근을 허용하는 등 <strong>실무 보안의 핵심 격벽</strong> 역할을 합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Evaluation Logic -->
+            <section>
+                <div class="flex items-center mb-6 border-b-2 border-red-500 pb-2 inline-block">
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 flex items-center">
+                        <i class="fas fa-scale-unbalanced text-red-600 mr-3"></i>정책 평가 로직 (Policy Evaluation Logic)
+                    </h2>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm block-animation">
+                    <p class="text-slate-700 leading-relaxed mb-6">
+                        AWS의 권한 평가는 매우 엄격한 프로세스를 거칩니다. 아무리 많은 그룹과 역할에서 권한을 허용(Allow) 받았더라도, 단 하나의 거부(Deny) 정책이 존재한다면 즉시 차단됩니다. 이를 <strong>"명시적 거부(Explicit Deny)가 모든 명시적 허용(Explicit Allow)을 우선한다"</strong>고 표현합니다.
+                    </p>
+
+                    <!-- Evaluation Flow Diagram -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col items-center gap-2 mb-6 relative">
+                        <div class="bg-slate-800 text-white font-bold py-2 px-6 rounded-full shadow-md z-10 w-64 text-center">API 요청 발생 (API Request)</div>
+                        <i class="fas fa-arrow-down text-slate-400 text-xl"></i>
+                        
+                        <div class="bg-slate-300 text-slate-700 font-bold py-2 px-6 rounded shadow-sm z-10 w-64 text-center border border-slate-400">Default Deny (기본 거부) 적용</div>
+                        <i class="fas fa-arrow-down text-slate-400 text-xl"></i>
+                        
+                        <div class="bg-white border-2 border-red-500 rounded p-3 shadow-md z-10 w-72 text-center flex flex-col items-center">
+                            <span class="text-sm font-bold text-slate-800 mb-1">모든 관련 정책 평가</span>
+                            <span class="text-[10px] text-slate-500">(SCP, 리소스 기반, 자격 증명 기반, 권한 경계)</span>
+                        </div>
+                        <i class="fas fa-arrow-down text-slate-400 text-xl"></i>
+                        
+                        <div class="w-full max-w-md bg-white border-2 border-slate-200 rounded-lg p-4 relative shadow-sm">
+                            <div class="flex items-center mb-3">
+                                <div class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold mr-3">1</div>
+                                <div class="text-sm font-bold text-slate-800">명시적 거부 (Explicit Deny) 가 있는가?</div>
+                                <div class="ml-auto text-red-600 font-bold text-sm bg-red-50 px-2 py-1 rounded">YES &rarr; 차단 (Deny)</div>
+                            </div>
+                            <div class="border-t border-slate-100 my-2"></div>
+                            <div class="flex items-center mb-3">
+                                <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold mr-3">2</div>
+                                <div class="text-sm font-bold text-slate-800">명시적 허용 (Explicit Allow) 이 있는가?</div>
+                                <div class="ml-auto text-blue-600 font-bold text-sm bg-blue-50 px-2 py-1 rounded">YES &rarr; 허용 (Allow)</div>
+                            </div>
+                            <div class="border-t border-slate-100 my-2"></div>
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold mr-3">3</div>
+                                <div class="text-sm font-bold text-slate-800">아무런 규칙도 해당되지 않는다면?</div>
+                                <div class="ml-auto text-slate-600 font-bold text-sm bg-slate-100 px-2 py-1 rounded">기본값 &rarr; 차단 (Deny)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Expert Tip -->
+                    <div class="bg-slate-900 text-white p-5 rounded-lg shadow-inner expert-tip-bg">
+                        <h4 class="font-bold text-red-400 mb-2 flex items-center"><i class="fas fa-building-shield mr-2"></i>수석 아키텍트의 실전 설계 팁: SCP (Service Control Policies)</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            수십 개의 AWS 계정을 운영하는 엔터프라이즈 환경에서는 <strong>AWS Organizations(조직)</strong>의 <strong>SCP(서비스 제어 정책)</strong>를 최상위에 배치합니다. SCP에서 "모든 계정에서 리전을 서울(ap-northeast-2)만 사용하도록 강제(나머지 리전은 Deny)"해버리면, 개별 계정의 루트(Root) 관리자가 관리자 권한(AdministratorAccess)을 부여받았더라도 타 리전에 자원을 생성하는 것이 원천적으로 불가능해집니다.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Terraform Implementation -->
+            <section>
+                <div class="flex items-center mb-6 border-b-2 border-red-500 pb-2 inline-block">
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 flex items-center">
+                        <i class="fas fa-cubes text-red-600 mr-3"></i>Terraform을 활용한 IAM 역할 및 동적 정책 할당
+                    </h2>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm block-animation">
+                    <p class="text-slate-700 leading-relaxed mb-6">
+                        실무에서 테라폼으로 IAM 정책을 생성할 때, JSON 문자열을 그대로 하드코딩(<code>&lt;&lt;EOF</code> 방식)하는 것은 가독성을 떨어뜨리고 문법 오류를 유발합니다. 반드시 <strong><code>aws_iam_policy_document</code> 데이터 소스(Data Source)</strong>를 사용하여 HCL 문법의 이점과 테라폼의 동적 검증(Validation) 기능을 누려야 합니다.
+                    </p>
+
+                    <!-- Scenario Description -->
+                    <div class="mb-4 p-4 border-l-4 border-blue-500 bg-blue-50 rounded-r-lg">
+                        <strong class="text-blue-900 text-sm block mb-1">실습 시나리오:</strong>
+                        <span class="text-xs text-blue-800">EC2 인스턴스가 부여받을 역할(Role)을 생성하고, 특정 VPC Endpoint(vpce-12345678)를 통해서만 S3 버킷에 읽기/쓰기가 가능하도록 조건을 부여한 <strong>고강도 보안 정책</strong>을 매핑합니다.</span>
+                    </div>
+
+                    <!-- Terraform Code -->
+                    <div class="bg-slate-900 rounded-xl overflow-hidden shadow-lg border border-slate-800">
+                        <div class="bg-slate-800 px-4 py-3 border-b border-slate-700 flex justify-between items-center">
+                            <h4 class="font-bold text-red-400 text-sm"><i class="fas fa-code mr-2"></i>Terraform (iam_roles.tf)</h4>
+                            <span class="text-[10px] font-bold bg-slate-700 text-slate-300 px-2 py-1 rounded">HCL</span>
+                        </div>
+                        <div class="p-4 font-mono text-[13px] text-slate-300 overflow-x-auto code-block leading-relaxed">
+<pre><code><span class="tf-comment"># 1. 신뢰 정책 (Trust Policy): 누가 이 역할을 입을 수 있는가?</span>
+<span class="tf-keyword">data</span> <span class="tf-string">"aws_iam_policy_document"</span> <span class="tf-string">"ec2_assume_role"</span> {
+  <span class="tf-keyword">statement</span> {
+    <span class="tf-property">actions</span> = [<span class="tf-string">"sts:AssumeRole"</span>]
+    <span class="tf-keyword">principals</span> {
+      <span class="tf-property">type</span>        = <span class="tf-string">"Service"</span>
+      <span class="tf-property">identifiers</span> = [<span class="tf-string">"ec2.amazonaws.com"</span>]
+    }
+  }
+}
+
+<span class="tf-comment"># 2. IAM 역할(Role) 생성</span>
+<span class="tf-keyword">resource</span> <span class="tf-string">"aws_iam_role"</span> <span class="tf-string">"app_server_role"</span> {
+  <span class="tf-property">name</span>               = <span class="tf-string">"AppServerSecureRole"</span>
+  <span class="tf-property">assume_role_policy</span> = <span class="tf-keyword">data</span>.<span class="tf-variable">aws_iam_policy_document</span>.<span class="tf-variable">ec2_assume_role</span>.<span class="tf-property">json</span>
+}
+
+<span class="tf-comment"># 3. 권한 정책 (Permissions Policy): 강력한 조건이 부여된 S3 접근 정책</span>
+<span class="tf-keyword">data</span> <span class="tf-string">"aws_iam_policy_document"</span> <span class="tf-string">"s3_restricted_access"</span> {
+  <span class="tf-keyword">statement</span> {
+    <span class="tf-property">effect</span>    = <span class="tf-string">"Allow"</span>
+    <span class="tf-property">actions</span>   = [<span class="tf-string">"s3:GetObject"</span>, <span class="tf-string">"s3:PutObject"</span>]
+    <span class="tf-property">resources</span> = [<span class="tf-string">"arn:aws:s3:::my-secure-app-data/*"</span>]
+
+    <span class="tf-comment"># 조건: 오직 회사 내부 VPC 엔드포인트를 통해서만 통신을 허용</span>
+    <span class="tf-keyword">condition</span> {
+      <span class="tf-property">test</span>     = <span class="tf-string">"StringEquals"</span>
+      <span class="tf-property">variable</span> = <span class="tf-string">"aws:SourceVpce"</span>
+      <span class="tf-property">values</span>   = [<span class="tf-string">"vpce-0123456789abcdef0"</span>]
+    }
+  }
+}
+
+<span class="tf-comment"># 4. 정책 리소스 생성 및 역할에 연결 (Attachment)</span>
+<span class="tf-keyword">resource</span> <span class="tf-string">"aws_iam_policy"</span> <span class="tf-string">"s3_policy"</span> {
+  <span class="tf-property">name</span>   = <span class="tf-string">"S3VpcEndpointOnlyPolicy"</span>
+  <span class="tf-property">policy</span> = <span class="tf-keyword">data</span>.<span class="tf-variable">aws_iam_policy_document</span>.<span class="tf-variable">s3_restricted_access</span>.<span class="tf-property">json</span>
+}
+
+<span class="tf-keyword">resource</span> <span class="tf-string">"aws_iam_role_policy_attachment"</span> <span class="tf-string">"attach"</span> {
+  <span class="tf-property">role</span>       = <span class="tf-keyword">aws_iam_role</span>.<span class="tf-variable">app_server_role</span>.<span class="tf-property">name</span>
+  <span class="tf-property">policy_arn</span> = <span class="tf-keyword">aws_iam_policy</span>.<span class="tf-variable">s3_policy</span>.<span class="tf-property">arn</span>
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Case Study 1: Access Key Leakage -->
+            <section>
+                <div class="flex items-center mb-6 border-b-2 border-red-500 pb-2 inline-block">
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 flex items-center">
+                        <i class="fas fa-bug text-red-600 mr-3"></i>보안 사고 사례 1: 하드코딩된 자격 증명 유출 (Crypto-jacking)
+                    </h2>
+                </div>
+
+                <div class="bg-rose-50 border-2 border-rose-200 rounded-xl p-6 shadow-sm block-animation">
+                    <div class="flex flex-col md:flex-row gap-6 items-center">
+                        <div class="md:w-2/3">
+                            <h3 class="text-xl font-bold text-rose-900 mb-3">가장 흔하고 치명적인 휴먼 에러</h3>
+                            <p class="text-slate-700 leading-relaxed mb-4">
+                                개발자가 로컬 환경에서 테스트하기 위해 발급받은 <strong>Access Key(액세스 키)</strong>와 <strong>Secret Key(시크릿 키)</strong>를 소스 코드(<code>.env</code> 파일 등)에 하드코딩한 채로 GitHub 등 공개 저장소에 푸시(Push)하여 발생하는 사고입니다.
+                            </p>
+                            <div class="bg-white p-4 rounded-lg border border-rose-300 shadow-inner mb-4">
+                                <h4 class="font-bold text-rose-800 text-sm mb-2"><i class="fas fa-skull-crossbones mr-2"></i>사고 파급력 (Impact)</h4>
+                                <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                                    <li>해커들이 운영하는 스크래핑 봇(Bot)이 전 세계의 GitHub 커밋을 <strong>수 초 단위로 감시</strong>하여 유출 즉시 키를 탈취합니다.</li>
+                                    <li>탈취한 키로 전 세계 모든 AWS 리전에 최고가 사양의 GPU 기반 EC2 인스턴스를 수백 대 생성하여 암호화폐 채굴(Crypto-jacking)을 시작합니다.</li>
+                                    <li>주말에 사고가 발생할 경우, 월요일 출근 시 <strong>수천만 원에서 수억 원에 달하는 과금 폭탄</strong> 청구서를 받게 됩니다.</li>
+                                </ul>
+                            </div>
+                            <h4 class="font-bold text-emerald-700 text-sm mb-2"><i class="fas fa-shield-halved mr-2"></i>아키텍트의 방어 전략 (Mitigation)</h4>
+                            <p class="text-sm text-slate-700 bg-emerald-50 p-3 rounded border border-emerald-200">
+                                EC2 인스턴스, Lambda 함수 등 AWS 내부 컴퓨팅 자원에는 <strong>절대 액세스 키를 발급하지 말고 IAM Role(역할)을 부여</strong>하여 메타데이터 서비스를 통한 임시 자격 증명을 사용해야 합니다. 외부 애플리케이션의 경우 <strong>AWS Secrets Manager</strong>를 통해 자격 증명을 동적으로 주입받도록 아키텍처를 설계하십시오.
+                            </p>
+                        </div>
+                        <div class="md:w-1/3 flex justify-center">
+                            <div class="text-center">
+                                <i class="fab fa-github text-6xl text-slate-800 mb-2"></i>
+                                <i class="fas fa-arrow-right text-2xl text-rose-500 mx-2"></i>
+                                <i class="fas fa-robot text-6xl text-rose-600 mb-2"></i>
+                                <div class="text-xs font-bold text-rose-600 mt-2 bg-rose-100 px-2 py-1 rounded">5초 이내 탈취 및 악용</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Case Study 2: SSRF & IMDSv1 -->
+            <section>
+                <div class="flex items-center mb-6 border-b-2 border-red-500 pb-2 inline-block">
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 flex items-center">
+                        <i class="fas fa-user-ninja text-red-600 mr-3"></i>보안 사고 사례 2: SSRF를 통한 EC2 메타데이터 탈취
+                    </h2>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm block-animation">
+                    <h3 class="text-xl font-bold text-slate-800 mb-3">유명 금융사(Capital One) 해킹 사고의 핵심 메커니즘</h3>
+                    <p class="text-slate-700 leading-relaxed mb-4">
+                        웹 애플리케이션에 존재하는 <strong>SSRF(Server-Side Request Forgery, 서버 측 요청 위조)<sup><a href="#fn4" class="text-red-500 font-bold">4</a></sup></strong> 취약점을 악용하여, 해커가 외부에서 웹 서버를 조종해 AWS 내부의 <strong>IMDS(Instance Metadata Service, 인스턴스 메타데이터 서비스)</strong> 주소인 <code>169.254.169.254</code>를 호출하게 만드는 기법입니다.
+                    </p>
+
+                    <!-- SSRF Diagram -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 mb-6 overflow-x-auto flex justify-center items-center gap-4">
+                        <div class="flex flex-col items-center">
+                            <i class="fas fa-user-secret text-4xl text-rose-600 mb-2"></i>
+                            <div class="text-xs font-bold text-slate-700">해커 (Attacker)</div>
+                            <div class="text-[10px] bg-white border px-1 rounded mt-1">?url=http://169.254...</div>
+                        </div>
+                        <i class="fas fa-arrow-right text-rose-400 text-xl"></i>
+                        <div class="border-2 border-blue-400 bg-blue-50 rounded-lg p-4 w-40 text-center relative shadow-sm">
+                            <div class="text-xs font-bold text-blue-800 mb-2">EC2 웹 서버</div>
+                            <div class="text-[10px] bg-blue-100 text-blue-800 px-2 py-1 rounded">IAM Role (S3 Full Access)</div>
+                        </div>
+                        <i class="fas fa-arrow-right text-rose-400 text-xl"></i>
+                        <div class="border-2 border-purple-400 bg-purple-50 rounded-lg p-4 w-40 text-center relative shadow-sm">
+                            <div class="text-xs font-bold text-purple-800 mb-2">IMDS (169.254.169.254)</div>
+                            <div class="text-[10px] bg-rose-100 text-rose-800 px-2 py-1 rounded font-bold">임시 보안 토큰 반환!</div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="border border-rose-200 bg-rose-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-rose-800 mb-2 text-sm">사고 결과</h4>
+                            <p class="text-xs text-slate-700">해커는 웹 서버의 응답을 통해 반환된 <strong>임시 IAM 자격 증명(STS Token)</strong>을 자신의 로컬 PC로 복사했습니다. 이후 해당 토큰을 사용해 수억 명의 고객 데이터가 들어있는 S3 버킷을 전부 덤프(Dump)하여 유출했습니다.</p>
+                        </div>
+                        <div class="border border-emerald-200 bg-emerald-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-emerald-800 mb-2 text-sm">방어 전략 (IMDSv2 강제)</h4>
+                            <p class="text-xs text-slate-700">과거의 IMDSv1은 단순 GET 요청에 토큰을 내어주었으나, <strong>IMDSv2는 PUT 요청을 통해 세션 토큰을 먼저 발급</strong>받아야만 메타데이터 조회가 가능하도록 설계되었습니다. 테라폼 코드에서 인스턴스 생성 시 <code>http_tokens = "required"</code>를 설정하여 IMDSv2 사용을 강제해야 합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Case Study 3: Confused Deputy -->
+            <section>
+                <div class="flex items-center mb-6 border-b-2 border-red-500 pb-2 inline-block">
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 flex items-center">
+                        <i class="fas fa-masks-theater text-red-600 mr-3"></i>보안 사고 사례 3: 혼동된 대리자 (Confused Deputy) 취약점
+                    </h2>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm block-animation">
+                    <p class="text-slate-700 leading-relaxed mb-4">
+                        여러 고객을 서비스하는 써드파티(3rd-party) SaaS 업체(예: 클라우드 모니터링 서비스, 보안 솔루션)에 내 AWS 계정 접근 권한을 부여할 때 발생하는 전형적인 <strong>교차 계정(Cross-Account) 취약점</strong>입니다.
+                    </p>
+                    
+                    <div class="bg-slate-100 p-4 rounded-lg border border-slate-300 mb-4 text-sm text-slate-700">
+                        <strong>공격 시나리오:</strong> 악의적인 사용자 A가 써드파티 업체에 가입한 후, 업체 시스템에 피해자 B의 <strong>IAM Role ARN</strong>을 자신의 것인 양 입력합니다. 써드파티 업체(대리자)는 권한이 있으므로 B의 계정에 접근하게 되고, B의 데이터를 A에게 보여주게 됩니다. 대리자가 누구의 요청인지 혼동(Confused)하여 발생합니다.
+                    </div>
+
+                    <div class="bg-slate-900 text-white p-5 rounded-lg shadow-inner expert-tip-bg">
+                        <h4 class="font-bold text-red-400 mb-3 flex items-center"><i class="fas fa-key mr-2"></i>해결책: sts:ExternalId 속성 사용</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed mb-3">
+                            교차 계정 접근을 허용하는 신뢰 정책(Trust Policy)을 작성할 때, 단순히 상대방의 Account ID만 허용하는 것이 아니라 써드파티에서 발급한 고유한 <strong>ExternalId(외부 ID)</strong>를 조건(Condition)으로 반드시 검증해야 합니다.
+                        </p>
+                        <div class="bg-slate-800 p-3 rounded font-mono text-[11px] text-emerald-400 border border-slate-700">
+<span class="text-blue-400">"Condition"</span>: {
+  <span class="text-blue-400">"StringEquals"</span>: {
+    <span class="text-blue-400">"sts:ExternalId"</span>: <span class="text-yellow-300">"12345-secret-uuid-from-3rd-party"</span>
+  }
+}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Case Study 4: Privilege Escalation -->
+            <section>
+                <div class="flex items-center mb-6 border-b-2 border-red-500 pb-2 inline-block">
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 flex items-center">
+                        <i class="fas fa-stairs text-red-600 mr-3"></i>보안 사고 사례 4: 과도한 권한에 의한 권한 상승 (Privilege Escalation)
+                    </h2>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm block-animation">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/2">
+                            <h3 class="text-lg font-bold text-slate-800 mb-3">iam:PassRole 권한의 위험성</h3>
+                            <p class="text-sm text-slate-700 leading-relaxed mb-4">
+                                특정 개발자에게 EC2를 생성할 권한을 주면서 무심코 <code>iam:PassRole</code>(서비스에 역할을 전달하는 권한)을 <code>*</code>(모든 리소스)로 허용하는 실수가 잦습니다. 
+                            </p>
+                            <p class="text-sm text-slate-700 leading-relaxed">
+                                악의적인 의도를 품은 개발자는 자신에게 주어진 EC2 생성 권한을 이용해 서버를 띄우면서, <strong>자신보다 높은 권한인 'AdministratorAccess(최고 관리자)' 역할(Role)을 새로 만든 EC2에 전달(PassRole)</strong>해버립니다. 이후 해당 EC2에 접속하면 개발자는 최고 관리자 권한을 획득하여 회사 전체 인프라를 장악하게 됩니다.
+                            </p>
+                        </div>
+                        <div class="md:w-1/2 border-l-4 border-emerald-500 bg-emerald-50 p-5 rounded-r-lg flex flex-col justify-center">
+                            <h4 class="font-bold text-emerald-800 mb-2"><i class="fas fa-shield-cat mr-2"></i>방어 아키텍처: Permissions Boundary</h4>
+                            <p class="text-sm text-emerald-900 leading-relaxed">
+                                이러한 권한 상승(Privilege Escalation)을 막기 위해 <strong>Permissions Boundary(권한 경계)</strong> 기능을 사용합니다. 사용자가 새로운 역할(Role)을 생성하거나 리소스에 권한을 부여할 때, 사전에 중앙 보안팀이 정의해 둔 '권한 경계' 이상의 권한을 절대 가질 수 없도록 최대 상한선을 설정하는 고급 IAM 통제 기법입니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Case Study 5: Zombie Credentials -->
+            <section>
+                <div class="flex items-center mb-6 border-b-2 border-red-500 pb-2 inline-block">
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 flex items-center">
+                        <i class="fas fa-ghost text-red-600 mr-3"></i>보안 사고 사례 5: 방치된 좀비 자격 증명 (Zombie Credentials)
+                    </h2>
+                </div>
+
+                <div class="bg-rose-50 border-2 border-rose-200 rounded-xl p-6 shadow-sm block-animation">
+                    <p class="text-slate-700 leading-relaxed mb-6">
+                        퇴사자나 프로젝트가 종료된 외주 인력의 IAM User 계정과 Access Key를 제때 삭제하지 않아 발생하는 해킹 사고는 매년 클라우드 보안 침해의 상당수를 차지합니다. 오랫동안 사용되지 않은 키는 관리가 소홀해져 타인에게 유출될 확률이 극히 높아집니다.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded shadow-sm border border-slate-200">
+                            <div class="text-indigo-600 text-2xl mb-2"><i class="fas fa-file-invoice"></i></div>
+                            <h4 class="font-bold text-slate-800 mb-1">IAM 자격 증명 보고서 (Credential Report)</h4>
+                            <p class="text-xs text-slate-600">AWS 계정 내의 모든 사용자와 그들의 다양한 자격 증명(비밀번호, 액세스 키, MFA 장치)의 상태를 나열한 보고서를 정기적으로 다운로드하여 마지막 사용일(Last Used Date)을 감사(Audit)해야 합니다.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded shadow-sm border border-slate-200">
+                            <div class="text-indigo-600 text-2xl mb-2"><i class="fas fa-robot"></i></div>
+                            <h4 class="font-bold text-slate-800 mb-1">Lambda 기반의 수명 주기 자동화</h4>
+                            <p class="text-xs text-slate-600">수석 아키텍트는 <strong>AWS EventBridge와 Lambda 함수를 연동</strong>하여 90일 이상 사용되지 않은 Access Key를 자동으로 비활성화(Inactive) 상태로 전환하고 보안팀에 Slack 알림을 전송하는 파이프라인을 구축합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footnotes Section -->
+        <footer class="bg-slate-50 border-t border-slate-200 p-8 text-sm text-slate-500">
+            <h4 class="font-bold text-slate-700 mb-3 border-b border-slate-300 pb-2 inline-block">주석 및 용어 설명</h4>
+            <ol class="list-decimal list-inside space-y-3 ml-2">
+                <li id="fn1"><strong>최소 권한의 원칙 (Principle of Least Privilege)</strong>: 사용자나 시스템이 자신의 목적(업무)을 수행하는 데 필요한 '최소한'의 권한만을 '필요한 시간' 동안만 부여해야 한다는 정보 보안의 가장 핵심적인 원칙입니다.</li>
+                <li id="fn2"><strong>신뢰 정책 (Trust Policy / AssumeRolePolicy)</strong>: 리소스에 대한 접근 권한(Permissions)을 정의하는 것이 아니라, "어느 개체(사용자, 다른 AWS 서비스 등)가 이 '역할(Role)'을 입고 활동할 수 있는가?"를 정의하는 IAM 역할 전용 정책입니다.</li>
+                <li id="fn3"><strong>ARN (Amazon Resource Name)</strong>: AWS 전체 인프라 내에서 특정 리소스를 유일하게 식별하기 위한 고유한 네이밍 규칙입니다. 형식: <code>arn:aws:서비스명:리전:계정ID:리소스유형/리소스명</code>.</li>
+                <li id="fn4"><strong>SSRF (Server-Side Request Forgery, 서버 측 요청 위조)</strong>: 해커가 외부에서 웹 애플리케이션의 취약점을 조종하여, 서버가 자체적으로 내부망의 API(이 경우 클라우드 메타데이터 서버)나 데이터베이스에 악의적인 요청을 보내게 만드는 심각한 웹 해킹 기법입니다.</li>
+                <li id="fn5"><strong>혼동된 대리자 (Confused Deputy) 취약점</strong>: 권한을 가진 대리자(보통 서버 프로그램이나 3rd-party 서비스)가 권한이 없는 공격자의 요청에 속아 공격자 대신 권한을 행사해버리는 형태의 보안 취약점입니다.</li>
+            </ol>
+        </footer>
+
+        <!-- Next Step Banner -->
+        <div class="bg-slate-900 text-red-400 text-center py-6 px-4 font-bold text-lg md:text-xl relative overflow-hidden group cursor-pointer border-t-4 border-red-500">
+            <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition duration-300"></div>
+            Next Step: AWS Organizations와 SCP(Service Control Policies) 기반의 멀티 계정 거버넌스 구축 <i class="fas fa-arrow-right ml-2 text-white group-hover:translate-x-2 transition transform"></i>
+        </div>
+
+    </div>
+
+</body>
+</html>
