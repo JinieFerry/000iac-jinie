@@ -31,3 +31,6 @@ SSRF (Server-Side Request Forgery, 서버 측 요청 위조)
 + 우리 회사 안에 서버가 많을 땐 DNS 필요: IP로 다 프로그래밍 하면 좋지 않아서 변수로 박아두는 것 <- DNS, 제일 쉬운 방식:hosts
 
 + Horizental -> Vertical 위: CPU,Memory + GPU (ex:GCT)
+
+500.101,102,103만 따라해서 실습 진행 path이런 것 에러많은 것 빼고는 대부분 실행되도록 했음    
++ 05.300.30의 디렉토리가 너무 길고 많음 : 프롬프트 길이가 길어져서 확 줄였음
