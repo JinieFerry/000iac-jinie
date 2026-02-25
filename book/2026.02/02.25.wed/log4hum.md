@@ -2,7 +2,7 @@
 <img width="1474" height="814" alt="image" src="https://github.com/user-attachments/assets/d7465d54-229f-4e1f-b9aa-6db10e723c1f" />
 
   # 2026.02.25.wed
-  ## vpc 생성 실습
+  ## vpc 생성 실습 1 : 동일한 라우팅 테이블
   ```
   273  # 사전확인
   274  terraform --version
@@ -184,4 +184,24 @@ inputs = {
   328  terragrunt init
   329  terragrunt apply
   330  history
+```
+
+## VPC 생성 실습 2 : 인터넷(퍼블릭용) 1 + 3개의 내부용을 각가 다른 디렉토리로 아이피 테이블 잡기 (디스트로이를 개별적으로 할 수 있도록)
+
+실습2를 위한 구조
+```
+/d/tg/vpcex
+├── modules
+│   └── vpc
+│   └── route-public
+│   └── route-private
+│
+└── live
+    └── seoul
+        ├── vpc
+        │   └── terragrunt.hcl
+        ├── route-public
+        │   └── terragrunt.hcl
+        └── route-private
+            └── terragrunt.hcl
 ```
