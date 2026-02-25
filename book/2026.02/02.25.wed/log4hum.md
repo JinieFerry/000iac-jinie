@@ -1,8 +1,9 @@
-1-1. 서울 성공
+# 2026.02.25.wed
+# vpc 생성 실습 1 : 동일한 라우팅 테이블
+## 1-1. 서울 성공
 <img width="1474" height="814" alt="image" src="https://github.com/user-attachments/assets/d7465d54-229f-4e1f-b9aa-6db10e723c1f" />
 
-  # 2026.02.25.wed
-  ## vpc 생성 실습 1 : 동일한 라우팅 테이블
+
   ```
   273  # 사전확인
   274  terraform --version
@@ -127,7 +128,7 @@ resource "aws_subnet" "subnet_40" {
   312  history
 ```
 
-2-1. 버지니아 성공
+## 2-1. 버지니아 성공
 <img width="1471" height="823" alt="image" src="https://github.com/user-attachments/assets/5e6a35a8-211b-49df-b7b4-f3a167e99c92" />
 
 ```
@@ -156,7 +157,7 @@ inputs = {
   321  terragrunt apply
   322  history
 ```
-3-1. 유럽 : 파리 성공
+## 3-1. 유럽 : 파리 성공
 <img width="1469" height="829" alt="image" src="https://github.com/user-attachments/assets/2f445aa7-458a-49f0-ab35-919cd1f02a43" />
 
 ```
@@ -186,7 +187,7 @@ inputs = {
   330  history
 ```
 
-## VPC 생성 실습 2 : 인터넷(퍼블릭용) 1 + 3개의 내부용을 각가 다른 디렉토리로 아이피 테이블 잡기 (디스트로이를 개별적으로 할 수 있도록)
+# VPC 생성 실습 2 : 인터넷(퍼블릭용) 1 + 3개의 내부용을 각가 다른 디렉토리로 아이피 테이블 잡기 (디스트로이를 개별적으로 할 수 있도록)
 
 실습2를 위한 구조
 ```
@@ -210,7 +211,7 @@ inputs = {
 + route-public	: IGW + Public RT
 + route-private	: Private RT
 
-1-2. 서울 새구조 성공
+## 1-2. 서울 새구조 성공
 <img width="1309" height="747" alt="image" src="https://github.com/user-attachments/assets/994066ae-6e8f-4529-b8b5-a2ed742555b2" />
 
 ```
@@ -492,7 +493,7 @@ output "private_subnet_ids" {
   525  aws ec2 describe-route-tables   --region ap-northeast-2   --filters "Name=association.subnet-id,Values=subnet-0b73b6fa2bd65abcd"
 ```
 
-2-2. 버지니아 새 구조 성공 :
+## 2-2. 버지니아 새 구조 성공 :
 
 <img width="1311" height="747" alt="image" src="https://github.com/user-attachments/assets/b6a6ca61-8086-42c4-8987-051f0aed3f52" />
 
@@ -581,7 +582,7 @@ output "private_subnet_ids" {
   609  history
 ```
 
-3-2. 유럽 : 파리 새 구조 성공
+## 3-2. 유럽 : 파리 새 구조 성공
 <img width="1472" height="825" alt="image" src="https://github.com/user-attachments/assets/59ac9e9b-0c21-42c1-b425-1c01d0510a2b" />
 
 ```
