@@ -746,3 +746,36 @@ rtb-02fcef7189dbb4532 → IGW 있음 →  Public RT
 나머지 2개 → local만 →  Private + Main
   
 + 각 리전 마다 Route Table 3개, 그 중 한 개만 IGW 연결, 나머지는 2개는 내부용 (private + main)으로 구조 일치함
+
+# 최종 실습 목적지 
+```
+                 Global Architecture
+
+                Route53 (megaiac.com)
+                        |
+                ┌───────────────┐
+                │   Asia Hub    │ (서울)
+                │   TGW + NAT   │
+                └──────┬────────┘
+                       │
+        ┌──────────────┼──────────────┐
+        │              │              │
+     🇰🇷 Seoul       🇺🇸 US         🇪🇺 Europe
+     Spoke EKS      Spoke EKS      Spoke EKS
+```
++ 순서
+Terragrunt Root → Network → EKS → IRSA → LBC → Workload
+
++ 방식
+위 과정에서 만든 코드 기반으로 EKS까지 실습 (서울 스포크 완성 -> 외부 접속 성공)
+```
+Internet
+   ↓
+ALB (AWS Load Balancer)
+   ↓
+EKS Ingress
+   ↓
+Service
+   ↓
+Pod (Backend / Frontend)
+```
