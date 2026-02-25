@@ -694,3 +694,54 @@ name   = "krp"
   725  aws ec2 describe-route-tables   --region us-east-1   --filters "Name=vpc-id,Values=vpc-05793db4815fe041c"   --query "RouteTables[*].{RT:RouteTableId,Routes:Routes[*].GatewayId}"
   726  history
 ```
+
+## 콘솔에서 보이는 세 리전의 라우팅 형식 달라보이지만 구조를 도식화하면 세 리전 모두 동일함
+```
+VPC (10.x.0.0/16)
+
+Public Subnet
+ └─ Public RT
+     └─ 0.0.0.0/0 → IGW
+
+Private Subnet 3개
+ └─ Private RT
+
+Main RT (기본, 실사용 거의 없음)
+```
++ 🇰🇷 서울 (ap-northeast-2) 확인 로그 해석 : 정상
+```
+[
+  { RT: rtb-02dce5ff5221e24ca, Routes: ["local"] },
+  { RT: rtb-0aec17a056c6a851d, Routes: ["local"] },
+  { RT: rtb-02582ba0490d91461, Routes: ["local", "igw-00826e9591b52ff9c"] }
+]
+```
+rtb-02582ba0490d91461 → IGW 있음 →  Public RT
+
+나머지 2개 → local만 있음 → Private RT + Main RT
+
++ 🇺🇸 버지니아 (us-east-1) 확인 로그 해석 : 정상
+```
+[
+  { RT: rtb-029f4f8caa0eb2358, Routes: ["local", "igw-0d34af36de911bedb"] },
+  { RT: rtb-087953c7843616d21, Routes: ["local"] },
+  { RT: rtb-03e0e232c2222174c, Routes: ["local"] }
+]
+```
+rtb-029f4f8caa0eb2358 → IGW 있음 →  Public RT
+
+나머지 2개 → local만 →  Private + Main
+
++ 🇫🇷 파리 (eu-west-3) 확인 로그 해석 : 정상
+```
+[
+  { RT: rtb-0fba960bed4d81633, Routes: ["local"] },
+  { RT: rtb-0022e10c9c96cff41, Routes: ["local"] },
+  { RT: rtb-02fcef7189dbb4532, Routes: ["local", "igw-0f02014b3168be42b"] }
+]
+```
+rtb-02fcef7189dbb4532 → IGW 있음 →  Public RT
+
+나머지 2개 → local만 →  Private + Main
+  
++ 각 리전 마다 Route Table 3개, 그 중 한 개만 IGW 연결, 나머지는 2개는 내부용 (private + main)으로 구조 일치함
