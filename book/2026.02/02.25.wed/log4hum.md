@@ -779,3 +779,56 @@ Service
    ↓
 Pod (Backend / Frontend)
 ```
+  ## EKS 실습 시작
+  ```
+  728  # 서울 네트워크 살아있는지 확인
+  729  aws ec2 describe-nat-gateways   --region ap-northeast-2
+  730  # NAT Gateway없으므로 서울 네트워크 다시 배포
+  731  ## EKS 실습 시작
+  732  # 서울 vpc 다시 확정
+  733  ls
+  734  cd ..
+  735  ls
+  736  cd ~
+  737  ls
+  738  cd /d
+  739  ls
+  740  cd awskr01/
+  741  ls
+  742  # /d/awskr01/terragrunt.hcl이 최상위 ROOT HCL 임
+  743  cd infrastructure/live/020-spokes/ap-northeast-2/network
+  744  ls
+  745  # terragrunt.hcl 보여야 정상
+  746  # 내용 확인
+  747  cat terragrunt.hcl
+  748  # EKS + LBC 가 동작하기 위해 서브넷에 있어야 하는 태그 포함시켜 파일 수정
+  749  cd /d/awskr01/infrastructure/modules/aws-network-spoke/main.tf
+  750  cd /d
+  751  cd /awskr01/infrastructure/modules/aws-network-spoke/main.tf
+  752  ls
+  753  cd awskr01/
+  754  l
+  755  ls
+  756  cd infrastructure/
+  757  ls
+  758  cd modules/
+  759  ls
+  760  cd aws-network-spoke/
+  761  ls
+  762  vi main.tf
+  763  cd /d/awskr01/infrastructure/live/020-spokes/ap-northeast-2/network
+  764  terragrunt apply
+  765  # vpc apply
+  766  # 적용 후 확인
+  767  aws ec2 describe-subnets   --region ap-northeast-2   --query "Subnets[*].{ID:SubnetId,Tags:Tags}"
+```
+    # 2026.02.25.수 수업 종료로 destroy
+  ```
+  769  cd /d/awskr01/infrastructure/live/020-spokes/ap-northeast-2/network
+  770  terragrunt destroy
+  771  aws ec2 describe-nat-gateways --region ap-northeast-2
+  772  history
+  ```
+
+### 내일 2026.02.26.thu 부터 05.500.0315 들어감
+
