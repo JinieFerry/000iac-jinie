@@ -491,3 +491,9 @@ output "private_subnet_ids" {
   524  # public subnet이 IGW 타는지 확인
   525  aws ec2 describe-route-tables   --region ap-northeast-2   --filters "Name=association.subnet-id,Values=subnet-0b73b6fa2bd65abcd"
 ```
+2-2. 버지니아 새 구조 성공
+<img width="1311" height="747" alt="image" src="https://github.com/user-attachments/assets/b6a6ca61-8086-42c4-8987-051f0aed3f52" />
+
+```
+
+```
