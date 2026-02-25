@@ -1,4 +1,4 @@
-1. 서울 성공
+1-1. 서울 성공
 <img width="1474" height="814" alt="image" src="https://github.com/user-attachments/assets/d7465d54-229f-4e1f-b9aa-6db10e723c1f" />
 
   # 2026.02.25.wed
@@ -127,7 +127,7 @@ resource "aws_subnet" "subnet_40" {
   312  history
 ```
 
-2. 버지니아 성공
+2-1. 버지니아 성공
 <img width="1471" height="823" alt="image" src="https://github.com/user-attachments/assets/5e6a35a8-211b-49df-b7b4-f3a167e99c92" />
 
 ```
@@ -156,7 +156,7 @@ inputs = {
   321  terragrunt apply
   322  history
 ```
-3. 유럽 : 파리 성공
+3-1. 유럽 : 파리 성공
 <img width="1469" height="829" alt="image" src="https://github.com/user-attachments/assets/2f445aa7-458a-49f0-ab35-919cd1f02a43" />
 
 ```
@@ -581,5 +581,116 @@ output "private_subnet_ids" {
   609  history
 ```
 
+3-2. 유럽 : 파리 새 구조 성공
+<img width="1472" height="825" alt="image" src="https://github.com/user-attachments/assets/59ac9e9b-0c21-42c1-b425-1c01d0510a2b" />
 
+```
+  610  # 파리 새구조
+  611  # 파리 현재 상태 확인 : 기존 vpc 있는지
+  612  aws ec2 describe-vpcs   --region eu-central-1   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
+  613  # 파리 디렉토리로 이동
+  614  cd /d/tg/vpcex/live/europe
+  615  # 디렉토리 생성
+  616  ls
+  617  mkdir vpc
+  618  mkdir route-public
+  619  mkdir route-private
+  620  ls
+  621  # 서울 설정 복사
+  622  user@DESKTOP-5AFO9PS MINGW64 /d/tg/vpcex/live/virginia/route-private
+  623  $ # 파리 새구조
+  624  user@DESKTOP-5AFO9PS MINGW64 /d/tg/vpcex/live/virginia/route-private
+  625  $ # 파리 현재 상태 확인 : 기존 vpc 있는지
+  626  user@DESKTOP-5AFO9PS MINGW64 /d/tg/vpcex/live/virginia/route-private
+  627  $ aws ec2 describe-vpcs   --region eu-west-3   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
+  628  [
+  629      {         "ID": "vpc-0c1654f46ffd84056",;         "CIDR": "172.31.0.0/16",;         "Name": null;     }
+  630  ]
+  631  cp /d/tg/vpcex/live/seoul/vpc/terragrunt.hcl vpc/
+  632  cp /d/tg/vpcex/live/seoul/route-public/terragrunt.hcl route-public/
+  633  cp /d/tg/vpcex/live/seoul/route-private/terragrunt.hcl route-private/
+  634  # 서울의 설정 복사해왔으므로 리전 파리로 수정
+  637  ls
+  638  cd vpc/
+  639  ls
+  640  vi terragrunt.hcl
+```
+  + vpc/terragrunt.hcl
+```
+inputs = {
+  vpc_name    = "krp-vpc"
+  vpc_cidr    = "10.230.0.0/16"
+  subnet_base = "10.230"
+  region      = "eu-west-3"
+}
+```
+```
+  641  cd ../route-public
+  642  # route-public 리전 수정
+  643  ls
+  644  vi terragrunt.hcl
+```
++ route-public/terragrunt.hcl
+```
+region = "eu-west-3"
+name   = "krp"
+```
+  645  cd ../route-private
+  646  ls
+  647  vi terragrunt.hcl
 
++ route-private
+```
+region = "eu-west-3"
+name   = "krp"
+```
+```
+  648  # route쪽 체크
+  649  cd /d/tg/vpcex/live/europe/route-public
+  650  grep region terragrunt.hcl
+  651  grep name terragrunt.hcl
+  652  cd ../route-private
+  653  grep region terragrunt.hcl
+  654  grep name terragrunt.hcl
+  655  # 파리는 vpc_name = "krp-vpc", vpc_cidr = "10.230.0.0/16" , subnet_base = ""10.230 , region = "eu-west-3"이면 정상
+
+  692  # 파리  apply
+  693  # vpc
+  694  cd vpc
+  695  cd ..
+  696  ls
+  697  cd vpc/
+  698  terragrunt apply
+  699  cd ../route-public
+  700  # 퍼블릭 라우트
+  701  cd ../route-public
+  702  terragrunt apply
+  703  # 프라이빗 라우트
+  704  cd ../route-private
+  705  terragrunt apply
+  
+  706  # 파리 확인
+  707  aws ec2 describe-route-tables   --region eu-west-3   --filters "Name=vpc-id,Values=vpc-066a8e960413307c4"   --query "RouteTables[*].{ID:RouteTableId,Routes:Routes[*].DestinationCidrBlock}"
+```
+
+  # 세 리전 모두 확인
+```
+  709  cd ../live
+  710  cd ..
+  711  cd ..
+  712  ls
+  713  cd europe/
+  714  ls
+  715  aws ec2 describe-route-tables   --region <region>   --filters "Name=vpc-id,Values=<vpc-id>"   --query "RouteTables[*].{RT:RouteTableId,Routes:Routes[*].GatewayId}"
+  716  # 파리 리전 확인
+  717  aws ec2 describe-route-tables   --region us-east-1   --filters "Name=vpc-id,Values=vpc-05793db4815fe041c"   --query "RouteTables[*].{RT:RouteTableId,Routes:Routes[*].GatewayId}"
+  718  cd ..
+  719  ls
+  720  cd seoul/
+  721  # 서울 리전 확인
+  722  aws ec2 describe-route-tables   --region ap-northeast-2   --filters "Name=vpc-id,Values=vpc-0ed0901557c9b37b8"   --query "RouteTables[*].{RT:RouteTableId,Routes:Routes[*].GatewayId}"
+  723  # 버지니아 리전 확인
+  724  cd ../virginia
+  725  aws ec2 describe-route-tables   --region us-east-1   --filters "Name=vpc-id,Values=vpc-05793db4815fe041c"   --query "RouteTables[*].{RT:RouteTableId,Routes:Routes[*].GatewayId}"
+  726  history
+```
