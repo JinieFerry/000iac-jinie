@@ -8,16 +8,16 @@ Region: ap-northeast-2
 ---
 
 ## Phase 0 – Tool Installation & Verification
-
+```
 choco install terraform -y
 terraform --version
 terragrunt --version
 aws --version
-
+```
 ---
 
 ## Phase 1 – GitHub Repository Setup
-
+```
 cd /d
 mkdir awskr01
 cd awskr01
@@ -26,25 +26,25 @@ git branch -M main
 git remote add origin https://github.com/JinieFerry/awskr01.git
 git pull origin main
 git remote -v
-
+```
 ---
 
 ## Phase 2 – AWS CLI Configuration
-
+```
 aws configure
 aws sts get-caller-identity
-
+```
 ---
 
 ## Phase 3 – Infrastructure Directory Structure Creation
-
+```
 cd /d/awskr01
 
 mkdir -p infrastructure/modules/prepare
 mkdir -p infrastructure/modules/aws-network-spoke
 mkdir -p infrastructure/live/000-prepare/ap-northeast-2
 mkdir -p infrastructure/live/020-spokes/ap-northeast-2/network
-
+```
 ---
 
 ## Phase 4 – Root Terragrunt Configuration
@@ -52,6 +52,34 @@ mkdir -p infrastructure/live/020-spokes/ap-northeast-2/network
 File:
 infrastructure/live/terragrunt.hcl
 
+```
+remote_state {
+  backend = "s3"
+  generate = {
+    path      = "backend.tf"
+    if_exists = "overwrite_terragrunt"
+  }
+  config = {
+    # 과금 주의: S3 버킷에 상태 파일이 저장되며, 저장된 용량 및 요청 횟수에 따라 소액의 종량제 요금이 발생합니다.
+    bucket         = "awskr01-tfstate-apne2-12345" # 본인만의 고유한 이름으로 변경 필수
+    key            = "${path_relative_to_include()}/terraform.tfstate"
+    region         = "ap-northeast-2"
+    encrypt        = true
+    
+    # 과금 주의: 동시성 제어를 위한 DynamoDB 테이블이 생성되며, 읽기/쓰기 용량에 따른 요금이 발생합니다.
+    dynamodb_table = "awskr01-tflock-table"
+  }
+}
+
+# 모든 리소스에 공통으로 들어갈 글로벌 태그 정의
+inputs = {
+  default_tags = {
+    Project     = "awskr01-Hub-Spoke"
+    ManagedBy   = "Terragrunt"
+  }
+}
+
+```
 Configured:
 - S3 Backend
   bucket: awskr01-tfstate-apne2-jinie
@@ -67,6 +95,59 @@ Configured:
 File:
 infrastructure/modules/prepare/main.tf
 
+```
+# 1. ECR (Elastic Container Registry) 생성
+# 프론트엔드와 백엔드의 도커(Docker) 이미지를 저장할 중앙 보관소입니다.
+# 과금 주의: ECR은 저장된 이미지의 용량(GB당 월 $0.10) 및 데이터 전송량에 따라 과금이 발생합니다.
+
+# 백엔드용 이미지 저장소 정의
+resource "aws_ecr_repository" "backend_repo" {
+  name                 = "awskr01-backend" # 저장소 이름 설정
+  image_tag_mutability = "MUTABLE"           # 이미지 태그 변경 가능 여부 (MUTABLE: 동일 태그 덮어쓰기 허용)
+
+  # 이미지 보안 설정
+  image_scanning_configuration {
+    scan_on_push = true # 이미지가 푸시(Push)될 때마다 보안 취약점을 자동으로 스캔함
+  }
+}
+
+# 프론트엔드용 이미지 저장소 정의
+resource "aws_ecr_repository" "frontend_repo" {
+  name                 = "awskr01-frontend"
+  image_tag_mutability = "MUTABLE"
+}
+
+
+# 2. EKS Cluster IAM Role
+# 쿠버네티스 컨트롤 플레인(Control Plane)이 AWS 인프라(EC2, 로드밸런서 등)를 제어하기 위해 필요한 권한입니다.
+# EKS 클러스터용 IAM Role(Identity and Access Management Role, 신뢰 관계 설정) 생성
+resource "aws_iam_role" "eks_cluster_role" {
+  name = "awskr01-eks-cluster-role"
+
+# 이 역할(Role)을 누구(EKS 서비스)가 사용할 수 있는지 정의하는 신뢰 정책
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action = "sts:AssumeRole"   # sts 토큰,  역할을 맡을 수 있도록 허용하는 동작
+      Effect = "Allow"
+      Principal = {
+        Service = "eks.amazonaws.com"  # EKS 서비스가 이 역할을 사용하도록 지정
+      }
+    }]
+  })
+}
+
+# 생성한 역할에 실제 권한(Policy) 부여
+# AWS IAM 역할에 특정 정책(Policy)을 부착(Attachment)하는 리소스 정의
+resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
+  # AmazonEKSClusterPolicy: EKS 클러스터가 AWS 리소스를 관리하는 데 필요한 표준 권한 ARN(Amazon Resource Name)
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  
+  # 위에서 정의한 aws_iam_role.eks_cluster_role 리소스의 이름을 참조하여 해당 역할에 권한을 연결
+  role       = aws_iam_role.eks_cluster_role.name 
+}
+
+```
 Resources:
 - aws_ecr_repository.backend_repo
 - aws_ecr_repository.frontend_repo
@@ -79,13 +160,32 @@ Resources:
 
 File:
 infrastructure/live/000-prepare/ap-northeast-2/terragrunt.hcl
+```
+# 현재 위치에서 상위 폴더를 거슬러 올라가며 최상위 terragrunt.hcl(S3/DynamoDB 설정)을 찾아 상속받음
+include {
+  path = find_in_parent_folders()
+}
 
+# 실제 인프라 리소스를 정의한 테라폼 모듈 소스 코드의 상대 경로를 지정
+terraform {
+  source = "../../../modules/prepare"
+}
+
+# 해당 모듈의 variables.tf에 정의된 변수들에 실제 값을 주입하는 블록
+inputs = {
+  # 리소스가 생성될 AWS 지역을 서울 리전으로 지정
+  region      = "ap-northeast-2"
+  
+  # 현재 환경의 식별자 이름을 프로젝트 명칭에 맞춰 설정
+  environment = "awskr01-prepare"
+}
+```
 Execution:
-
+```
 cd infrastructure/live/000-prepare/ap-northeast-2
 terragrunt init
 terragrunt apply
-
+```
 Result:
 ECR repositories created
 IAM role created
@@ -107,10 +207,10 @@ ConditionalCheckFailedException
 ---
 
 ## Phase 8 – Lock 해제
-
+```
 terragrunt force-unlock 80e4f17d-aebc-39fe-57d1-f5ce1f38ca76
-yes
-
+# yes
+```
 ---
 
 ## Phase 9 – Prepare 재적용
@@ -147,26 +247,26 @@ terraform {
 ---
 
 ## Phase 12 – Network Destroy 테스트
-
+```
 cd infrastructure/live/020-spokes/ap-northeast-2/network
 terragrunt destroy -auto-approve
-
+```
 ---
 
 ## Phase 13 – Prepare Destroy
-
+```
 cd infrastructure/live/000-prepare/ap-northeast-2
 terragrunt destroy -auto-approve
-
+```
 ---
 
 ## Phase 14 – Git Commit
-
+```
 cd /d/awskr01
 git add .
 git commit -m "feat: 온프레미스(10.10) 기준 글로벌 네트워크 설계 및 다중 가용영역 기반 하이브리드 인프라 구축 완료"
 git push origin main
-
+```
 ---
 
 ## End State
@@ -176,69 +276,95 @@ git push origin main
 - Backend S3 + DynamoDB 유지
 - GitHub main branch 최신 상태
 
-```
+
 user@DESKTOP-5AFO9PS MINGW64 /d/awskr01 (main)
-$ history
-    1  chooco --version
-    2  choco --version
-    3  choco install terraform -y
-    4  terraform -version
-    5  terraform --version
-    6  terragrunt --version
-    7  clear
-    8  brew tap hashicorp/tap
-    9  brew tap hashicorp/tap
-   10  brew tap hashicorp/tap
-   11  clear
-   12  Get-ExecutionPolicy
-   13  cd ..
-   14  ls
-   15  ls
-   16  clear
-   17  cd /d
-   18  mkdir awskr03
-   19  cd awskr03/
-   20  pwd
-   21  git init
-   22  git remote add origin https://github.com/JinieFerry/awskr03.git
-   23  git remote -v
-   24  git pull orgin main
-   25  git pull origin main
-   26  clear
-   27  cd /d
-   28  mkdir awskr01
-   29  cd awskr01
-   30  pwd
-   31  git init
-   32  git remote add origin https://github.com/JinieFerry/awskr01.git
-   33  git branch -M main
-   34  git pull origin main
-   35  tree
-   36  ls
-   37  git remote -v
-   38  cd ~
-   39  pwd
-   40  cd /d/awskr01
-   41  pwd
-   42  vi terragrunt.hcl
-   43  ls
-   44  vi .gitignore
-   45  vi .gitignore
-   46  vi .gitignore
-   47  aws --version
-   48  git add .gitignore
-   49  git commit -m "Update gitignore for Terraform security"
-   50  git config --global user.name "JinieFerry"
-   51  git config --global user.email "jinie.sej@gmail.com"
-   52  git commit -m "Update gitignore for Terraform security"
-   53  git commit -m "Update gitignore for Terraform security"
-   54  mv /c/Users/B1-MAIN/.pem/aws-bastion-key.pem /c/Users/user/.ssh/
-   55  ls /c/Users/B1-MAIN/.pem
-   56  ls /c/Users/B1-MAIN/.pem
-   57  ls /c/Users/user/Downloads
-   58  ls /c/Users/user/Downloads
-   59  ls /c/Users/user/Downloads
-   60  
+ history
+
+```
+# 2026.02.24.tue #
+## 05.130.0200.테라그란트 설치 ##
+      choco --version
+      choco install terraform -y
+      terraform --version
+      terragrunt --version
+
+      brew tap hashicorp/tap
+      brew tap hashicorp/tap
+      
+      brew tap hashicorp/tap
+
+      Get-ExecutionPolicy
+      cd ..
+      ls
+```
+## 05.500.101.작업영역 만들기 ##
+
+### D드라이브에 로컬 작업 디렉토리 생성
+```
+     cd /d
+     mkdir awskr01
+     cd awskr01
+     pwd
+     # Git 초기화
+     git init
+     git remote add origin https://github.com/JinieFerry/awskr01.git
+     git branch -M main
+     git pull origin main
+```
+### 프로젝트 최상위 경로(awskr01/)에 .gitignore 파일을 생성하고 아래 내용을 입력하여 저장
+```
+     ls
+     vi .gitignore
+```
++.gitingnore
+```
+# .gitignore 파일 내용
+# 1. Terraform 및 Terragrunt 로컬 캐시 디렉토리
+.terraform/
+.terragrunt-cache/
+**/.terraform/*
+**/.terragrunt-cache/*
+
+# 2. 인프라 실물 정보가 평문으로 담긴 상태 파일 (절대 업로드 금지)
+*.tfstate
+*.tfstate.*
+
+# 3. 크래시 로그 및 재정의 파일
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# 4. 자격 증명 및 로컬 환경 변수 파일
+*.tfvars
+*.tfvars.json
+.env
+secret.tfvars
+credentials.csv
+
+# 5. OS 생성 임시 파일 (macOS 및 Windows)
+.DS_Store
+Thumbs.db
+```
+
+### GitHub(깃허브) 원격 저장소(Remote Repository) 생성 및 연결
+```
+     git add .gitignore
+     git commit -m "Update gitignore for Terraform security"
+     git config --global user.name "JinieFerry"
+     git config --global user.email "jinie.sej@gmail.com"
+     git commit -m "Update gitignore for Terraform security"
+```
+### AWS CLI(Command Line Interface, 명령줄 인터페이스) 자격 증명 안전 구성 ###
+
+
+     mv /c/Users/B1-MAIN/.pem/aws-bastion-key.pem /c/Users/user/.ssh/
+
+     ls /c/Users/B1-MAIN/.pem
+
+     ls /c/Users/user/Downloads
+
    61  ls /c/Users/user/.ssh
    62  cp /c/Users/B1-MAIN/.pem/aws-bastion-key.pem /c/Users/user/.ssh/
    63  cp /c/Users/B1-MAIN/.pem/aws-bastion-key.pem /c/Users/user/.ssh/
@@ -449,4 +575,4 @@ $ history
   268  git commit -m "feat: 온프레미스(10.10) 기준 글로벌 네트워크 설계 및 다중 가용영역 기반 하이브리드 인프라 구축 완료"
   269  git push origin main
   270  history
-```
+
