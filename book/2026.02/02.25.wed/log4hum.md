@@ -491,9 +491,92 @@ output "private_subnet_ids" {
   524  # public subnet이 IGW 타는지 확인
   525  aws ec2 describe-route-tables   --region ap-northeast-2   --filters "Name=association.subnet-id,Values=subnet-0b73b6fa2bd65abcd"
 ```
-2-2. 버지니아 새 구조 성공
+2-2. 버지니아 새 구조 성공 :
 <img width="1311" height="747" alt="image" src="https://github.com/user-attachments/assets/b6a6ca61-8086-42c4-8987-051f0aed3f52" />
-
+```
+  528  # 기존 버지니아 VPC 삭제
+  529  # 버지니아 vpc 조회
+  530  aws ec2 describe-vpcs   --region us-east-1   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
+  531  # 버지니아 기존 서브넷 삭제
+  532  aws ec2 describe-subnets   --region us-east-1   --filters "Name=vpc-id,Values=vpc-xxxx"
+  533  aws ec2 delete-subnet --subnet-id subnet-xxxx --region us-east-1
+  534  # errored
+  535  # 버지니아 기존 서브넷 조회
+  536  aws ec2 describe-subnets   --region us-east-1   --filters "Name=vpc-id,Values=vpc-0ebe76aa930b4411c"   --query "Subnets[*].SubnetId"
+  537  # 버지니아 기존 서브넷 삭제
+  538  aws ec2 delete-subnet --subnet-id subnet-016da3e0a3d99f660 --region us-east-1
+  539  aws ec2 delete-subnet --subnet-id subnet-0b90b9af3a9512302 --region us-east-1
+  540  aws ec2 delete-subnet --subnet-id subnet-0ea3b001491aa4e20 --region us-east-1
+  541  aws ec2 delete-subnet --subnet-id subnet-00d2f41850b094fbb --region us-east-1
+  542  # 버지니아 IGW 확인
+  543  aws ec2 describe-internet-gateways   --region us-east-1   --filters "Name=attachment.vpc-id,Values=vpc-0ebe76aa930b4411c"   --query "InternetGateways[*].InternetGatewayId"
+  544  # IGW 없으므로 버지니아 기존 vpc 삭제
+  545  aws ec2 delete-vpc   --vpc-id vpc-0ebe76aa930b4411c   --region us-east-1
+  546  # 삭제 확인
+  547  aws ec2 describe-vpcs   --region us-east-1   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
+  548  cd /d/tg/vpcex/live/virginia/vpc
+  549  cd ..
+  550  cd /d/tg/vpcex/live/virginia/vpc
+  551  cd ..
+  552  ls
+  553  cd virginia/
+  554  ls
+  555  cd ..
+  556  ls
+  557  cd ..
+  558  ls
+  559  cd live/
+  560  pwd
+  561  ls
+  562  cd virginia/
+  563  ls
+  564  ls
+  565  # 버지니아 새 구조 생성
+  566  pwd
+  567  mkdir vpc
+  568  mkdir route-public
+  569  mkdir route-private
+  570  ls
+  571  cp /d/tg/vpcex/live/seoul/vpc/terragrunt.hcl vpc/
+  572  cp /d/tg/vpcex/live/seoul/route-public/terragrunt.hcl route-public/
+  573  cp /d/tg/vpcex/live/seoul/route-private/terragrunt.hcl route-private/
+  574  # 리전 수정
+  575  # 서울의 파일을 복사해왔으므로 리전 수정
+  576  # ap-northeast-2 (서울) => us-est-1 (버지니아)
+  577  # krs => krp
+  578  # vpc 리전 수정
+  579  cd /d/tg/vpcex/live/virginia/vpc
+  580  vi terragrunt.hcl
+  581  vi terragrunt.hcl
+  582  # 서울과 겹치지않도록 CIDR 수정
+  583  vi terragrunt.hcl
+  584  # vpc_cidr = "10.210.0.0/16" , subnet_base = "10.210"
+  585  # route-public 수정
+  586  cd ../route-public
+  587  vi terragrunt.hcl
+  588  # /ap-northeast-2  => "us-east-1" , /krs => /krp 로 수정
+  589  # route-private 수정
+  590  cd ../route-private
+  591  vi terragrunt.hcl
+  592  # 수정 확인
+  593  grep region terragrunt.hcl
+  594  grep name terragrunt.hcl
+  595  cd ..
+  596  ls
+  597  cd vpc/
+  598  ls
+  599  vi terragrunt.hcl
+  600  # 버지니아 새 구조vpc생성
+  601  terragrunt apply
+  602  # 퍼블릭 라우트
+  603  cd ../route-public
+  604  terragrunt apply
+  605  # 프라이빗 라우트
+  606  cd ../route-private
+  607  terragrunt apply
+  608  aws ec2 describe-vpcs   --region us-east-1   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
+  609  history
 ```
 
-```
+
+
