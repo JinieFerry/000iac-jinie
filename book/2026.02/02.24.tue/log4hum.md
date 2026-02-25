@@ -364,7 +364,7 @@ Thumbs.db
      ls /c/Users/B1-MAIN/.pem
 
      ls /c/Users/user/Downloads
-
+```
    61  ls /c/Users/user/.ssh
    62  cp /c/Users/B1-MAIN/.pem/aws-bastion-key.pem /c/Users/user/.ssh/
    63  cp /c/Users/B1-MAIN/.pem/aws-bastion-key.pem /c/Users/user/.ssh/
@@ -575,4 +575,4 @@ Thumbs.db
   268  git commit -m "feat: 온프레미스(10.10) 기준 글로벌 네트워크 설계 및 다중 가용영역 기반 하이브리드 인프라 구축 완료"
   269  git push origin main
   270  history
-
+```
