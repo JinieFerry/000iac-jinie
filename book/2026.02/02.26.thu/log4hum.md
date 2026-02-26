@@ -530,3 +530,69 @@ aws ec2 describe-addresses \
 (5) EKS 확인
 <img width="1330" height="417" alt="image" src="https://github.com/user-attachments/assets/7b61a4cc-8ee1-4f29-901d-937ea4727fcb" />
 
+=============
+내일 실습 준비
+
+1. 키페어 생성 : 0227-aws-bastion-key
+<img width="368" height="142" alt="image" src="https://github.com/user-attachments/assets/96ad0854-2d1b-49a9-995d-1c0a367d5dec" />
+
+콘솔에서 EC2 → 키 페어 → “키 페어 생성”
+
+이름: 0227-bastion-key
+
+키 페어 유형: RSA
+
+프라이빗 키 형식: .pem
+
+생성하면 .pem 파일 바로 다운로드 B1-MAIN/.ssh에 저장
+<img width="368" height="142" alt="image" src="https://github.com/user-attachments/assets/938b3803-068d-4fb2-98b4-b058b474fcb1" />
+
+2. Bastion EC2 생성 (t3.micro)
+
+EC2 → 인스턴스 → 인스턴스 시작
+
+기본 설정
+
+이름: 0227-bastion
+
+AMI: Ubuntu 22.04 (권장)
+
+인스턴스 유형: t3.micro
+
+키 페어
+
+방금 만든 0227-bastion-key 선택
+
+네트워크
+
+퍼블릭 IP 자동 할당: 활성화
+
+보안 그룹:
+
+SSH (22)
+
+소스: 내 IP (My IP 선택)
+
+스토리지
+
+기본 8GB 유지
+
+→ 인스턴스 시작
+
+3. 퍼블릭 IP 확인
+
+EC2 → 인스턴스 → 0227-bastion 선택
+
+Public IPv4 주소 복사
+
+4. SSH 접속 (Xshell)
++ Host: 퍼블릭 IP
++ User: ubuntu
++ Authentication: Private Key
++ Key 파일: 0227-bastion-key.pem
++ 접속 성공하면 `whoami` ubuntu 나오면 성공
+<img width="969" height="1032" alt="image" src="https://github.com/user-attachments/assets/b8ad93e7-a0fe-4ab3-bce4-2106f663d220" />
+
+인스턴스 상태가 실행중이면 성공
+<img width="1229" height="340" alt="image" src="https://github.com/user-attachments/assets/f482bb1f-c011-4f7c-b70c-78a942364041" />
++ public Ipv4 복사해서 ssh
