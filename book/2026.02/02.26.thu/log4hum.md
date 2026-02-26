@@ -281,9 +281,9 @@ aws configure list
 + EIP
 + LoadBalancer 생성 추가 과금
 
-## 3-1. EKS 클러스터 생성 (eksctl)
+## 3-1. EKS 클러스터 생성 (eksctl) <- EKS Managed NodeGroup은 프리티어로 설치 할 수 없어서 삭제
 
-(1) eksctl 설치 : t3.medium 사용       
+(0) eksctl 설치 : t3.medium 사용 <- 프리티어로 설치 불가해서 삭제
 15-20분 소요 : CloudFOrmation 스택 자동 생성됨
 ```
 ## 1. EKS 클러스터 생성 (eksctl) # t3.medium사용
@@ -299,7 +299,40 @@ eksctl create cluster \
 --managed
 ```
 
+```
+# 프리티어로 설치 할 수 없어서 삭제
+# 클러스터 완전 삭제
+eksctl delete cluster --name megacluster --region ap-northeast-2
+```
 
+(1) 안전한 버전으로 다시 eksctl 설치
 
+### 설치 전 점검
++ CloudFormation에서 스택 0개인지 확인
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/769ff0e4-1c0a-42cd-ac87-dc3e7c099aa6" />
++ EC2 인스턴스 0개인지 확인
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/fbf07264-2670-4d50-854d-8ef91e9f1409" />
 
++ NAT Gateway 0개인지 CLI로 확인
+콘솔에서는 상태가 Deleted로 떠야 함
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/048271d9-6976-4185-ab3d-c89115731250" />
+
+CLi로 확인 시 State: deleted로 떠야 함
+```
+# 정상 삭제 예시
+ubuntu@ip-172-31-8-161:~$ aws ec2 describe-nat-gateways --region ap-northeast-2 --query "NatGateways[*].{ID:NatGatewayId,State:State}"
+[
+    {
+        "ID": "nat-0db9af5f8dd349ab7",
+        "State": "deleted"
+    }
+]
+```
+
++ Elastic IP 0개인지 확인 : []면 정상
+```
+aws ec2 describe-addresses \
+--region ap-northeast-2 \
+--query "Addresses[*].PublicIp"
+```
 
