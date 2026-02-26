@@ -263,7 +263,7 @@ Terragrunt ✔
 # 3. aws configure 액세스 키 연결하기 = eks 클러스터 만들기 (05.550.0020)
 
 
-## 0. 사전체크
+## 3-0. 사전체크
 ```
 # eks 클러스터 만들기
 ## 0. 사전체크
@@ -274,3 +274,32 @@ aws sts get-caller-identity
 # 기본 리전 확인
 aws configure list
 ```
+
+### EKS 비용 주의 : 실습 끝나면 당일 Destroy
++ NAT Gateway
++ EC2 2대
++ EIP
++ LoadBalancer 생성 추가 과금
+
+## 3-1. EKS 클러스터 생성 (eksctl)
+
+(1) eksctl 설치 : t3.medium 사용       
+15-20분 소요 : CloudFOrmation 스택 자동 생성됨
+```
+## 1. EKS 클러스터 생성 (eksctl) # t3.medium사용
+
+eksctl create cluster \
+--name megacluster \
+--region ap-northeast-2 \
+--nodegroup-name mega-nodegrp \
+--node-type t3.medium \
+--nodes 2 \
+--nodes-min 1 \
+--nodes-max 3 \
+--managed
+```
+
+
+
+
+
