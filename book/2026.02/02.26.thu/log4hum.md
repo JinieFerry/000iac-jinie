@@ -379,10 +379,34 @@ NAME           TYPE           CLUSTER-IP      EXTERNAL-IP                       
 kubernetes     ClusterIP      10.100.0.1      <none>                                                                       443/TCP        15m
 nginx-deploy   LoadBalancer   10.100.18.115   a758158e8bc2447b6beda5091a60bdbf-81816330.ap-northeast-2.elb.amazonaws.com   80:30859/TCP   12s
 ```
-(3) 브라우저 접속 확인 : http://a758158e8bc2447b6beda5091a60bdbf-81816330.ap-northeast-2.elb.amazonaws.com
-+ Nginx 기본 화면 나오면 성공
+(3) 브라우저 접속 확인
+```
+# 
+nslookup a758158e8bc2447b6beda5091a60bdbf-81816330.ap-northeast-2.elb.amazonaws.com
+
+```
+### Nginx 기본 화면 나오면 성공
++ Name으로  : http://a758158e8bc2447b6beda5091a60bdbf-81816330.ap-northeast-2.elb.amazonaws.com
 <img width="854" height="314" alt="image" src="https://github.com/user-attachments/assets/542a727a-49c0-405f-9524-8db73e603e82" />
 
++ Address로 접속확인 : nslookup a758158e8bc2447b6beda5091a60bdbf-81816330.ap-northeast-2.elb.amazonaws.com 명령으로 나온 주소로 확인
++ 3.37.109.17
+<img width="644" height="311" alt="image" src="https://github.com/user-attachments/assets/5a3098f2-0a07-4e2d-93bd-2cbdf6a0abab" />
+
++ 43.203.88.34/
+<img width="645" height="310" alt="image" src="https://github.com/user-attachments/assets/02491f25-f6d5-40b4-a076-5c4ea5513e5b" />
+
+```
+ubuntu@ip-172-31-8-161:~$ nslookup a758158e8bc2447b6beda5091a60bdbf-81816330.ap-northeast-2.elb.amazonaws.com
+Server:		127.0.0.53
+Address:	127.0.0.53#53
+
+Non-authoritative answer:
+Name:	a758158e8bc2447b6beda5091a60bdbf-81816330.ap-northeast-2.elb.amazonaws.com
+Address: 43.203.88.34
+Name:	a758158e8bc2447b6beda5091a60bdbf-81816330.ap-northeast-2.elb.amazonaws.com
+Address: 3.37.109.17
+```
 ## 4. 자동완성기능 설정
 ```
 # 자동 완성 설정
@@ -390,3 +414,7 @@ source <(kubectl completion bash)
 echo 'source <(kubectl completion bash)' >> ~/.bashrc
 source ~/.bashrc
 ```
+## 5. Nuke로 삭제
+
+
+
