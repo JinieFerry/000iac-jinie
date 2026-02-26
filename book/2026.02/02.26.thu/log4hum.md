@@ -260,3 +260,15 @@ Terraform ✔
 
 Terragrunt ✔
 
+# eks 클러스터 만들기
+05.550.0020
+
+## 0. 사전체크
+```
+   54  # eks 클러스터 만들기
+   55  ## 0. 사전체크
+   56  # aws 로그인 확인
+   57  aws sts get-caller-identity
+   58  # 기본 리전 확인
+   59  aws configure list
+```
