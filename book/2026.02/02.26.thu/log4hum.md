@@ -1,6 +1,6 @@
 # 2026.02.26.thu
 
-# Bastion 서버 만들기 
+# Bastion 서버 만들기 (05.250.0010/0015/0025)
 
 <img width="527" height="909" alt="image" src="https://github.com/user-attachments/assets/59795b7c-765d-4fd5-91e7-a9eb35ea866f" />
 
@@ -190,7 +190,7 @@ sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 
 # 공식 리포지토리 추가
 echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
-https://apt.releases.hashicorp.com $(lsb_release -cs) main" |
+https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
 
 # 이것도 > 뜨면 입력하면 됨
 sudo tee /etc/apt/sources.list.d/hashicorp.list
@@ -260,15 +260,17 @@ Terraform ✔
 
 Terragrunt ✔
 
-# eks 클러스터 만들기
-05.550.0020
+# 3. aws configure 액세스 키 연결하기 = eks 클러스터 만들기 (05.550.0020)
+
 
 ## 0. 사전체크
 ```
-   54  # eks 클러스터 만들기
-   55  ## 0. 사전체크
-   56  # aws 로그인 확인
-   57  aws sts get-caller-identity
-   58  # 기본 리전 확인
-   59  aws configure list
+# eks 클러스터 만들기
+## 0. 사전체크
+
+# aws 로그인 확인
+aws sts get-caller-identity
+
+# 기본 리전 확인
+aws configure list
 ```
