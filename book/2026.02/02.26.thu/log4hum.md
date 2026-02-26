@@ -61,6 +61,7 @@
 ### (2) csv 파일에서 액세스 아이디와 비밀 액세스 키 복사해서 입력
 <img width="643" height="106" alt="image" src="https://github.com/user-attachments/assets/ec3c4b27-adb0-453c-93a2-da9a12fcd630" />
 <img width="1200" height="700" alt="image" src="https://github.com/user-attachments/assets/91211303-1e3f-44b1-9f29-b8aa63ea9923" />
+
 ```
 # aws configure
 aws configure
@@ -73,6 +74,7 @@ aws configure
  # 확인
  aws sts get-caller-identity
 ```
+
 ### aws sts 확인 결과 : 성공 <- 따라치는 거 아님 예시로 보라고
 
 ```
@@ -87,58 +89,64 @@ aws configure
 ## 2. kubectl 설치
 
 ```
-   19  # kubectl 설치
-   20  curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.34.2/2025-11-13/bin/linux/amd64/kubectl
-   21  chmod +x kubectl
-   22  mkdir -p $HOME/bin
-   23  mv kubectl $HOME/bin/
-   24  echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
-   25  source ~/.bashrc
-   26  # 확인
-   27  kubectl version --client
+# kubectl 설치
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.34.2/2025-11-13/bin/linux/amd64/kubectl
+chmod +x kubectl
 
-   28  # 단축어 설정
-   29  alias k='kubectl'
-   33  echo "alias k='kubectl'" >> ~/.bashrc
-   34  source ~/.bashrc
+mkdir -p $HOME/bin
+mv kubectl $HOME/bin/
+echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+# 확인
+kubectl version --client
 
-   36  # 단축어 적용
-   37  source ~/.bashrc
-   38  # 단축어 확인
-   39  k version --client
+# 단축어 설정
+alias k='kubectl'
+echo "alias k='kubectl'" >> ~/.bashrc
+source ~/.bashrc
+
+# 단축어 적용
+source ~/.bashrc
+# 단축어 확인
+k version --client
 # 버전 나오면 성공
 ```
 
 ## 3. eksctl설치
-```
-   40  # eksctl 설치
-   41  ARCH=amd64
-   42  PLATFORM=$(uname -s)_$ARCH
-   43  curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_${PLATFORM}.tar.gz"
-   44  tar -xzf eksctl_${PLATFORM}.tar.gz -C /tmp
-   45  sudo install -m 0755 /tmp/eksctl /usr/local/bin
 
-   46  # eksctl 설치 확인
-   47  ekstctl version
-   48  eksctl version
 ```
+# eksctl 설치
+ARCH=amd64
+PLATFORM=$(uname -s)_$ARCH
+curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_${PLATFORM}.tar.gz"
+
+tar -xzf eksctl_${PLATFORM}.tar.gz -C /tmp
+
+sudo install -m 0755 /tmp/eksctl /usr/local/bin
+
+# eksctl 설치 확인
+ekstctl version
+eksctl version
+```
+
 ## 4. 도커 설치
+
 ```
-   51  ## 4. 도커 설치
+# 기존 도커 제거
+sudo apt-get remove docker docker-engine docker.io containerd runc
 
-   52  # 기존 도커 제거
-   53  sudo apt-get remove docker docker-engine docker.io containerd runc
+# 필수 패키지 설치
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl gnupg
 
-   54  # 필수 패키지 설치
-   55  sudo apt-get update
-   56  sudo apt-get install -y ca-certificates curl gnupg
+# 도커 공식 GPG 키 등록
+sudo install -m 0755 -d /etc/apt/keyrings
 
-   58  # 도커 공식 GPG 키 등록
-   59  sudo install -m 0755 -d /etc/apt/keyrings
-   60  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-   61  sudo chmod a+r /etc/apt/keyrings/docker.gpg
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
-   62  # 공식 리포지토리 추가
-   63  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+# 공식 리포지토리 추가
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
 $(. /etc/os-release && echo $VERSION_CODENAME) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
