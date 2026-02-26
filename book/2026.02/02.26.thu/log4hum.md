@@ -149,4 +149,100 @@ sudo chmod a+r /etc/apt/keyrings/docker.gpg
 # 공식 리포지토리 추가
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
 $(. /etc/os-release && echo $VERSION_CODENAME) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# 도커 엔진 설치
+sudo apt-get update
+
+# 설치 시간 소요
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# sudo 명령어 없이 작업 할 수 있도록 권한 설정
+# 도커 그룹 생성
+sudo groupadd docker
+# 이미 전에 권한 설정해두면 메시지 뜸: groupadd: group 'docker' already exists
+# 이미 이전 실습에서 했으면 메시지 떠도 정상
+
+# 현재 로그인 한 사용자 $USER를 docker그룹에 추가
+sudo usermod -aG docker $USER
+
+# 변경된 그룹 권한을 현재 셀에 즉시 정용
+newgrp docker
+
+# 도커 엔진 확인 : sudo 안치고 실행되면 성공
+docker run hello-world
+
+# Hello from Docker! 뜨면 성공
+# docker run [이미지 이름] [컨네이터 내부에서 실행할 명령]형식으로 작성해야 하니까 그냥 도커 공식 테스트 이미지 사용하기
 ```
+
+## 5. Terraform 설치
+
+```
+# 5. terraform 설치
+# 필수 패키지 설치
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common wget
+
+# HashiCorp 공식 GPG 키 등록
+ wget -O- https://apt.releases.hashicorp.com/gpg |
+
+ # > 뜨면 아래 코드 입력
+sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+
+# 공식 리포지토리 추가
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+https://apt.releases.hashicorp.com $(lsb_release -cs) main" |
+
+# 이것도 > 뜨면 입력하면 됨
+sudo tee /etc/apt/sources.list.d/hashicorp.list
+
+# 테라폼 설치
+sudo apt-get update
+sudo apt-get install terraform
+
+# 버전 확인
+terraform -v
+
+# 자동완성 설정
+terraform -install-autocomplete
+```
+
+## 6. Terragrunt 설치
+
+```
+# Terragrunt 설치
+export TG_VERSION="v0.55.0"
+
+# 다운로드
+wget "https://github.com/gruntwork-io/terragrunt/releases/download/${TG_VERSION}/terragrunt_linux_amd64"
+
+# 실행권한 부여
+chmod +x terragrunt_linux_amd64
+
+# 시스템 경로로 이동
+sudo mv terragrunt_linux_amd64 /usr/local/bin/terragrunt
+
+# 설치 확인
+terragrunt --version
+```
+
+
+### 1~6까지의 단계로 성공 시 상태: IaC + EKS + 컨테이어 제어 노드 완성      
+
+```
+# 최종 확인
+which terraform
+which terragrunt
+which docker
+which kubectl
+```
+AWS CLI ✔
+
+kubectl ✔
+
+eksctl ✔
+
+Docker ✔
+
+Terraform ✔
+
+Terragrunt ✔
