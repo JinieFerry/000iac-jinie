@@ -235,6 +235,19 @@ which terragrunt
 which docker
 which kubectl
 ```
+
+전부 경로 /usr/local/bin 또는 /usr/bin으로 나오면 됨
+```
+# 예시
+ubuntu@ip-172-31-8-161:~$ which terraform
+/usr/bin/terraform
+ubuntu@ip-172-31-8-161:~$ which terragrunt
+/usr/local/bin/terragrunt
+ubuntu@ip-172-31-8-161:~$ which docker
+/usr/bin/docker
+ubuntu@ip-172-31-8-161:~$ which kubectl
+/home/ubuntu/bin/kubectl
+```
 AWS CLI ✔
 
 kubectl ✔
