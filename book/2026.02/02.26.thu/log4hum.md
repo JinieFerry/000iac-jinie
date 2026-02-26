@@ -414,7 +414,46 @@ source <(kubectl completion bash)
 echo 'source <(kubectl completion bash)' >> ~/.bashrc
 source ~/.bashrc
 ```
-## 5. Nuke로 삭제
+## 5. 과금되는 리소스 삭제
+```
+# 지금 남아있는 것 확인
+k get svc
+k get deploy
+k get pods
+
+# nginx 서비스 삭제 (ELB 제거)
+k delete svc nginx-deploy
+# deployment 삭제
+k delete deploy nginx-deploy
+
+# EKS 클러스터 삭제
+eksctl delete cluster --name megacluster --region ap-northeast-2
+
+# EC2 인스턴스 확인
+# running/stopped ,이름 태그, bastion 인지 확인
+
+aws ec2 describe-instances \
+--region ap-northeast-2 \
+--instance-ids i-03a95f1e575a1991f i-0674604c909068c3f \
+--query "Reservations[*].Instances[*].{ID:InstanceId,State:State.Name,Name:Tags[?Key=='Name']|[0].Value,Type:InstanceType}"
+
+# ruuning 중인bastion 종료 시키기
+# bastion 완전 종료 -> 바로 연결 끊김
+aws ec2 terminate-instances \
+--region ap-northeast-2 \
+--instance-ids i-03a95f1e575a1991f
+```
++ ssh연결 끊김
+```
+
+The system will power off now!
+
+Connection closing...Socket close.
+
+Connection closed by foreign host.
+
+Disconnected from remote host(aws-bastion-0226) at 17:22:00.
+```
 
 
 
