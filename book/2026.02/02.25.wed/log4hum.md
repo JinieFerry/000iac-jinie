@@ -215,37 +215,43 @@ inputs = {
 <img width="1309" height="747" alt="image" src="https://github.com/user-attachments/assets/994066ae-6e8f-4529-b8b5-a2ed742555b2" />
 
 ```
-  330  history
-  331  # 실습2 각기 다른 디렉토리로 퍼블릭 인터넷용 1 + 내부용 3
-  332  # 서울 디렉토리 생성
-  333  cd /d/tg/vpcex/live/seoul
-  334  mkdir vpc
-  335  mkdir route-public
-  336  mkdir route-private
-  337  # vpc 디렉토리 기존 terragrunt.hcl 이동
-  338  mv terragrunt.hcl vpc/
-  339  # route-puublic 모듈 분리
-  340  # modules/route-public/main.tf 생성
-  341  ls
-  342  cd ..
-  343  ls
-  344  cd ..
-  345  ls
-  346  cd modules/
-  347  ls
-  348  ls
-  349  pwd
-  350  ls
-  351  mkdir route-public
-  352  cd route-public/
-  353  touch main.tf variable.tf
-  354  mv variable.tf variables.tf
-  355  ls
-  356  # variables.tf 작성
-  357  vi variables.tf
-```
-+ route-public/variables.tf
 
+# 실습2 각기 다른 디렉토리로 퍼블릭 인터넷용 1 + 내부용 3
+# 서울 디렉토리 생성
+cd /d/tg/vpcex/live/seoul
+mkdir vpc
+mkdir route-public
+mkdir route-private
+
+# vpc 디렉토리 기존 terragrunt.hcl 이동
+mv terragrunt.hcl vpc/
+
+# route-puublic 모듈 분리
+# modules/route-public/main.tf 생성
+# 해당 디랙토리로 이동
+ls
+cd ..
+ls
+cd ..
+ls
+cd modules/
+pwd
+ls
+
+# route-public 디렉토리 생성
+mkdir route-public
+
+# main.ft , variable.tf 작성
+cd route-public/
+touch main.tf variable.tf
+mv variable.tf variables.tf
+ls
+
+# variables.tf 작성
+vi variables.tf
+```
+
++ route-public/variables.tf
 
 ```
 variable "vpc_id" {}
@@ -253,12 +259,13 @@ variable "subnet_id" {}
 variable "region" {}
 variable "name" {}
 ```
-```
-  359  # main.tf 작성
-  360  vi main.tf
-```
-  + route-public/main.tf
 
+```
+# main.tf 작성
+vi main.tf
+```
+
++ route-public/main.tf
 
 ```
 provider "aws" {
@@ -288,28 +295,31 @@ resource "aws_route_table_association" "public_assoc" {
 }
 ```
 ```
+# route-private 몯퓰 생성
+cd ..
+ls
 
-  361  cd ..
-  362  ls
-  # route-private 몯퓰 생성
-  363  mkdir route-private
-  364  cd route-private
-  365  ls
-  366  touch main.tf variables.tf
-  367  ls
-  368  # variables.tf 작성
-  369  vi variables.tf
+mkdir route-private
+cd route-private
+ls
+
+touch main.tf variables.tf
+ls
+
+# variables.tf 작성
+vi variables.tf
 ```
-  + route-private/variables.tf
-
+ + route-private/variables.tf
 ```
 variable "vpc_id" {}
 variable "subnet_ids" {}
 variable "region" {}
 variable "name" {}
 ```
-  370  # main.tf 작성
-  371  vi main.tf
+```
+# main.tf 작성
+vi main.tf
+```
 + route-private/main.tf
 ```
 provider "aws" {
@@ -332,12 +342,13 @@ resource "aws_route_table_association" "private_assoc" {
 }
 ```
 ```
-  372  # vpc 모듈에서 output 빼기
-  373  # modules.vpc로 이동
-  374  cd /d/tg/vpcex/modules/vpc
-  375  # outputs.tf 생성
-  376  touch outputs.tf
-  377  vi outputs.tf
+# vpc 모듈에서 output 빼기
+# modules.vpc로 이동
+cd /d/tg/vpcex/modules/vpc
+
+# outputs.tf 생성
+touch outputs.tf
+vi outputs.tf
 ```
   + output.tf
 ```
@@ -358,21 +369,25 @@ output "private_subnet_ids" {
 }
 ```
 ```
-  378  # subnet_10 : 퍼블릭 , subnet_20/30/40 : 프라이빗
-  379  # live/seoul 구조 분리
-  380  cd /d/tg/vpcex/live
-  381  ls
-  382  cd seoul/
-  383  # 서울 구조 확인
-  384  pwd
-  385  ls -R
-  386  # route-public 설정
-  387  cd route-public/
-  388  ls
-  389  # terragrunt.hcl 작성
-  390  touch terragrunt.hcl
-  391  vi terrgrunt.hcl
+# subnet_10 : 퍼블릭 , subnet_20/30/40 : 프라이빗
+# live/seoul 구조 분리
+cd /d/tg/vpcex/live
+ ls
+
+# 서울 구조 확인
+cd seoul/
+pwd
+ls -R # tree 구조로 확인
+
+# route-public 설정
+cd route-public/
+ls
+
+# terragrunt.hcl 작성
+touch terragrunt.hcl
+vi terrgrunt.hcl
 ```
+
   + vpc/terragrunt.hcl
 ```
 terraform {
@@ -386,11 +401,11 @@ inputs = {
 }
 ```
 ```
-  392  # route-private 설정
-  393  cd ../route-private
-  394  # terragrunt.hcl 작성
-  395  touch terragrunt.hcl
-  398  vi terragrunt.hcl
+# route-private 설정
+ cd ../route-private
+# terragrunt.hcl 작성
+touch terragrunt.hcl
+vi terragrunt.hcl
 ```
   + route-public/terragrunt.hcl
 ```
@@ -410,19 +425,19 @@ inputs = {
 }
 ```
 ```
-  402  cd route-public/
-  407  # vpc/terragrunt.hcl에서 output 실제로 나오고 있는지 확인
-  408  cd ..
-  409  ls
-  410  cd ..
-  411  ls
-  412  cd ..
-  413  ls
-  414  cd modules/
-  415  ls
-  416  cd vpc/
-  417  ls
-  418  vi outputs.tf
+cd route-public/
+# vpc/terragrunt.hcl에서 output 실제로 나오고 있는지 확인
+cd ..
+ls
+cd ..
+ls
+cd ..
+ls
+cd modules/
+ls
+cd vpc/
+ls
+vi outputs.tf
 ```
   + /d/tg/vpcex/modules/vpc/output.tf
 ```
@@ -443,54 +458,66 @@ output "private_subnet_ids" {
 }
 ```
 ```
-  478  # live/seoul 루트에 예전 .terragrunt-cache나 terraform.tfstate 남아있는지 확인
-  479  cd /d/tg/vpcex/live/seoul
-  480  ls -a
-  481  user@DESKTOP-5AFO9PS MINGW64 /d/tg/vpcex/live/seoul
-  482  $ # live/seoul 루트에 예전 .terragrunt-cache나 terraform.tfstate 남아있는지 확인
-  483  ]
-  484  user@DESKTOP-5AFO9PS MINGW64 /d/tg/vpcex/live/seoul
-  485  $ cd /d/tg/vpcex/live/seoul
-  486  user@DESKTOP-5AFO9PS MINGW64 /d/tg/vpcex/live/seoul
-  487  $ ls -a
-  488  ./  ../  .terraform.lock.hcl  .terragrunt-cache/  route-private/  route-public/  vpc/
-  489  aws ec2 describe-vpcs --region ap-northeast-2 --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
-  490  aws ec2 describe-subnets   --region ap-northeast-2   --filters "Name=vpc-id,Values=vpc-0a2b1b262ef421122"   --query "Subnets[*].SubnetId"
-  491  # seoul VPC ID 확인
-  492  aws ec2 describe-vpcs --region ap-northeast-2 --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
-  493  # seoukl Subnet 확인
-  494  aws ec2 describe-subnets   --region ap-northeast-2   --filters "Name=vpc-id,Values=vpc-0a2b1b262ef421122"   --query "Subnets[*].SubnetId"
-  495  # 서울 기존 서브넷 하나씩 삭제
-  496  aws ec2 delete-subnet --subnet-id subnet-0d58285edea403c10 --region ap-northeast-2
-  497  aws ec2 delete-subnet --subnet-id subnet-05cfa652b9781cdfd --region ap-northeast-2
-  498  aws ec2 delete-subnet --subnet-id subnet-0e9c65dde29930cec --region ap-northeast-2
-  499  aws ec2 delete-subnet --subnet-id subnet-0e7d05ef75fe57e17 --region ap-northeast-2
-  500  # vpc에 붙어있는 인터넷 게이트웨이 있는지 확인
-  501  aws ec2 describe-internet-gateways   --region ap-northeast-2   --filters "Name=attachment.vpc-id,Values=vpc-0a2b1b262ef421122"   --query "InternetGateways[*].InternetGatewayId"
-  502  # [] 안이 비어있으면 IGW 없는 것
-  503  # 서올vpc에는 아직 lGW가 붙어있지 않으므로 VPC 삭제
-  504  aws ec2 delete-vpc   --vpc-id vpc-0a2b1b262ef421122   --region ap-northeast-2
-  505  # vpc 삭제 확인
-  506  aws ec2 describe-vpcs   --region ap-northeast-2   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
-  507  # 서울 새구조로 vpc 생성
-  508  cd /d/tg/vpcex/live/seoul/vpc
-  509  ls
-  510  terragrunt apply
-  511  pwd
-  512  # public route 생성
-  513  cd ../route-public
-  514  terragrunt apply
-  515  # private route생성
-  516  cd ../route-private
-  517  terragrunt apply
-  518  # VPC 확인
-  519  aws ec2 describe-vpcs   --region ap-northeast-2   --filters "Name=cidr,Values=10.200.0.0/16"   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock}"
-  520  # IGW 붙었는지 확인
-  521  aws ec2 describe-internet-gateways   --region ap-northeast-2   --filters "Name=attachment.vpc-id,Values=vpc-0ed0901557c9b37b8"   --query "InternetGateways[*].InternetGatewayId"
-  522  # 라우팅 테이블 확인
-  523  aws ec2 describe-route-tables   --region ap-northeast-2   --filters "Name=vpc-id,Values=vpc-0ed0901557c9b37b8"   --query "RouteTables[*].{ID:RouteTableId,Routes:Routes[*].DestinationCidrBlock}"
-  524  # public subnet이 IGW 타는지 확인
-  525  aws ec2 describe-route-tables   --region ap-northeast-2   --filters "Name=association.subnet-id,Values=subnet-0b73b6fa2bd65abcd"
+# live/seoul 루트에 예전 .terragrunt-cache나 terraform.tfstate 남아있는지 확인
+cd /d/tg/vpcex/live/seoul
+ls -a
+user@DESKTOP-5AFO9PS MINGW64 /d/tg/vpcex/live/seoul
+
+# live/seoul 루트에 예전 .terragrunt-cache나 terraform.tfstate 남아있는지 확인
+ cd /d/tg/vpcex/live/seoul
+ls -a
+```
+```
+# 안에 남아있는 것 확인되면 진행
+./  ../  .terraform.lock.hcl  .terragrunt-cache/  route-private/  route-public/  vpc/
+
+# seoul VPC ID 확인
+aws ec2 describe-vpcs --region ap-northeast-2 --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
+
+# seoukl Subnet 확인
+aws ec2 describe-subnets   --region ap-northeast-2   --filters "Name=vpc-id,Values=vpc-0a2b1b262ef421122"   --query "Subnets[*].SubnetId"
+
+# 서울 기존 서브넷 하나씩 삭제
+aws ec2 delete-subnet --subnet-id subnet-0d58285edea403c10 --region ap-northeast-2
+aws ec2 delete-subnet --subnet-id subnet-05cfa652b9781cdfd --region ap-northeast-2
+aws ec2 delete-subnet --subnet-id subnet-0e9c65dde29930cec --region ap-northeast-2
+aws ec2 delete-subnet --subnet-id subnet-0e7d05ef75fe57e17 --region ap-northeast-2
+
+# vpc에 붙어있는 인터넷 게이트웨이 있는지 확인
+aws ec2 describe-internet-gateways   --region ap-northeast-2   --filters "Name=attachment.vpc-id,Values=vpc-0a2b1b262ef421122"   --query "InternetGateways[*].InternetGatewayId"
+
+# [] 안이 비어있으면 IGW 없는 것
+# 서올vpc에는 아직 lGW가 붙어있지 않으므로 VPC 삭제
+aws ec2 delete-vpc   --vpc-id vpc-0a2b1b262ef421122   --region ap-northeast-2
+
+# vpc 삭제 확인
+aws ec2 describe-vpcs   --region ap-northeast-2   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
+
+# 서울 새구조로 vpc 생성
+cd /d/tg/vpcex/live/seoul/vpc
+ls
+terragrunt apply
+pwd
+
+# public route 생성
+cd ../route-public
+terragrunt apply
+
+# private route생성
+cd ../route-private
+terragrunt apply
+
+# VPC 확인
+aws ec2 describe-vpcs   --region ap-northeast-2   --filters "Name=cidr,Values=10.200.0.0/16"   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock}"
+
+# IGW 붙었는지 확인
+aws ec2 describe-internet-gateways   --region ap-northeast-2   --filters "Name=attachment.vpc-id,Values=vpc-0ed0901557c9b37b8"   --query "InternetGateways[*].InternetGatewayId"
+
+# 라우팅 테이블 확인
+aws ec2 describe-route-tables   --region ap-northeast-2   --filters "Name=vpc-id,Values=vpc-0ed0901557c9b37b8"   --query "RouteTables[*].{ID:RouteTableId,Routes:Routes[*].DestinationCidrBlock}"
+
+# public subnet이 IGW 타는지 확인
+aws ec2 describe-route-tables   --region ap-northeast-2   --filters "Name=association.subnet-id,Values=subnet-0b73b6fa2bd65abcd"
 ```
 
 ## 2-2. 버지니아 새 구조 성공 :
@@ -498,123 +525,124 @@ output "private_subnet_ids" {
 <img width="1311" height="747" alt="image" src="https://github.com/user-attachments/assets/b6a6ca61-8086-42c4-8987-051f0aed3f52" />
 
 ```
-  528  # 기존 버지니아 VPC 삭제
-  529  # 버지니아 vpc 조회
-  530  aws ec2 describe-vpcs   --region us-east-1   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
-  531  # 버지니아 기존 서브넷 삭제
-  532  aws ec2 describe-subnets   --region us-east-1   --filters "Name=vpc-id,Values=vpc-xxxx"
-  533  aws ec2 delete-subnet --subnet-id subnet-xxxx --region us-east-1
-  534  # errored
-  535  # 버지니아 기존 서브넷 조회
-  536  aws ec2 describe-subnets   --region us-east-1   --filters "Name=vpc-id,Values=vpc-0ebe76aa930b4411c"   --query "Subnets[*].SubnetId"
-  537  # 버지니아 기존 서브넷 삭제
-  538  aws ec2 delete-subnet --subnet-id subnet-016da3e0a3d99f660 --region us-east-1
-  539  aws ec2 delete-subnet --subnet-id subnet-0b90b9af3a9512302 --region us-east-1
-  540  aws ec2 delete-subnet --subnet-id subnet-0ea3b001491aa4e20 --region us-east-1
-  541  aws ec2 delete-subnet --subnet-id subnet-00d2f41850b094fbb --region us-east-1
-  542  # 버지니아 IGW 확인
-  543  aws ec2 describe-internet-gateways   --region us-east-1   --filters "Name=attachment.vpc-id,Values=vpc-0ebe76aa930b4411c"   --query "InternetGateways[*].InternetGatewayId"
-  544  # IGW 없으므로 버지니아 기존 vpc 삭제
-  545  aws ec2 delete-vpc   --vpc-id vpc-0ebe76aa930b4411c   --region us-east-1
-  546  # 삭제 확인
-  547  aws ec2 describe-vpcs   --region us-east-1   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
-  548  cd /d/tg/vpcex/live/virginia/vpc
-  549  cd ..
-  550  cd /d/tg/vpcex/live/virginia/vpc
-  551  cd ..
-  552  ls
-  553  cd virginia/
-  554  ls
-  555  cd ..
-  556  ls
-  557  cd ..
-  558  ls
-  559  cd live/
-  560  pwd
-  561  ls
-  562  cd virginia/
-  563  ls
-  564  ls
-  565  # 버지니아 새 구조 생성
-  566  pwd
-  567  mkdir vpc
-  568  mkdir route-public
-  569  mkdir route-private
-  570  ls
-  571  cp /d/tg/vpcex/live/seoul/vpc/terragrunt.hcl vpc/
-  572  cp /d/tg/vpcex/live/seoul/route-public/terragrunt.hcl route-public/
-  573  cp /d/tg/vpcex/live/seoul/route-private/terragrunt.hcl route-private/
-  574  # 리전 수정
-  575  # 서울의 파일을 복사해왔으므로 리전 수정
-  576  # ap-northeast-2 (서울) => us-est-1 (버지니아)
-  577  # krs => krp
-  578  # vpc 리전 수정
-  579  cd /d/tg/vpcex/live/virginia/vpc
-  580  vi terragrunt.hcl
-  581  vi terragrunt.hcl
-  582  # 서울과 겹치지않도록 CIDR 수정
-  583  vi terragrunt.hcl
-  584  # vpc_cidr = "10.210.0.0/16" , subnet_base = "10.210"
-  585  # route-public 수정
-  586  cd ../route-public
-  587  vi terragrunt.hcl
-  588  # /ap-northeast-2  => "us-east-1" , /krs => /krp 로 수정
-  589  # route-private 수정
-  590  cd ../route-private
-  591  vi terragrunt.hcl
-  592  # 수정 확인
-  593  grep region terragrunt.hcl
-  594  grep name terragrunt.hcl
-  595  cd ..
-  596  ls
-  597  cd vpc/
-  598  ls
-  599  vi terragrunt.hcl
-  600  # 버지니아 새 구조vpc생성
-  601  terragrunt apply
-  602  # 퍼블릭 라우트
-  603  cd ../route-public
-  604  terragrunt apply
-  605  # 프라이빗 라우트
-  606  cd ../route-private
-  607  terragrunt apply
-  608  aws ec2 describe-vpcs   --region us-east-1   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
-  609  history
+# 기존 버지니아 VPC 삭제
+# 버지니아 vpc 조회
+aws ec2 describe-vpcs   --region us-east-1   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
+
+# 버지니아 기존 서브넷 조회
+aws ec2 describe-subnets   --region us-east-1   --filters "Name=vpc-id,Values=vpc-0ebe76aa930b4411c"   --query "Subnets[*].SubnetId"
+
+# 버지니아 기존 서브넷 모두 삭제
+aws ec2 delete-subnet --subnet-id subnet-016da3e0a3d99f660 --region us-east-1
+aws ec2 delete-subnet --subnet-id subnet-0b90b9af3a9512302 --region us-east-1
+aws ec2 delete-subnet --subnet-id subnet-0ea3b001491aa4e20 --region us-east-1
+aws ec2 delete-subnet --subnet-id subnet-00d2f41850b094fbb --region us-east-1
+
+ # 버지니아 IGW 확인
+aws ec2 describe-internet-gateways   --region us-east-1   --filters "Name=attachment.vpc-id,Values=vpc-0ebe76aa930b4411c"   --query "InternetGateways[*].InternetGatewayId"
+
+# IGW 없으므로 버지니아 기존 vpc 삭제
+aws ec2 delete-vpc   --vpc-id vpc-0ebe76aa930b4411c   --region us-east-1
+
+# 삭제 확인
+aws ec2 describe-vpcs   --region us-east-1   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
+
+# 버지니아 새 구조 생성
+pwd
+mkdir vpc
+mkdir route-public
+mkdir route-private
+ls
+
+# 서울 그대로 가져와서 사용
+cp /d/tg/vpcex/live/seoul/vpc/terragrunt.hcl vpc/
+cp /d/tg/vpcex/live/seoul/route-public/terragrunt.hcl route-public/
+cp /d/tg/vpcex/live/seoul/route-private/terragrunt.hcl route-private/
+
+# 리전 수정
+# 서울의 파일을 복사해왔으므로 리전 수정
+# ap-northeast-2 (서울) => us-est-1 (버지니아)
+# krs => krp
+
+# vpc 리전 수정
+cd /d/tg/vpcex/live/virginia/vpc
+vi terragrunt.hcl
+vi terragrunt.hcl
+
+# 서울과 겹치지않도록 CIDR 수정
+vi terragrunt.hcl
+
+# vpc_cidr = "10.210.0.0/16" , subnet_base = "10.210"
+# route-public 수정
+cd ../route-public
+vi terragrunt.hcl
+
+# /ap-northeast-2  => "us-east-1" , /krs => /krp 로 수정
+# route-private 수정
+cd ../route-private
+vi terragrunt.hcl
+
+# 수정 확인
+grep region terragrunt.hcl
+grep name terragrunt.hcl
+cd ..
+ls
+cd vpc/
+ls
+vi terragrunt.hcl
+
+# 버지니아 새 구조vpc생성
+terragrunt apply
+
+# 퍼블릭 라우트
+cd ../route-public
+terragrunt apply
+
+# 프라이빗 라우트
+cd ../route-private
+terragrunt apply
+aws ec2 describe-vpcs   --region us-east-1   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
 ```
 
 ## 3-2. 유럽 : 파리 새 구조 성공
 <img width="1472" height="825" alt="image" src="https://github.com/user-attachments/assets/59ac9e9b-0c21-42c1-b425-1c01d0510a2b" />
 
 ```
-  610  # 파리 새구조
-  611  # 파리 현재 상태 확인 : 기존 vpc 있는지
-  612  aws ec2 describe-vpcs   --region eu-central-1   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
-  613  # 파리 디렉토리로 이동
-  614  cd /d/tg/vpcex/live/europe
-  615  # 디렉토리 생성
-  616  ls
-  617  mkdir vpc
-  618  mkdir route-public
-  619  mkdir route-private
-  620  ls
-  621  # 서울 설정 복사
-  622  user@DESKTOP-5AFO9PS MINGW64 /d/tg/vpcex/live/virginia/route-private
-  623  $ # 파리 새구조
-  624  user@DESKTOP-5AFO9PS MINGW64 /d/tg/vpcex/live/virginia/route-private
-  625  $ # 파리 현재 상태 확인 : 기존 vpc 있는지
-  626  user@DESKTOP-5AFO9PS MINGW64 /d/tg/vpcex/live/virginia/route-private
-  627  $ aws ec2 describe-vpcs   --region eu-west-3   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
-  628  [
-  629      {         "ID": "vpc-0c1654f46ffd84056",;         "CIDR": "172.31.0.0/16",;         "Name": null;     }
-  630  ]
-  631  cp /d/tg/vpcex/live/seoul/vpc/terragrunt.hcl vpc/
-  632  cp /d/tg/vpcex/live/seoul/route-public/terragrunt.hcl route-public/
-  633  cp /d/tg/vpcex/live/seoul/route-private/terragrunt.hcl route-private/
-  634  # 서울의 설정 복사해왔으므로 리전 파리로 수정
-  637  ls
-  638  cd vpc/
-  639  ls
-  640  vi terragrunt.hcl
+ # 파리 새구조
+# 파리 현재 상태 확인 : 기존 vpc 있는지
+aws ec2 describe-vpcs   --region eu-central-1   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
+
+# 파리 디렉토리로 이동
+cd /d/tg/vpcex/live/europe
+
+# 디렉토리 생성
+mkdir vpc
+mkdir route-public
+mkdir route-private
+
+# 서울 설정 복사
+user@DESKTOP-5AFO9PS MINGW64 /d/tg/vpcex/live/virginia/route-private
+
+# 파리 새구조
+user@DESKTOP-5AFO9PS MINGW64 /d/tg/vpcex/live/virginia/route-private
+
+# 파리 현재 상태 확인 : 기존 vpc 있는지
+user@DESKTOP-5AFO9PS MINGW64 /d/tg/vpcex/live/virginia/route-private
+$ aws ec2 describe-vpcs   --region eu-west-3   --query "Vpcs[*].{ID:VpcId,CIDR:CidrBlock,Name:Tags[?Key=='Name']|[0].Value}"
+    [
+        {         "ID": "vpc-0c1654f46ffd84056",;         "CIDR": "172.31.0.0/16",;         "Name": null;     }
+    ]
+
+# 서울 그대로 카피해서 사용
+cp /d/tg/vpcex/live/seoul/vpc/terragrunt.hcl vpc/
+cp /d/tg/vpcex/live/seoul/route-public/terragrunt.hcl route-public/
+cp /d/tg/vpcex/live/seoul/route-private/terragrunt.hcl route-private/
+
+# 서울의 설정 복사해왔으므로 리전 파리로 수정
+ls
+cd vpc/
+ls
+vi terragrunt.hcl
 ```
   + vpc/terragrunt.hcl
 ```
@@ -626,74 +654,81 @@ inputs = {
 }
 ```
 ```
-  641  cd ../route-public
-  642  # route-public 리전 수정
-  643  ls
-  644  vi terragrunt.hcl
+cd ../route-public
+
+# route-public 리전 수정
+ls
+vi terragrunt.hcl
 ```
 + route-public/terragrunt.hcl
 ```
 region = "eu-west-3"
 name   = "krp"
 ```
-  645  cd ../route-private
-  646  ls
-  647  vi terragrunt.hcl
-
+```
+cd ../route-private
+ls
+vi terragrunt.hcl
+```
 + route-private
 ```
 region = "eu-west-3"
 name   = "krp"
 ```
 ```
-  648  # route쪽 체크
-  649  cd /d/tg/vpcex/live/europe/route-public
-  650  grep region terragrunt.hcl
-  651  grep name terragrunt.hcl
-  652  cd ../route-private
-  653  grep region terragrunt.hcl
-  654  grep name terragrunt.hcl
-  655  # 파리는 vpc_name = "krp-vpc", vpc_cidr = "10.230.0.0/16" , subnet_base = ""10.230 , region = "eu-west-3"이면 정상
+# route쪽 체크
+cd /d/tg/vpcex/live/europe/route-public
+grep region terragrunt.hcl
+grep name terragrunt.hcl
+cd ../route-private
+grep region terragrunt.hcl
+grep name terragrunt.hcl
 
-  692  # 파리  apply
-  693  # vpc
-  694  cd vpc
-  695  cd ..
-  696  ls
-  697  cd vpc/
-  698  terragrunt apply
-  699  cd ../route-public
-  700  # 퍼블릭 라우트
-  701  cd ../route-public
-  702  terragrunt apply
-  703  # 프라이빗 라우트
-  704  cd ../route-private
-  705  terragrunt apply
+# 파리는 vpc_name = "krp-vpc", vpc_cidr = "10.230.0.0/16" , subnet_base = ""10.230 , region = "eu-west-3"이면 정상
+
+# 파리  apply
+ # vpc
+cd vpc
+cd ..
+ls
+cd vpc/
+terragrunt apply
+cd ../route-public
+
+# 퍼블릭 라우트
+cd ../route-public
+terragrunt apply
+
+# 프라이빗 라우트
+cd ../route-private
+terragrunt apply
   
-  706  # 파리 확인
-  707  aws ec2 describe-route-tables   --region eu-west-3   --filters "Name=vpc-id,Values=vpc-066a8e960413307c4"   --query "RouteTables[*].{ID:RouteTableId,Routes:Routes[*].DestinationCidrBlock}"
+# 파리 확인
+aws ec2 describe-route-tables   --region eu-west-3   --filters "Name=vpc-id,Values=vpc-066a8e960413307c4"   --query "RouteTables[*].{ID:RouteTableId,Routes:Routes[*].DestinationCidrBlock}"
 ```
 
   # 세 리전 모두 확인
 ```
-  709  cd ../live
-  710  cd ..
-  711  cd ..
-  712  ls
-  713  cd europe/
-  714  ls
-  715  aws ec2 describe-route-tables   --region <region>   --filters "Name=vpc-id,Values=<vpc-id>"   --query "RouteTables[*].{RT:RouteTableId,Routes:Routes[*].GatewayId}"
-  716  # 파리 리전 확인
-  717  aws ec2 describe-route-tables   --region us-east-1   --filters "Name=vpc-id,Values=vpc-05793db4815fe041c"   --query "RouteTables[*].{RT:RouteTableId,Routes:Routes[*].GatewayId}"
-  718  cd ..
-  719  ls
-  720  cd seoul/
-  721  # 서울 리전 확인
-  722  aws ec2 describe-route-tables   --region ap-northeast-2   --filters "Name=vpc-id,Values=vpc-0ed0901557c9b37b8"   --query "RouteTables[*].{RT:RouteTableId,Routes:Routes[*].GatewayId}"
-  723  # 버지니아 리전 확인
-  724  cd ../virginia
-  725  aws ec2 describe-route-tables   --region us-east-1   --filters "Name=vpc-id,Values=vpc-05793db4815fe041c"   --query "RouteTables[*].{RT:RouteTableId,Routes:Routes[*].GatewayId}"
-  726  history
+cd ../live
+cd ..
+cd europe/
+ls
+aws ec2 describe-route-tables   --region <region>   --filters "Name=vpc-id,Values=<vpc-id>"   --query "RouteTables[*].{RT:RouteTableId,Routes:Routes[*].GatewayId}"
+
+# 파리 리전 확인
+aws ec2 describe-route-tables   --region us-east-1   --filters "Name=vpc-id,Values=vpc-05793db4815fe041c"   --query "RouteTables[*].{RT:RouteTableId,Routes:Routes[*].GatewayId}"
+cd ..
+ls
+
+
+# 서울 리전 확인
+cd seoul/
+
+aws ec2 describe-route-tables   --region ap-northeast-2   --filters "Name=vpc-id,Values=vpc-0ed0901557c9b37b8"   --query "RouteTables[*].{RT:RouteTableId,Routes:Routes[*].GatewayId}"
+
+# 버지니아 리전 확인
+ cd ../virginia
+aws ec2 describe-route-tables   --region us-east-1   --filters "Name=vpc-id,Values=vpc-05793db4815fe041c"   --query "RouteTables[*].{RT:RouteTableId,Routes:Routes[*].GatewayId}"
 ```
 
 ## 콘솔에서 보이는 세 리전의 라우팅 형식 달라보이지만 구조를 도식화하면 세 리전 모두 동일함
@@ -781,53 +816,51 @@ Pod (Backend / Frontend)
 ```
   ## EKS 실습 시작
   ```
-  728  # 서울 네트워크 살아있는지 확인
-  729  aws ec2 describe-nat-gateways   --region ap-northeast-2
-  730  # NAT Gateway없으므로 서울 네트워크 다시 배포
-  731  ## EKS 실습 시작
-  732  # 서울 vpc 다시 확정
-  733  ls
-  734  cd ..
-  735  ls
-  736  cd ~
-  737  ls
-  738  cd /d
-  739  ls
-  740  cd awskr01/
-  741  ls
-  742  # /d/awskr01/terragrunt.hcl이 최상위 ROOT HCL 임
-  743  cd infrastructure/live/020-spokes/ap-northeast-2/network
-  744  ls
-  745  # terragrunt.hcl 보여야 정상
-  746  # 내용 확인
-  747  cat terragrunt.hcl
-  748  # EKS + LBC 가 동작하기 위해 서브넷에 있어야 하는 태그 포함시켜 파일 수정
-  749  cd /d/awskr01/infrastructure/modules/aws-network-spoke/main.tf
-  750  cd /d
-  751  cd /awskr01/infrastructure/modules/aws-network-spoke/main.tf
-  752  ls
-  753  cd awskr01/
-  754  l
-  755  ls
-  756  cd infrastructure/
-  757  ls
-  758  cd modules/
-  759  ls
-  760  cd aws-network-spoke/
-  761  ls
-  762  vi main.tf
-  763  cd /d/awskr01/infrastructure/live/020-spokes/ap-northeast-2/network
-  764  terragrunt apply
-  765  # vpc apply
-  766  # 적용 후 확인
-  767  aws ec2 describe-subnets   --region ap-northeast-2   --query "Subnets[*].{ID:SubnetId,Tags:Tags}"
+# 서울 네트워크 살아있는지 확인
+aws ec2 describe-nat-gateways   --region ap-northeast-2
+# NAT Gateway없으므로 서울 네트워크 다시 배포
+## EKS 실습 시작
+
+# 서울 vpc 다시 확정
+cd awskr01/
+ls
+
+# /d/awskr01/terragrunt.hcl이 최상위 ROOT HCL 임
+cd infrastructure/live/020-spokes/ap-northeast-2/network
+ls
+
+# terragrunt.hcl 보여야 정상
+# 내용 확인
+cat terragrunt.hcl
+
+# EKS + LBC 가 동작하기 위해 서브넷에 있어야 하는 태그 포함시켜 파일 수정
+cd /d/awskr01/infrastructure/modules/aws-network-spoke/main.tf
+cd /d
+cd /awskr01/infrastructure/modules/aws-network-spoke/main.tf
+ls
+
+cd awskr01/
+ls
+cd infrastructure/
+ls
+cd modules/
+ls
+cd aws-network-spoke/
+ls
+vi main.tf
+cd /d/awskr01/infrastructure/live/020-spokes/ap-northeast-2/network
+terragrunt apply
+
+# vpc apply
+# 적용 후 확인
+aws ec2 describe-subnets   --region ap-northeast-2   --query "Subnets[*].{ID:SubnetId,Tags:Tags}"
 ```
-    # 2026.02.25.수 수업 종료로 destroy
+# 2026.02.25.수 수업 종료로 destroy
   ```
-  769  cd /d/awskr01/infrastructure/live/020-spokes/ap-northeast-2/network
-  770  terragrunt destroy
-  771  aws ec2 describe-nat-gateways --region ap-northeast-2
-  772  history
+cd /d/awskr01/infrastructure/live/020-spokes/ap-northeast-2/network
+ terragrunt destroy
+aws ec2 describe-nat-gateways --region ap-northeast-2
+history
   ```
 
 ### 내일 2026.02.26.thu 부터 05.500.0315 들어감
