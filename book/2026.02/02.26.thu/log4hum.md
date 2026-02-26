@@ -443,9 +443,8 @@ aws ec2 terminate-instances \
 --region ap-northeast-2 \
 --instance-ids i-03a95f1e575a1991f
 ```
-+ ssh연결 끊김
++ ssh연결 끊는 메시지 뜨면 성공
 ```
-
 The system will power off now!
 
 Connection closing...Socket close.
@@ -454,6 +453,64 @@ Connection closed by foreign host.
 
 Disconnected from remote host(aws-bastion-0226) at 17:22:00.
 ```
++ 연결 바로 끊김
+<img width="760" height="893" alt="image" src="https://github.com/user-attachments/assets/3c95f8fd-8325-46eb-b798-9aff7727e206" />
 
++ 이제 서버가 없으니까 AWS CloudShell이나 로컬 PC에서 AWS CLI 실행해서 과금 상태 확인
+<img width="776" height="720" alt="image" src="https://github.com/user-attachments/assets/47149fbf-a172-468a-8cdf-e01cf0384d6a" />
+```
+# EC2 인스턴스 확인
+aws ec2 describe-instances \
+> --region ap-northeast-2 \
+> --query "Reservations[*].Instances[*].{ID:InstanceId,State:State.Name}"
+
+# 결과 모두 terminated 뜨면 과금 없음
+[
+    [
+        {
+            "ID": "i-03a95f1e575a1991f",
+            "State": "terminated"
+        }
+    ],
+    [
+        {
+            "ID": "i-0674604c909068c3f",
+            "State": "terminated"
+        }
+    ]
+]
+
+# NAT Gatewasy 확인
+aws ec2 describe-nat-gateways \
+> --region ap-northeast-2 \
+> --query "NatGateways[*].State"
+
+# 결과 : deleted 뜨면 과금 없음
+[
+    "deleted"
+]
+
+# Load Balancer 확인
+aws elbv2 describe-load-balancers \
+> --region ap-northeast-2 \
+> --query "LoadBalancers[*].State.Code"
+
+# 결과 : []로 비어있으면 과금 없음
+[]
+# 한번 더 확인
+aws elb describe-load-balancers --region ap-northeast-2
+
+# 결과 : []로 비어있으면 과금 없음
+{
+    "LoadBalancerDescriptions": []
+}
+
+# Elastic IP 확인
+aws ec2 describe-addresses \
+> --region ap-northeast-2 \
+> --query "Addresses[*].PublicIp"
+
+# 결과 : []로 나오면 과금 없음
+[]
 
 
