@@ -458,6 +458,7 @@ Disconnected from remote host(aws-bastion-0226) at 17:22:00.
 
 + 이제 서버가 없으니까 AWS CloudShell이나 로컬 PC에서 AWS CLI 실행해서 과금 상태 확인
 <img width="776" height="720" alt="image" src="https://github.com/user-attachments/assets/47149fbf-a172-468a-8cdf-e01cf0384d6a" />
+
 ```
 # EC2 인스턴스 확인
 aws ec2 describe-instances \
@@ -512,5 +513,20 @@ aws ec2 describe-addresses \
 
 # 결과 : []로 나오면 과금 없음
 []
+```
++ 콘솔에서 직접 확인
+(1) EC2 모두 인스턴트 상태 : 종료됨
+<img width="1328" height="270" alt="image" src="https://github.com/user-attachments/assets/a6444b71-352b-4afc-835b-546303cfad37" />
 
+(2) Nat Gateway 확인 (가장 중요)
+<img width="1059" height="186" alt="image" src="https://github.com/user-attachments/assets/39683d2e-c554-40f1-b2b3-d6bea8eed3db" />
+
+(3) Load Balancer 확인
+<img width="1334" height="601" alt="image" src="https://github.com/user-attachments/assets/9b09deb8-bd06-46f1-8847-096db1e91fa0" />
+
+(4) Elastic IP 확인
+<img width="1331" height="285" alt="image" src="https://github.com/user-attachments/assets/1d7321e8-d04c-4c7d-99a2-66ae0517238d" />
+
+(5) EKS 확인
+<img width="1330" height="417" alt="image" src="https://github.com/user-attachments/assets/7b61a4cc-8ee1-4f29-901d-937ea4727fcb" />
 
