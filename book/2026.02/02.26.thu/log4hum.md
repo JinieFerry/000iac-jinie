@@ -305,7 +305,7 @@ eksctl create cluster \
 eksctl delete cluster --name megacluster --region ap-northeast-2
 ```
 
-(1) 안전한 버전으로 다시 eksctl 설치
+(0) 안전한 버전으로 다시 eksctl 설치 전 삭제 잘 했는지 확인
 
 ### 설치 전 점검
 + CloudFormation에서 스택 0개인지 확인
@@ -335,4 +335,19 @@ aws ec2 describe-addresses \
 --region ap-northeast-2 \
 --query "Addresses[*].PublicIp"
 ```
+
+(1) 안전한 버전으로 다시 eksctl 클러스터 설치 : t3.small
+```
+# 안전한 버전으로 eksctl 클러스터 다시 만들기
+eksctl create cluster --name megacluster --region ap-northeast-2 --nodegroup-name mega-nodegrp --node-type t3.small --nodes 1 --managed
+
+# 정상 작동 확인
+k get nodes -o wide
+```
++ READY 뜨면 정상
+```
+  NAME                                                STATUS   ROLES    AGE     VERSION               INTERNAL-IP      EXTERNAL-IP   OS-IMAGE                        KERNEL-VERSION                   CONTAINER-RUNTIME
+ip-192-168-31-241.ap-northeast-2.compute.internal   Ready    <none>   3m24s   v1.34.4-eks-efcacff   192.168.31.241   3.35.132.11   Amazon Linux 2023.10.20260216   6.12.68-92.122.amzn2023.x86_64   containerd://2.1.5
+```
+
 
