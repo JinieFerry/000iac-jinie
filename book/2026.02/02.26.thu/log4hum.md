@@ -349,5 +349,44 @@ k get nodes -o wide
   NAME                                                STATUS   ROLES    AGE     VERSION               INTERNAL-IP      EXTERNAL-IP   OS-IMAGE                        KERNEL-VERSION                   CONTAINER-RUNTIME
 ip-192-168-31-241.ap-northeast-2.compute.internal   Ready    <none>   3m24s   v1.34.4-eks-efcacff   192.168.31.241   3.35.132.11   Amazon Linux 2023.10.20260216   6.12.68-92.122.amzn2023.x86_64   containerd://2.1.5
 ```
+(2) Nginx 배포
+```
+# Nginx 배포
+kubectl create deployment nginx-deploy --image=nginx --replicas=2
+# 배포 성공 메시지 deployment.apps/nginx-deploy created
 
+# 확인
+k get pods -o wide
+```
++ pods 확인 결과
+```
+NAME                            READY   STATUS    RESTARTS   AGE   IP               NODE                                                NOMINATED NODE   READINESS GATES
+nginx-deploy-6f47956ff4-k8snt   1/1     Running   0          16s   192.168.27.181   ip-192-168-31-241.ap-northeast-2.compute.internal   <none>           <none>
+nginx-deploy-6f47956ff4-l5gjx   1/1     Running   0          16s   192.168.12.86    ip-192-168-31-241.ap-northeast-2.compute.internal   <none>           <none>
+```
 
+```
+# LoadBalancer Service 생성
+kubectl expose deployment nginx-deploy --port=80 --type=LoadBalancer
+service/nginx-deploy exposed
+
+# 확인
+k get svc
+```
++ svc 확인 결과
+```
+NAME           TYPE           CLUSTER-IP      EXTERNAL-IP                                                                  PORT(S)        AGE
+kubernetes     ClusterIP      10.100.0.1      <none>                                                                       443/TCP        15m
+nginx-deploy   LoadBalancer   10.100.18.115   a758158e8bc2447b6beda5091a60bdbf-81816330.ap-northeast-2.elb.amazonaws.com   80:30859/TCP   12s
+```
+(3) 브라우저 접속 확인 : http://a758158e8bc2447b6beda5091a60bdbf-81816330.ap-northeast-2.elb.amazonaws.com
++ Nginx 기본 화면 나오면 성공
+<img width="854" height="314" alt="image" src="https://github.com/user-attachments/assets/542a727a-49c0-405f-9524-8db73e603e82" />
+
+## 4. 자동완성기능 설정
+```
+# 자동 완성 설정
+source <(kubectl completion bash)
+echo 'source <(kubectl completion bash)' >> ~/.bashrc
+source ~/.bashrc
+```
