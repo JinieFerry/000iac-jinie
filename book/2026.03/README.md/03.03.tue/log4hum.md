@@ -144,10 +144,10 @@ cat <<EOF > /var/www/html/index.html
 <!DOCTYPE html>
 <html>
 <head>
-<title>My Server</title>
+<title>KJJ- art Server</title>
 </head>
 <body>
-<h1>Hello Ferry</h1>
+<h1>Hello, one rock, bokdang, boksun, bokchi . I am your hyung. </h1>
 <p>This is my EC2 server.</p>
 </body>
 </html>
