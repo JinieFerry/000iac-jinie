@@ -102,7 +102,13 @@ VPC A ↔ VPC B 사이에 “선은 연결되었지만 라우팅 테이블에 �
 <img width="793" height="470" alt="image" src="https://github.com/user-attachments/assets/0331f18a-1593-4547-87d3-af7bed75aabf" />
 
 ## 04. 0303-vpc-b 라우팅 테이블 수정 : b에서 a로 가는 길도 성공 = 이제 양방향 a <-> b
+
 (0) 콘솔 이동: vpc > 라우팅 테이블 > rtb-047e89560d9036e7e (위에서 확인한 라우팅 테이블 중 수락자  0303-vpc-b의 라우팅 테이블)
+<img width="1002" height="440" alt="image" src="https://github.com/user-attachments/assets/87f1bbd3-5ef4-4192-ba17-943faaee2f95" />
+
+(1) 라우팅 추가: 10.20.0.0/16만 있는 상태 -> 목적지 : 10.10.0.0/16 & 대상 : pcx-046fc5c1bb85b9ea2 추가
+<img width="995" height="224" alt="image" src="https://github.com/user-attachments/assets/9c032053-c8ee-4973-94fb-db5ee804ed00" />
+
 
 ## 후이즈 & 가비아 회원가입 : 
 + 후이즈 입력 후 회원가입 요청 -> 회원가입 완료
