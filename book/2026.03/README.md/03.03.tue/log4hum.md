@@ -187,3 +187,13 @@ EOF
 <img width="744" height="116" alt="image" src="https://github.com/user-attachments/assets/29ffbc14-a704-4b31-9f61-50efbea1fbfd" />
 <img width="881" height="831" alt="image" src="https://github.com/user-attachments/assets/f03fdcbc-e88b-461a-8db3-1c9c43b3a31c" />
 
++ 신청 내역 출력 (선택)
+<img width="696" height="660" alt="image" src="https://github.com/user-attachments/assets/f0305687-398f-4b64-a11a-e7a249c00fe5" />
+
++ A 레코드 생성 
+<img width="991" height="582" alt="image" src="https://github.com/user-attachments/assets/4c81a68b-1de6-498c-bf72-6438a6cb8b4f" />
+<img width="995" height="685" alt="image" src="https://github.com/user-attachments/assets/66ff841e-1227-4330-8d9f-9b830fd72fa6" />
+<img width="1911" height="647" alt="image" src="https://github.com/user-attachments/assets/dc6ee84d-2a6f-4131-9f5f-9e591794d217" />
+
+## 브라우저 접속 성공
+<img width="960" height="1034" alt="image" src="https://github.com/user-attachments/assets/425ec098-188e-46cc-b9b1-fc83f0153bdb" />
