@@ -103,3 +103,9 @@ VPC A ↔ VPC B 사이에 “선은 연결되었지만 라우팅 테이블에 �
 
 ## 04. 0303-vpc-b 라우팅 테이블 수정 : b에서 a로 가는 길도 성공 = 이제 양방향 a <-> b
 (0) 콘솔 이동: vpc > 라우팅 테이블 > rtb-047e89560d9036e7e (위에서 확인한 라우팅 테이블 중 수락자  0303-vpc-b의 라우팅 테이블)
+
+## 후이즈 & 가비아 회원가입 : 
++ 후이즈 입력 후 회원가입 요청 -> 회원가입 완료
+<img width="914" height="825" alt="image" src="https://github.com/user-attachments/assets/1f8958ab-f984-4bbf-be3d-3dc27333180c" />
+<img width="886" height="887" alt="image" src="https://github.com/user-attachments/assets/96243eec-289b-4889-a067-a91c0b7762ae" />
+
