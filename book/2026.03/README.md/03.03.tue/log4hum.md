@@ -283,3 +283,12 @@ A 레코드 먼저 삭제해야 호스팅 영역 삭제 됨
 + 탄력적 IP (Elastic IP) 없음
 <img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/82397bc3-3b18-44a4-af74-c9d72987d3fd" />
 
+---
+추가적으로 확인
+
++ EC2 > Elastic Block Store > 볼륨 없는지 확인
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/1d2f88bc-9d5c-4b43-9038-de5c7d2f421e" />
+
++ Nat Gateway 없는지 확인
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/09738795-5979-48af-b33d-e6ea3921c6ec" />
+
