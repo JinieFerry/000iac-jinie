@@ -115,3 +115,75 @@ VPC A ↔ VPC B 사이에 “선은 연결되었지만 라우팅 테이블에 �
 <img width="914" height="825" alt="image" src="https://github.com/user-attachments/assets/1f8958ab-f984-4bbf-be3d-3dc27333180c" />
 <img width="886" height="887" alt="image" src="https://github.com/user-attachments/assets/96243eec-289b-4889-a067-a91c0b7762ae" />
 
+## 05. EC2 인스턴스 생성
+1. 인스턴스 시작
+
+AMI: Ubuntu or Amazon Linux
+
+인스턴스 유형: t3.micro
+
+VPC: 기본 VPC 써도 됨
+
+퍼블릭 IP 자동 할당: 켜기
+
+보안그룹:
+
+SSH (22) → 내 IP
+
+HTTP (80) → 0.0.0.0/0 
+
++ 사용자 데이터 추가
+```
+#!/bin/bash
+apt update -y
+apt install nginx -y
+systemctl start nginx
+systemctl enable nginx
+
+cat <<EOF > /var/www/html/index.html
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Server</title>
+</head>
+<body>
+<h1>Hello Ferry</h1>
+<p>This is my EC2 server.</p>
+</body>
+</html>
+EOF
+```
+<img width="475" height="440" alt="image" src="https://github.com/user-attachments/assets/3601c434-d3ea-4910-b7fb-f1c015e372a2" />
+<img width="999" height="815" alt="image" src="https://github.com/user-attachments/assets/d3fe0bd9-d9a3-47c2-ade5-36257edbaf97" />
+<img width="643" height="812" alt="image" src="https://github.com/user-attachments/assets/c8aea9a4-796e-4c71-81dd-f91f8d4f5e15" />
+<img width="611" height="381" alt="image" src="https://github.com/user-attachments/assets/73b63a35-9d0d-4975-a296-7c7ef759890f" />
+
++ 인스턴스 시작   
+<img width="1898" height="198" alt="image" src="https://github.com/user-attachments/assets/a08e02c8-7900-4472-8a73-955c3dedfb68" />
+
++ 보안그룹에서 인바운드 규칙에 http 80 포트 추가
+인스턴스 생성에서 자동 생성된 launch-wizard-1 
+<img width="711" height="292" alt="image" src="https://github.com/user-attachments/assets/be9bcac9-ce7f-4744-878e-2bd4fac77081" />
+
++ 인바운드 규칙 추가 : HTTP 80 Anywhere-IPv4-0.0.0.0/0
+<img width="938" height="201" alt="image" src="https://github.com/user-attachments/assets/bd1dc61e-d3bf-4ba5-bb58-6a7689fcbeee" />
+
++ 브라우저 접속 성공 : http://100.48.90.46
+<img width="918" height="240" alt="image" src="https://github.com/user-attachments/assets/61796dc1-62e3-4de0-927d-3c4d866e0360" />
+
+### Route 53 : 호스트 존 생성
++  aws > route 53 호스트 영역 생성
+<img width="965" height="520" alt="image" src="https://github.com/user-attachments/assets/52c803da-efd0-43dd-8cb4-37b5af961d54" />
++ Gabia에서 구매한 frash.com 호스팅 영역 생성
+<img width="1439" height="793" alt="image" src="https://github.com/user-attachments/assets/466c5425-f210-455e-874b-e6a98334e02d" />
+<img width="1443" height="616" alt="image" src="https://github.com/user-attachments/assets/c2fd8ad6-e4dc-40f4-ae40-0991df087efc" />
+
+### Gabia :  생성한 호스트 영역 타사네임서버 사용으로 추가
++ 1년으로 신청
+<img width="795" height="421" alt="image" src="https://github.com/user-attachments/assets/fceedcc1-bc78-4d8e-9e4d-4d3f9c7bd16b" />
+<img width="1092" height="940" alt="image" src="https://github.com/user-attachments/assets/ca08368c-163d-4fd4-887f-09bb90e121fc" />
+
++ 타사 네임 서버 사용 : route 53에서 자동으로 생성한 호스트영역 4개의 서버 마지막의 . 제거하고 붙여넣기     
+<img width="744" height="116" alt="image" src="https://github.com/user-attachments/assets/29ffbc14-a704-4b31-9f61-50efbea1fbfd" />
+<img width="881" height="831" alt="image" src="https://github.com/user-attachments/assets/f03fdcbc-e88b-461a-8db3-1c9c43b3a31c" />
+
