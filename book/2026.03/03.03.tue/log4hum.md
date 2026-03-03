@@ -65,5 +65,13 @@ VPC → RDS 생성 → S3에 SQL 업로드 → RDS에 데이터 넣기 → 보�
 - pending-acceptance → accept
 - 상태: Active
 
-+ 상태: 수락 대기 중 -> 
++ 상태: 수락 대기 중 (직접 요청 수락) -> 활성
 <img width="1717" height="176" alt="image" src="https://github.com/user-attachments/assets/d724a91f-de08-4f01-bacd-9c434eebd913" />
+
++ 직접 작업 > 요청 수락
+<img width="803" height="94" alt="image" src="https://github.com/user-attachments/assets/37607e1c-3c6a-4374-8277-fce861ed5889" />
+<img width="808" height="689" alt="image" src="https://github.com/user-attachments/assets/d9289c43-e5b4-4d7f-9948-31314b66548f" />
+
++ 활성 상태
+<img width="801" height="699" alt="image" src="https://github.com/user-attachments/assets/cd5d9132-9a72-4a53-aecf-19bedda57cd5" />
+<img width="1724" height="129" alt="image" src="https://github.com/user-attachments/assets/35ab7a7c-8cea-4fa4-a66f-8a2f526aec71" />
