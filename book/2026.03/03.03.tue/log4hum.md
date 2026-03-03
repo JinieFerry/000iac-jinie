@@ -41,7 +41,7 @@ VPC → RDS 생성 → S3에 SQL 업로드 → RDS에 데이터 넣기 → 보�
 (0) 콘솔 이동 : VPC → 피어링 연결 → 피어링 연결 생성     
 
 (1) Peering 생성 : 0303-vpc-a-b-peer (0303-vpc-a와b의 양방향 peering)
-+ 설정값
+### 설정값
 
 이름: 0303-peer-a-b
 
