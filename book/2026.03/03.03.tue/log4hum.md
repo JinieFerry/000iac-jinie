@@ -36,3 +36,34 @@ VPC → RDS 생성 → S3에 SQL 업로드 → RDS에 데이터 넣기 → 보�
 
 + 0303-vpc-b 라우팅 테이블 : rtb-047e89560d9036e7e
 + <img width="996" height="690" alt="image" src="https://github.com/user-attachments/assets/d0daab4f-83ad-48b3-9d8f-062ab66ebf0a" />
+
+## 2. VPC Peering 연결 생성
+(0) 콘솔 이동 : VPC → 피어링 연결 → 피어링 연결 생성     
+
+(1) Peering 생성 : 0303-vpc-a-b-peer (0303-vpc-a와b의 양방향 peering)
++ 설정값
+
+이름: 0303-peer-a-b
+
+요청 VPC: 0303-vpc-a
+
+계정: 같은 계정
+
+리전: 같은 리전 (us-east-1)
+
+수락 VPC: 0303-vpc-b
+
+(2) CIDR 안 겹침 확인
+
+10.10.0.0/16
+
+10.20.0.0/16
+
+→ 문제 없음 => 생성 클릭
+
+(3) Peering 상태 확인
+- pending-acceptance → accept
+- 상태: Active
+
++ 상태: 수락 대기 중 -> 
+<img width="1717" height="176" alt="image" src="https://github.com/user-attachments/assets/d724a91f-de08-4f01-bacd-9c434eebd913" />
