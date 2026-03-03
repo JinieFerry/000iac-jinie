@@ -197,3 +197,89 @@ EOF
 
 ## 브라우저 접속 성공
 <img width="960" height="1034" alt="image" src="https://github.com/user-attachments/assets/425ec098-188e-46cc-b9b1-fc83f0153bdb" />
+
+### 고양이 보기
++ ssh 임시로 0.0.0.0/0으로 모든 접속 허용하기
+<img width="960" height="240" alt="image" src="https://github.com/user-attachments/assets/bcf4391d-77bf-4f53-843b-3bc20b6c7da5" />
+
++ 고양이 코드로 수정: https://us-east-1.console.aws.amazon.com/ec2-instance-connect/ssh/home?region=us-east-1&connType=standard&instanceId=i-0ab2c502aae605cd8&osUser=ubuntu&sshPort=22&addressFamily=ipv4
+
+aws 보안그룹에서 직접 ssh 연결해서 파일 수정 
+```
+sudo nano /var/www/html/index.html
+```
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+<title>KJJ - Art Server</title>
+<style>
+body {
+    background-color: #ffeef5;
+    text-align: center;
+    font-family: monospace;
+}
+pre {
+    font-size: 20px;
+    line-height: 1.2;
+}
+h1 {
+    color: hotpink;
+}
+</style>
+</head>
+<body>
+
+<pre>
+
+      /\_/\              /\_/\
+     ( o   o )          ( o   o )
+     (   =^=   )        (   =^=   )
+      (           )      (           )
+       (  (  )   (  )    (  (  )   (  )
+       (__(__)___(__)_)   (__(__)___(__)_)
+
+</pre>
+
+<h1>Hello one rock, bokdang, boksun, bokchi ! /h1>
+<p>I am your hyung.</p>
+
+</body>
+</html>
+```
+<img width="1004" height="1033" alt="image" src="https://github.com/user-attachments/assets/50c7fcaa-5c4c-4aab-90d7-52af21afaf27" />
+
+
+## 과금 방지 : 삭제하기
+(1) EC2 > 인스턴스 : 인스턴스 삭제
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/ec152f8f-81a2-4e7c-bead-d336821ea009" />
+
+(2) 탄력적 IP: 있으면 삭제
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/c5dd7e84-4ff0-485f-8617-581368bf5886" />
+
+(3) 볼륨 : 있으면 삭제
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/39ae0b5c-4d1b-46ca-a678-c900cf63874d" />
+
+(4) 보안그룹 : 과금 없음 삭제는 선택사항
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/e6dd9abf-5acb-4f1d-9c4c-d3a2057e49e9" />
+
+(5) aws > route53> 호스팅 영역 : A 레코드 삭제
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/a9d51ba6-6f86-4c7c-915b-7a4ace921bc0" />
+
+(6) 호스팅영역 삭제
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/902d6b0a-93ea-4cf0-9b4a-748e5558ebe5" />
+
+A 레코드 먼저 삭제해야 호스팅 영역 삭제 됨
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/2c9f7c49-04b4-4a79-9ab5-6be34710a0f9" />
+
+## 최종 과금 확인
++ EC2 없음
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/6cca2b9a-291e-4836-aab3-e20c1bf25961" />
+
++ 호스트 영역 없음
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/619630e4-313b-4a57-a03c-7cd0decfad27" />
+
++ 탄력적 IP (Elastic IP) 없음
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/82397bc3-3b18-44a4-af74-c9d72987d3fd" />
+
