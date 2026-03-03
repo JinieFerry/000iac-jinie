@@ -75,3 +75,28 @@ VPC → RDS 생성 → S3에 SQL 업로드 → RDS에 데이터 넣기 → 보�
 + 활성 상태
 <img width="801" height="699" alt="image" src="https://github.com/user-attachments/assets/cd5d9132-9a72-4a53-aecf-19bedda57cd5" />
 <img width="1724" height="129" alt="image" src="https://github.com/user-attachments/assets/35ab7a7c-8cea-4fa4-a66f-8a2f526aec71" />
+
+✔ Peering 상태: Active
+✔ CIDR 안 겹침
+✔ 같은 계정 / 같은 리전
+
+
+**"초록 메시지 "라우팅 테이블에 피어링된 VPC에 대한 경로를 추가해야 합니다" =  네트워크 연결선은 깔린 상태**     
+VPC A ↔ VPC B 사이에 “선은 연결되었지만 라우팅 테이블에 경로가 없어 실제 트래픽은 아직 못 감 => 라우팅 테이블 수정해야 함.
+
+## 03. 0303-vpc-a 라우팅 테이블 수정
+(0) 콘솔 이동 : vpc > 라우팅 테이블 > rtb-0b5710fd840ba2e00 (위에서 확인한 라우팅 테이블 중 요청자  0303-vpc-a 라우팅 테이블의 라우팅 테이블)
+<img width="1006" height="479" alt="image" src="https://github.com/user-attachments/assets/b914af10-a730-4565-aaad-c8af84192e4d" />
+
+(1) 라우팅 추가: 10.10.0.0/16만 있는 상태 -> 목적지 : 10.20.0.0/16 & 대상: pcx-046fc5c1bb85b9ea2 추가
++ 라우팅 추가: 10.20.0.0/16
+<img width="982" height="260" alt="image" src="https://github.com/user-attachments/assets/da3c8d61-e4ee-4161-b43b-1281e380a0af" />
+
++ 대상 : 피어링 연결 선택 -> 자동으로 pcx- -> 검색: pcx-046fc5c1bb85b9ea2 선택 -> 변경 사항 저장
+<img width="991" height="478" alt="image" src="https://github.com/user-attachments/assets/29e6ec62-e732-43e4-87bf-633b3f9c66f4" />
+<img width="571" height="218" alt="image" src="https://github.com/user-attachments/assets/61ac986d-c863-40c4-bfc5-dc6d14268f90" />
+<img width="546" height="256" alt="image" src="https://github.com/user-attachments/assets/7b1a18da-a4db-4cfa-b03c-c0548ba9bcc2" />
+<img width="984" height="249" alt="image" src="https://github.com/user-attachments/assets/d1f51100-2e24-44e6-bec8-cac4b07bb0ea" />
+
++ 성공적으로 1개의 라우팅을 생성했습니다. : 10.20.0.0/16
+<img width="793" height="470" alt="image" src="https://github.com/user-attachments/assets/0331f18a-1593-4547-87d3-af7bed75aabf" />
