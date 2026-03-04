@@ -153,7 +153,7 @@
 <img width="725" height="443" alt="image" src="https://github.com/user-attachments/assets/464fb522-0df6-459e-814f-f27e99eac90b" />
 
 ## 6. EC2 생성
-**EC2 -> 인스턴스 시작**
+**EC2 -> 인스턴스 시작**     
 (1) 설정
 + Name : SPK-NGINX-01
 + AMI : Ubuntu
@@ -171,7 +171,7 @@
    + source = 0.0.0.0/0
  
 ## 7. Bastion 서버 생성 (Hub)
-**EC2 -> 인스턴스 시작**
+**EC2 -> 인스턴스 시작**      
 + Name : HUB-BASTION-01
 + 네트워크
   + VPC : 0304-HUB-KR-01
@@ -182,12 +182,12 @@
   + source = 0.0.0.0/0
 
 ## 7. Bastion 접속
-**EC2 -> Bastion -> 연결**
+**EC2 -> Bastion -> 연결**     
 + EC2 Instance Connect  또는 Cloudshell 
   + 접속하면 ubuntu@ip-10-0-30-x으로 뜸
 
 ## 8. Nginx 설치
-**Bastion에서**
+**Bastion에서**    
 + ssh ubuntu@10.10.20.x 접속
 + 업데이트
 ```
@@ -216,7 +216,7 @@ ping 10.10.20.x
     ```
 
 ## 9. HTTP 테스트
-**Bastion에서**
+**Bastion에서**     
 ```
 curl 10.10.20.x
 ```
