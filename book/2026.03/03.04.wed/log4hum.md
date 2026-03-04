@@ -156,9 +156,10 @@
 **EC2 -> 인스턴스 시작**     
 (1) 설정
 + Name : 0304-SPK-NGINX-01
-+ AMI : Ubuntu
-+ Instance type : t3.micro 또는 t4g.micro
-+ 네트워크
++ 애플리케이션 및 OSI : Ubuntu
++ 인스턴스 : t3.micro
++ 키페어 : 0227-aws-bastion-key (기존 키 페어)
++ 네트워크 '편집' 클릭
   + VPC : 0304-SPK-KR-01
   + Subnet : private2 (10.10.20.0/24)
   + Public IP 자동할당 : Disable
@@ -171,7 +172,11 @@
    + source = 0.0.0.0/0
 <img width="902" height="300" alt="image" src="https://github.com/user-attachments/assets/7bd874f4-d72d-4a98-bc84-b97e077e358c" />
 <img width="878" height="716" alt="image" src="https://github.com/user-attachments/assets/afe18a64-d377-4004-b66a-0713adb7565b" />
-
+<img width="1234" height="743" alt="image" src="https://github.com/user-attachments/assets/c648ffa3-e658-4b21-8eb7-07ece860dfd1" />
+<img width="1220" height="731" alt="image" src="https://github.com/user-attachments/assets/74b401da-b14e-4efe-a0d3-466229809ef7" />
+<img width="1218" height="838" alt="image" src="https://github.com/user-attachments/assets/dfe222e0-23bf-4489-a421-96377066758b" />
+<img width="1301" height="828" alt="image" src="https://github.com/user-attachments/assets/cd5413b2-ae6a-4153-88ba-51842956c0db" />
+<img width="1303" height="468" alt="image" src="https://github.com/user-attachments/assets/83a47fed-72af-4758-857a-4ffd9195f726" />
  
 ## 7. Bastion 서버 생성 (Hub)
 **EC2 -> 인스턴스 시작**      
@@ -179,7 +184,7 @@
 + 애플리케이션 및 OSI : Ubuntu
 + 인스턴스 : t3.micro
 + 키페어 : 0227-aws-bastion-key (기존 키 페어)
-+ 네트워크
++ 네트워크 '편집' 클릭
   + VPC : 0304-HUB-KR-01
   + Subnet : private1 (10.0.30.0/24)
 + Public IP : Disable
@@ -187,10 +192,9 @@
   + 이름 : 0304-SPK-NGINX-SG-01
   + SSH : 22
   + source = 0.0.0.0/0
- 
-<img width="1234" height="743" alt="image" src="https://github.com/user-attachments/assets/c648ffa3-e658-4b21-8eb7-07ece860dfd1" />
-<img width="1220" height="731" alt="image" src="https://github.com/user-attachments/assets/74b401da-b14e-4efe-a0d3-466229809ef7" />
-<img width="1218" height="838" alt="image" src="https://github.com/user-attachments/assets/dfe222e0-23bf-4489-a421-96377066758b" />
+<img width="1302" height="852" alt="image" src="https://github.com/user-attachments/assets/399f0554-e352-49bf-8b02-394ee7a796d3" />
+
+
 
 
 ## 7. Bastion 접속
