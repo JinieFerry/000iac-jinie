@@ -186,7 +186,7 @@
 + EC2 Instance Connect  또는 Cloudshell 
   + 접속하면 ubuntu@ip-10-0-30-x으로 뜸
 
-## 8. Nginx 설치
+## 8. Nginx 설치 : NAT 만든 후에 
 **Bastion에서**    
 + ssh ubuntu@10.10.20.x 접속
 + 업데이트
@@ -212,7 +212,7 @@ ping 10.10.20.x
 + ssh ubuntu@10.10.20.x
   + 접속 안되면 키 생성
     ```
-    ssh-keygen
+    ssh -i key.pem ubuntu@10.10.20.x
     ```
 
 ## 9. HTTP 테스트
