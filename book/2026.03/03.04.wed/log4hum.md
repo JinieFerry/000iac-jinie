@@ -70,13 +70,20 @@ VPC → VPC 생성
 
 ## 2. VPCHUB VPC 생성
 VPC → VPC 생성    
-항목값생성할 리소스VPC 등이름VPCHUBIPv4 CIDR10.0.0.0/16가용영역 수2퍼블릭 서브넷 수2프라이빗 서브넷 수2
++ 이름 : 0304-HUB
++ VPCHUBIPv4 CIDR10.0.0.0/16
++ 가용영역 수 2
++ 퍼블릭 서브넷 수 2
++ 프라이빗 서브넷 수 2
 + 10.0.10.0/24
 + 10.0.20.0/24
 + 10.0.30.0/24
 + 10.0.40.0/24
 + NAT 게이트웨이없음VPC 엔드포인트없음   
 + VPC 생성 클릭
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/40e3cf22-7e00-454a-8dbd-73dd26c62e08" />
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/8b6129cd-5bc4-4b3d-9914-287ce98c5db4" />
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/0024850e-a767-4a0f-9f4c-1fd370fc0f46" />
 
 ## 3. Transit Gateway 생성   
 VPC → Transit Gateway → Transit Gateway 생성    
