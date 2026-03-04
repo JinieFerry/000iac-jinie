@@ -161,25 +161,37 @@
 + 네트워크
   + VPC : 0304-SPK-KR-01
   + Subnet : private2 (10.10.20.0/24)
-  + Public IP : Disable
-+ 보안그룹
+  + Public IP 자동할당 : Disable
++ 보안그룹 생성 : 0304-SPK-NGINX-SG-01
   + Inbound
    + SSH 22
    + source = 10.0.0.0/16
 
   + HTTP 80
    + source = 0.0.0.0/0
+<img width="902" height="300" alt="image" src="https://github.com/user-attachments/assets/7bd874f4-d72d-4a98-bc84-b97e077e358c" />
+<img width="878" height="716" alt="image" src="https://github.com/user-attachments/assets/afe18a64-d377-4004-b66a-0713adb7565b" />
+
  
 ## 7. Bastion 서버 생성 (Hub)
 **EC2 -> 인스턴스 시작**      
 + Name : 0304-HUB-BASTION-01
++ 애플리케이션 및 OSI : Ubuntu
++ 인스턴스 : t3.micro
++ 키페어 : 0227-aws-bastion-key (기존 키 페어)
 + 네트워크
   + VPC : 0304-HUB-KR-01
   + Subnet : private1 (10.0.30.0/24)
 + Public IP : Disable
-+ 보안그룹
++ 보안그룹생성
+  + 이름 : 0304-SPK-NGINX-SG-01
   + SSH : 22
   + source = 0.0.0.0/0
+ 
+<img width="1234" height="743" alt="image" src="https://github.com/user-attachments/assets/c648ffa3-e658-4b21-8eb7-07ece860dfd1" />
+<img width="1220" height="731" alt="image" src="https://github.com/user-attachments/assets/74b401da-b14e-4efe-a0d3-466229809ef7" />
+<img width="1218" height="838" alt="image" src="https://github.com/user-attachments/assets/dfe222e0-23bf-4489-a421-96377066758b" />
+
 
 ## 7. Bastion 접속
 **EC2 -> Bastion -> 연결**     
