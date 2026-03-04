@@ -1,6 +1,8 @@
 # 2026.03.04.wed
 
-## 1. 아시아 태평양 (서울) vpc 생성 : SPK
+## 강사님 버전
+
+1. 아시아 태평양 (서울) vpc 생성 : SPK
 
 (1) SPK-01   
 + 가용영역 2
@@ -48,6 +50,43 @@
       \               /
        Transit Gateway (TGWKR)
 ```
+## 1. SPK01 VPC 생성     
+VPC → VPC 생성     
+항목값생성할 리소스VPC 등이름SPK-01IPv4 CIDR10.10.0.0/16가용영역 수2퍼블릭 서브넷 수0 ← 먼저 0으로 설정!프라이빗 서브넷 수2프라이빗 서브넷 CIDR 110.10.10.0/24프라이빗 서브넷 CIDR 210.10.20.0/24NAT 게이트웨이없음VPC 엔드포인트없음   
+
++ VPC 생성 클릭
+
+## 2. VPCHUB VPC 생성
+VPC → VPC 생성    
+항목값생성할 리소스VPC 등이름VPCHUBIPv4 CIDR10.0.0.0/16가용영역 수2퍼블릭 서브넷 수2프라이빗 서브넷 수2NAT 게이트웨이없음VPC 엔드포인트없음   
++ VPC 생성 클릭
+
+## 3. Transit Gateway 생성   
+VPC → Transit Gateway → Transit Gateway 생성    
+항목값이름TGWKRASN비워두기 (기본값)DNS 지원✅VPN ECMP 지원✅기본 라우팅 테이블 연결✅기본 라우팅 테이블 전파✅   
++ 생성 클릭 → 잠깐 기다리기 (Available 될 때까지)    
+
+## 4. Transit Gateway Attachment 2개 생성
+VPC → Transit Gateway 연결 → Attachment 생성    
+첫 번째 (SPK01 연결)    
+항목값이름TGW-SPK01Transit Gateway IDTGWKR 선택연결 유형VPCVPC IDSPK01-vpc 선택서브넷2a, 2b 둘 다 체크    
++ 생성
+두 번째 (HUB 연결)    
+항목값이름TGW-HUBTransit Gateway IDTGWKR 선택연결 유형VPCVPC IDVPCHUB-vpc 선택서브넷2a, 2b 둘 다 체크    
++ 생성 → 둘 다 Available 될 때까지 기다리기    
+
+## 5. 라우팅 테이블 편집   
+SPK01 라우팅 테이블   
+VPC → 라우팅 테이블 → SPK01-rtb-private1 선택 → 라우팅 편집    
+DestinationTarget0.0.0.0/0Transit Gateway → TGWKR    
++ 저장 → SPK01-rtb-private2도 똑같이!     
+VPCHUB 라우팅 테이블    
+VPCHUB-rtb-private1 선택 → 서브넷 연결 편집     
+
++ VPCHUB-subnet-private1 체크
++ VPCHUB-subnet-private2 체크
+
++ 저장
 ## 01. VPC 2개 생성 : 아시아 태평양 (서울)   
 <img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/d005efbb-a288-4a51-b8df-38bd11d9694f" />
 <img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/071b7559-79e8-4c03-b03b-dbe2e1cfc053" />
