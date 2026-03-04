@@ -109,19 +109,22 @@
 + 0304-HUB-KR-01-rtb-private1-ap-northeast-2a 선택
 + 라우팅 편집 클릭
 + 라우팅 추가 클릭
+<img width="1474" height="378" alt="image" src="https://github.com/user-attachments/assets/1b966663-6480-4ed7-aa57-454b5bef224c" />
 
+<img width="1481" height="543" alt="image" src="https://github.com/user-attachments/assets/89b9dda6-fef4-43ec-8a18-5c6a6c544ed5" />
 
 (2) 허브 private2 편집
 + 0304-HUB-KR-01-rtb-private2-ap-northeast-2b 선택     
 + 라우팅 편집 클릭
 + 라우팅 추가 클릭
-
+<img width="1474" height="542" alt="image" src="https://github.com/user-attachments/assets/81f99719-bed9-4a4a-964f-8e35d8961798" />
+<img width="1474" height="542" alt="image" src="https://github.com/user-attachments/assets/411d5011-b256-461d-8a3d-5eb2fe949305" />
 
 (3) spoke private1 편집
 +  0304-SPK-KR-01-rtb-private1-ap-northeast-2a tjsxor
 +  라우팅 편집 클릭
 +  라우팅 추가 클릭
-+ 10.10.0.0/16  0.0.0.0/0 (강사님은 0.0.0.0/16 추천 하지만 gpt는 잘못된 cidr라고 지적해서 다르게 진행함)
++ Destination : 0.0.0.0/0 (강사님은 0.0.0.0/16 추천 하지만 gpt는 잘못된 cidr라고 지적해서 다르게 진행함)
 + Target : Transit Gateway → 0304-TGW-KR-01
 + 변경사항 저장
 <img width="989" height="405" alt="image" src="https://github.com/user-attachments/assets/0cf31dc7-8ec6-4b2b-8f56-d96508c0aadb" />
@@ -221,7 +224,8 @@
 <img width="1473" height="475" alt="image" src="https://github.com/user-attachments/assets/ddfd9527-989e-4e20-8abb-2358d0035243" />
 + 0304-SPK-NGINX-01의 프라이빗 IPv4 주소 확인 : 10.10.20.127
 <img width="1466" height="526" alt="image" src="https://github.com/user-attachments/assets/8034c235-341d-409d-bdbf-96c562e7dcbc" />
-
++ NAT Gateway available 확인
+<img width="1684" height="136" alt="image" src="https://github.com/user-attachments/assets/919f70e9-b3e8-4368-b320-25536ef51831" />
 
 ## 8. Nginx 설치 : NAT 만든 후에 
 **Bastion에서**
@@ -262,24 +266,6 @@ chmod 400 bastion.pem
 
 <img width="1669" height="912" alt="image" src="https://github.com/user-attachments/assets/881e24c2-f58c-43de-8115-20b5717b300e" />
 
-+ nginx 서버 접속
-```
-ssh -i bastion.pem ubuntu@10.10.20.127
-```
-+ nginx 서버 접속 성공 : ubuntu@ip-10-10-20-127
-<img width="1656" height="809" alt="image" src="https://github.com/user-attachments/assets/1cbee3c5-d7bd-4c93-ae26-491609dabd07" />
-
-+ nginx 설치 : 지금 nginx 서버는  SPK Private Subnet 에 있기 때문에 SPK -> Internet 구조가 없다
-  + 구조는 다음과 같다
-
-  ```
-     nginx
-  10.10.20.127
-       ↓
-  10.10.20.1 (subnet gateway)
-       ↓
-  ! Internet 없음 !
-  ```
 (3) HUB NAT Gateway 통해서 인터넷 나가기
 **VPC-> NAT 게이트웨이 -> NAT 게이트웨이 설정**
 + 이름 : 0304-HUB-NAT-01
@@ -293,14 +279,50 @@ ssh -i bastion.pem ubuntu@10.10.20.127
 + SPK 쪽은 라우팅 테이블 프라이빗에 NAT 추가
   + 0304-SPK-KR-01-rtb-private1-ap-northeast-2a
   + 0304-SPK-KR-01-rtb-private2-ap-northeast-2c
++  지금 nginx 서버는  SPK Private Subnet 에 있기 때문에 SPK -> Internet 구조가 없다
+  + 구조는 다음과 같다
+
+  ```
+     nginx
+  10.10.20.127
+       ↓
+  10.10.20.1 (subnet gateway)
+       ↓
+  ! Internet 없음 !
+  ```
+(4) nignx 접속 성공
++ ping 테스트
 ```
+ping 8.8.8.8
+```
++ curl 테스트
+```
+curl ifconfig.me
+```
+<img width="1027" height="866" alt="image" src="https://github.com/user-attachments/assets/ae93944e-40aa-456f-a730-101b305d71cc" />
+
++ nginx 서버 접속
+```
+ssh -i bastion.pem ubuntu@10.10.20.127
+```
++ nginx 서버 접속 성공 : ubuntu@ip-10-10-20-127
+<img width="1656" height="809" alt="image" src="https://github.com/user-attachments/assets/1cbee3c5-d7bd-4c93-ae26-491609dabd07" />
+<img width="432" height="130" alt="image" src="https://github.com/user-attachments/assets/21b57949-18ee-45ae-88c8-096f8831743d" />
+
 # 설치
 sudo apt update
+```
+<img width="1640" height="904" alt="image" src="https://github.com/user-attachments/assets/a2d0a6d3-d6f7-4d1d-8d54-adc7e97151b1" />
+
+```
 sudo apt install nginx -y
+```
+<img width="1069" height="875" alt="image" src="https://github.com/user-attachments/assets/b444657a-c640-41ea-b1ec-b7657f19ca68" />
 
 # 확인
 niginx -v
 ```
+<img width="405" height="118" alt="image" src="https://github.com/user-attachments/assets/34ed1657-6440-4db1-94c5-d15712a44cfe" />
 
 ## 9. HTTP 테스트
 **Bastion에서**     
@@ -311,11 +333,6 @@ curl 10.10.20.x
 
 여기까지 성공하면 통신 성공 , NAT는 과금방지로 아직 생성하지 않음
 ```
-Hub
-   Bastion
-      │
-      │ TGW
-      │
-Spoke
-   Nginx
+<img width="405" height="118" alt="image" src="https://github.com/user-attachments/assets/66bf3197-7430-410a-9b2f-d52e492c07a1" />
+
 ```
