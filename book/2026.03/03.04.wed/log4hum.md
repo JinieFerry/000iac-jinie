@@ -310,9 +310,16 @@ ssh -i bastion.pem ubuntu@10.10.20.127
 <img width="432" height="130" alt="image" src="https://github.com/user-attachments/assets/21b57949-18ee-45ae-88c8-096f8831743d" />
 
 # 설치
+```
 sudo apt update
 ```
 <img width="1640" height="904" alt="image" src="https://github.com/user-attachments/assets/a2d0a6d3-d6f7-4d1d-8d54-adc7e97151b1" />
+
++ 정적 경로 생성
+<img width="1896" height="704" alt="image" src="https://github.com/user-attachments/assets/1963ca3a-a32e-453a-9b46-cfa098205ccb" />
++ 연결 선택 : HUB ATTACHMENT
+<img width="1465" height="517" alt="image" src="https://github.com/user-attachments/assets/10408c0d-8e2f-4325-a740-f2c9a519924d" />
+<img width="1821" height="705" alt="image" src="https://github.com/user-attachments/assets/24cb8041-45f0-4350-af6b-7adda4b93bb3" />
 
 ```
 sudo apt install nginx -y
