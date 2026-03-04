@@ -109,19 +109,19 @@
 + 0304-HUB-KR-01-rtb-private1-ap-northeast-2a 선택
 + 라우팅 편집 클릭
 + 라우팅 추가 클릭
-+ 10.10.0.0/16 (강사님은 0.0.0.0/16 추천 하지만 gpt는 잘못된 cidr라고 지적함 우선 10.10으로 진행함)
++ 10.10.0.0/16  0.0.0.0/0 (강사님은 0.0.0.0/16 추천 하지만 gpt는 잘못된 cidr라고 지적해서 다르게 진행함)
 + Target : Transit Gateway → 0304-TGW-KR-01
 + 변경사항 저장
 <img width="989" height="405" alt="image" src="https://github.com/user-attachments/assets/0cf31dc7-8ec6-4b2b-8f56-d96508c0aadb" />
-<img width="908" height="642" alt="image" src="https://github.com/user-attachments/assets/683a656e-8866-4a52-8c4e-ec7f052ae14b" />
-<img width="732" height="451" alt="image" src="https://github.com/user-attachments/assets/269d68d0-ba95-4bc3-ac96-96f80d029b4d" />
+<img width="1467" height="307" alt="image" src="https://github.com/user-attachments/assets/6c778fa8-af41-4f4d-a41c-6273289e14da" />
+<img width="1471" height="515" alt="image" src="https://github.com/user-attachments/assets/1b3cc7c6-9445-4d78-8e56-a7b08e3afe1a" />
 
 
 (2) 허브 private2 편집
 + 0304-HUB-KR-01-rtb-private2-ap-northeast-2b 선택     
 + 라우팅 편집 클릭
 + 라우팅 추가 클릭
-+ Destination : 10.10.0.0/16 (강사님은 0.0.0.0/16 추천 하지만 gpt는 잘못된 cidr라고 지적함 우선 10.10으로 진행함)
++ Destination : 0.0.0.0/0 (강사님은 0.0.0.0/16 추천 하지만 gpt는 잘못된 cidr라고 지적해서 다르게 진행함)
 + Target : Transit Gateway → 0304-TGW-KR-01
 + 변경사항 저장
 <img width="991" height="372" alt="image" src="https://github.com/user-attachments/assets/233589f8-c474-41a3-9051-6ef7183f00b5" />
@@ -282,7 +282,6 @@ ssh -i bastion.pem ubuntu@10.10.20.127
 + nginx 서버 접속 성공 : ubuntu@ip-10-10-20-127
 <img width="1656" height="809" alt="image" src="https://github.com/user-attachments/assets/1cbee3c5-d7bd-4c93-ae26-491609dabd07" />
 
-
 + nginx 설치 : 지금 nginx 서버는  SPK Private Subnet 에 있기 때문에 SPK -> Internet 구조가 없다
   + 구조는 다음과 같다
 
@@ -295,8 +294,18 @@ ssh -i bastion.pem ubuntu@10.10.20.127
   ! Internet 없음 !
   ```
 (3) HUB NAT Gateway 통해서 인터넷 나가기
- 
+**VPC-> NAT 게이트웨이 -> NAT 게이트웨이 설정**
++ 이름 : 0304-HUB-NAT-01
++ 가용성 모드 " 영역별
++ 서브넷 : 0304-HUB-KR-01-subnet-public1
++ 탄력적 IP (Elastic IP) : 새로 할당
+<img width="1809" height="870" alt="image" src="https://github.com/user-attachments/assets/f3cdc90d-daec-4c6a-bcd8-cce37562c714" />
+<img width="1472" height="508" alt="image" src="https://github.com/user-attachments/assets/daada0af-f3e3-4168-be55-e195e5a20f18" />
 
+**VPC -> 라우팅 테이블**
++ SPK 쪽은 라우팅 테이블 프라이빗에 NAT 추가
+  + 0304-SPK-KR-01-rtb-private1-ap-northeast-2a
+  + 0304-SPK-KR-01-rtb-private2-ap-northeast-2c
 ```
 # 설치
 sudo apt update
