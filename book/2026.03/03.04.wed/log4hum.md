@@ -69,7 +69,8 @@ NAT 게이트웨이없음VPC 엔드포인트없음
 
 ## 3. Transit Gateway 생성   
 VPC → Transit Gateway → Transit Gateway 생성    
-항목값이름TGWKRASN비워두기 (기본값)DNS 지원 VPN ECMP 지원 기본 라우팅 테이블 연결 기본 라우팅 테이블 전파      
++ 이름,설명: 0304-TGW     
++ ASN 비워두기(기본값)     DNS 지원 VPN ECMP 지원 기본 라우팅 테이블 연결 기본 라우팅 테이블 전파      
 + 생성 클릭 → 잠깐 기다리기 (Available 될 때까지)    
 
 ## 4. Transit Gateway Attachment 2개 생성
