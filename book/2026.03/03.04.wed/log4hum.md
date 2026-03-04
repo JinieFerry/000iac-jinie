@@ -285,16 +285,18 @@ ssh -i bastion.pem ubuntu@10.10.20.127
 
 + nginx 설치 : 지금 nginx 서버는  SPK Private Subnet 에 있기 때문에 SPK -> Internet 구조가 없다
   + 구조는 다음과 같다
+
   ```
-  nginx
-10.10.20.127
-   ↓
-10.10.20.1 (subnet gateway)
-   ↓
-! Internet 없음 !
-```
-  + HUB NAT Gateway 통해서 인터넷 나가기
-  + 
+     nginx
+  10.10.20.127
+       ↓
+  10.10.20.1 (subnet gateway)
+       ↓
+  ! Internet 없음 !
+  ```
+(3) HUB NAT Gateway 통해서 인터넷 나가기
+ 
+
 ```
 # 설치
 sudo apt update
