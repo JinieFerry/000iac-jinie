@@ -68,7 +68,7 @@
 
 ## 2. VPCHUB VPC 생성
 **VPC → VPC 생성**    
-+ 이름 : 0304
++ 이름 : 0304-HUB-KR-01
 + VPCHUBIPv4 CIDR10.0.0.0/16
 + 가용영역 수 2
 + 퍼블릭 서브넷 수 2
@@ -79,31 +79,41 @@
 + 10.0.40.0/24
 + NAT 게이트웨이없음VPC 엔드포인트없음   
 + VPC 생성 클릭
-<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/40e3cf22-7e00-454a-8dbd-73dd26c62e08" />
-<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/8b6129cd-5bc4-4b3d-9914-287ce98c5db4" />
-<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/0024850e-a767-4a0f-9f4c-1fd370fc0f46" />
+<img width="1598" height="808" alt="image" src="https://github.com/user-attachments/assets/61bf262e-6f07-4d49-b2b8-d6a0a4fa35c9" />
+<img width="1283" height="842" alt="image" src="https://github.com/user-attachments/assets/3d674e1e-27a0-49b2-a541-ee7a6937c7c8" />
+<img width="1283" height="832" alt="image" src="https://github.com/user-attachments/assets/4a038cfd-fe7b-4e00-b2ce-874233b57019" />
+<img width="1307" height="788" alt="image" src="https://github.com/user-attachments/assets/ca8a5396-db14-4943-b0b4-060fcbf5645b" />
 
 ## 3. Transit Gateway 생성   
 **VPC → Transit Gateway → Transit Gateway 생성**      
-+ 이름,설명: 0304-TGW     
++ 이름,설명: 0304-TGW-KR-01    
 + ASN 비워두기(기본값)
 + DNS 지원 VPN
 + ECMP 지원 기본
 + 라우팅 테이블 연결 기본
 + 라우팅 테이블 전파      
 + 생성 클릭 → 잠깐 기다리기 (Available 될 때까지)
-<img width="999" height="1046" alt="image" src="https://github.com/user-attachments/assets/5aea5c10-e732-48af-b27a-28c317884e5c" />
-<img width="999" height="1046" alt="image" src="https://github.com/user-attachments/assets/92b3e85f-0e87-48a3-a5bb-ec394b9cc9b1" />
-<img width="999" height="1046" alt="image" src="https://github.com/user-attachments/assets/072afcab-d8c0-4d2b-b8cc-52357c233513" />
+<img width="1228" height="851" alt="image" src="https://github.com/user-attachments/assets/d39f5563-30e1-4318-9cc6-b03761066765" />
+<img width="1232" height="342" alt="image" src="https://github.com/user-attachments/assets/82a8a93f-071b-4560-87ab-acf887885b0e" />
+<img width="1225" height="552" alt="image" src="https://github.com/user-attachments/assets/efdadf0c-9929-4021-884a-7cff9969f452" />
 
 ## 4. Transit Gateway Attachment 2개 생성
-VPC → Transit Gateway 연결 → Attachment 생성    
-첫 번째 (SPK01 연결)    
-항목값이름TGW-SPK01Transit Gateway IDTGWKR 선택연결 유형VPCVPC IDSPK01-vpc 선택서브넷2a, 2b 둘 다 체크    
+**VPC → Transit Gateway 연결 → Attachment 생성**      
+(1) 첫 번째 (SPK01 연결)
++ 이름: 0304-TGW-SPK-01
++ Transit Gateway ID: 0304-TGW-KR-01 선택
++ 연결 유형 VPC
++ VPC ID : 0304-SPK-KR-01 선택
++ 서브넷 2 a, 2b 둘 다 체크    
 + 생성
-두 번째 (HUB 연결)    
+(2) 두 번째 (HUB 연결)    
 항목값이름TGW-HUBTransit Gateway IDTGWKR 선택연결 유형VPCVPC IDVPCHUB-vpc 선택서브넷2a, 2b 둘 다 체크    
 + 생성 → 둘 다 Available 될 때까지 기다리기    
+<img width="987" height="550" alt="image" src="https://github.com/user-attachments/assets/4ecfc288-2fb3-4fe8-ac68-8e291bf676fc" />
+<img width="660" height="263" alt="image" src="https://github.com/user-attachments/assets/9ad8e82a-3988-4700-860a-69b4f19dd405" />
+<img width="658" height="262" alt="image" src="https://github.com/user-attachments/assets/8162e950-7f68-4185-9fff-825918cf36c5" />
+<img width="642" height="424" alt="image" src="https://github.com/user-attachments/assets/e7f60180-7ec3-4cc6-8515-c84bec322136" />
+<img width="1222" height="841" alt="image" src="https://github.com/user-attachments/assets/62393d82-977e-48d6-9ba7-a9d15ce05828" />
 
 ## 5. 라우팅 테이블 편집   
 SPK01 라우팅 테이블   
