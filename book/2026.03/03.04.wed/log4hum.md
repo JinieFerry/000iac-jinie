@@ -52,9 +52,21 @@
 ```
 ## 1. SPK01 VPC 생성     
 VPC → VPC 생성     
-항목값생성할 리소스VPC 등이름SPK-01IPv4 CIDR10.10.0.0/16가용영역 수2퍼블릭 서브넷 수0 ← 먼저 0으로 설정!프라이빗 서브넷 수2프라이빗 서브넷 CIDR 110.10.10.0/24프라이빗 서브넷 CIDR 210.10.20.0/24NAT 게이트웨이없음VPC 엔드포인트없음   
++ 이름SPK-01
++ IPv4
++ CIDR : 10.10.0.0/16
++ 가용영역 수 2
++ 퍼블릭 서브넷 수 0 ← 먼저 0으로 설정!
++ 프라이빗 서브넷 수 2
++ 프라이빗 서브넷 CIDR 110.10.10.0/24
++ 프라이빗 서브넷 CIDR 210.10.20.0/24
++ NAT 게이트웨이없음VPC 엔드포인트없음
++ + VPC 생성 클릭
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/d85a6948-7e6c-48f5-b284-6f47c3f864a3" />
+ />
+ <img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/bcd6e24f-757d-4b84-aae2-14540462740a" />
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/f5cf6a99-11f6-40a3-8ebc-1f64a5242837" />
 
-+ VPC 생성 클릭
 
 ## 2. VPCHUB VPC 생성
 VPC → VPC 생성    
@@ -63,8 +75,7 @@ VPC → VPC 생성
 + 10.0.20.0/24
 + 10.0.30.0/24
 + 10.0.40.0/24
-
-NAT 게이트웨이없음VPC 엔드포인트없음   
++ NAT 게이트웨이없음VPC 엔드포인트없음   
 + VPC 생성 클릭
 
 ## 3. Transit Gateway 생성   
@@ -95,8 +106,5 @@ VPCHUB-rtb-private1 선택 → 서브넷 연결 편집
 
 + 저장
 ## 01. VPC 2개 생성 : 아시아 태평양 (서울)   
-<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/d85a6948-7e6c-48f5-b284-6f47c3f864a3" />
- />
- <img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/bcd6e24f-757d-4b84-aae2-14540462740a" />
-<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/f5cf6a99-11f6-40a3-8ebc-1f64a5242837" />
+
 
