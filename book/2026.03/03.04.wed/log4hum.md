@@ -155,7 +155,7 @@
 ## 6. EC2 생성
 **EC2 -> 인스턴스 시작**     
 (1) 설정
-+ Name : SPK-NGINX-01
++ Name : 0304-SPK-NGINX-01
 + AMI : Ubuntu
 + Instance type : t3.micro 또는 t4g.micro
 + 네트워크
@@ -172,7 +172,7 @@
  
 ## 7. Bastion 서버 생성 (Hub)
 **EC2 -> 인스턴스 시작**      
-+ Name : HUB-BASTION-01
++ Name : 0304-HUB-BASTION-01
 + 네트워크
   + VPC : 0304-HUB-KR-01
   + Subnet : private1 (10.0.30.0/24)
