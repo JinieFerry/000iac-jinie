@@ -61,7 +61,7 @@ VPC → VPC 생성
 + 프라이빗 서브넷 CIDR 110.10.10.0/24
 + 프라이빗 서브넷 CIDR 210.10.20.0/24
 + NAT 게이트웨이없음VPC 엔드포인트없음
-+ + VPC 생성 클릭
++ VPC 생성 클릭
 <img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/d85a6948-7e6c-48f5-b284-6f47c3f864a3" />
  />
  <img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/bcd6e24f-757d-4b84-aae2-14540462740a" />
@@ -81,8 +81,16 @@ VPC → VPC 생성
 ## 3. Transit Gateway 생성   
 VPC → Transit Gateway → Transit Gateway 생성    
 + 이름,설명: 0304-TGW     
-+ ASN 비워두기(기본값)     DNS 지원 VPN ECMP 지원 기본 라우팅 테이블 연결 기본 라우팅 테이블 전파      
-+ 생성 클릭 → 잠깐 기다리기 (Available 될 때까지)    
++ ASN 비워두기(기본값)
++ DNS 지원 VPN
++ ECMP 지원 기본
++ 라우팅 테이블 연결 기본
++ 라우팅 테이블 전파      
++ 생성 클릭 → 잠깐 기다리기 (Available 될 때까지)
+<img width="999" height="1046" alt="image" src="https://github.com/user-attachments/assets/5aea5c10-e732-48af-b27a-28c317884e5c" />
+<img width="999" height="1046" alt="image" src="https://github.com/user-attachments/assets/92b3e85f-0e87-48a3-a5bb-ec394b9cc9b1" />
+<img width="999" height="1046" alt="image" src="https://github.com/user-attachments/assets/072afcab-d8c0-4d2b-b8cc-52357c233513" />
+
 
 ## 4. Transit Gateway Attachment 2개 생성
 VPC → Transit Gateway 연결 → Attachment 생성    
