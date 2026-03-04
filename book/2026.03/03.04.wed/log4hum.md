@@ -4,50 +4,55 @@
 # 클린 버전
 
 ```
-SPK VPC
-10.10.0.0/16
-   ├─ private-a 10.10.10.0/24
-   └─ private-b 10.10.20.0/24
-        │
-        │
-     TGW (0304-TGW-KR-01)
-        │
-        │
-HUB VPC
-10.0.0.0/16
-   ├─ public-a 10.0.10.0/24
-   ├─ public-b 10.0.20.0/24
-   ├─ private-a 10.0.30.0/24
-   └─ private-b 10.0.40.0/24
+          HUB VPC
+        10.0.0.0/16
+      ┌──────────────┐
+      │ Bastion      │
+      │ 10.0.30.x    │
+      └──────┬───────┘
+             │
+        Transit Gateway
+             │
+      ┌──────────────┐
+      │ Nginx        │
+      │ 10.10.20.x   │
+      └──────────────┘
+        SPOKE VPC
+      10.10.0.0/16
 ```
 ## 1. SPK01 VPC 생성     
-**VPC → VPC 생성**         
+**VPC → VPC 생성**    
+(1)vpc   
 + 이름: 0304-SPK-KR-01
 + IPv4
 + CIDR : 10.10.0.0/16
 + 가용 영역 수 2
+
+(2)subnet  
 + 퍼블릭 서브넷 수 0 ← 먼저 0으로 설정!
 + 프라이빗 서브넷 수 2
-+ 프라이빗 서브넷 CIDR 10.10.10.0/24
-+ 프라이빗 서브넷 CIDR 10.10.20.0/24
-+ NAT 게이트웨이없음VPC 엔드포인트없음
++ 프라이빗 서브넷1 CIDR 10.10.10.0/24
++ 프라이빗 서브넷2 CIDR 10.10.20.0/24
++ NAT 게이트웨이없음 VPC 엔드포인트없음
 + VPC 생성 클릭
 <img width="1277" height="839" alt="image" src="https://github.com/user-attachments/assets/39f461c3-92f5-46aa-af25-e841278be1f8" />
 <img width="1256" height="828" alt="image" src="https://github.com/user-attachments/assets/d32ba199-f17a-4138-9db3-2a317f690009" />
 <img width="1636" height="819" alt="image" src="https://github.com/user-attachments/assets/c42ff1b5-fb96-46d6-93bf-c87fb6aba091" />
 
 
-## 2. VPCHUB VPC 생성
-**VPC → VPC 생성**    
+## 2. HUB VPC 생성
+**VPC → VPC 생성** 
+(1) vpc
 + 이름 : 0304-HUB-KR-01
-+ VPCHUBIPv4 CIDR10.0.0.0/16
++ CIDR : 10.0.0.0/16
 + 가용 영역 수 2
+(2) subnet
 + 퍼블릭 서브넷 수 2
 + 프라이빗 서브넷 수 2
-+ 10.0.10.0/24
-+ 10.0.20.0/24
-+ 10.0.30.0/24
-+ 10.0.40.0/24
++ public1 : 10.0.10.0/24
++ public2 : 10.0.20.0/24
++ private1 : 10.0.30.0/24
++ private2 : 10.0.40.0/24
 + NAT 게이트웨이없음VPC 엔드포인트없음   
 + VPC 생성 클릭
 <img width="1598" height="808" alt="image" src="https://github.com/user-attachments/assets/61bf262e-6f07-4d49-b2b8-d6a0a4fa35c9" />
@@ -59,10 +64,10 @@ HUB VPC
 **VPC → Transit Gateway → Transit Gateway 생성**      
 + 이름,설명: 0304-TGW-KR-01    
 + ASN 비워두기(기본값)
-+ DNS 지원 VPN
-+ ECMP 지원 기본
-+ 라우팅 테이블 연결 기본
-+ 라우팅 테이블 전파      
++ DNS 지원
++ VPN ECMP 지원
++ 기본 라우팅 테이블 연결
++ 기본 라우팅 테이블 전파      
 + 생성 클릭 → 잠깐 기다리기 (Available 될 때까지)
 <img width="1228" height="851" alt="image" src="https://github.com/user-attachments/assets/d39f5563-30e1-4318-9cc6-b03761066765" />
 <img width="1232" height="342" alt="image" src="https://github.com/user-attachments/assets/82a8a93f-071b-4560-87ab-acf887885b0e" />
@@ -70,12 +75,12 @@ HUB VPC
 
 ## 4. Transit Gateway Attachment 2개 생성
 **VPC → Transit Gateway 연결 → Attachment 생성**      
-(1) 첫 번째 Attachment 생성 (0304-TGW-KR-01 연결)
-+ 이름: 0304-TGW-SPK-01
-+ Transit Gateway ID: 0304-TGW-KR-01 선택
+(1) Spoke 연결 Attachment 생성 (0304-TGW-KR-01 연결)
++ 이름 : 0304-TGW-SPK-01
++ Transit Gateway ID: 0304-TGW-KR-01
 + 연결 유형 VPC
 + VPC ID : 0304-SPK-KR-01 선택
-+ 서브넷 2 a, 2b 둘 다 체크    
++ 서브넷 2 : private1 , private2 
 + 생성
 <img width="987" height="550" alt="image" src="https://github.com/user-attachments/assets/4ecfc288-2fb3-4fe8-ac68-8e291bf676fc" />
 <img width="660" height="263" alt="image" src="https://github.com/user-attachments/assets/9ad8e82a-3988-4700-860a-69b4f19dd405" />
@@ -84,12 +89,12 @@ HUB VPC
 <img width="1222" height="841" alt="image" src="https://github.com/user-attachments/assets/62393d82-977e-48d6-9ba7-a9d15ce05828" />
 <img width="1222" height="487" alt="image" src="https://github.com/user-attachments/assets/c7db9dcc-8142-430e-8228-29338dbf4aac" />
 
-(2) 두 번째 Attachment 생성 (HUB 연결)    
+(2) Hub 연결  Attachment 생성   
 + 이름: 0304-TGW-HUB-01
-+ Transit Gateway ID : 0304-TGW-KR-01 선택
++ Transit Gateway ID : 0304-TGW-KR-01 
 + 연결 유형 VPC
-+ VPC ID : 0304-HUB-KR-01 선택
-+ 서브넷 2 a, 2b 둘 다 프라이빗 체크    
++ VPC ID : 0304-HUB-KR-01 
++ 서브넷 2 : private1 , private2    
 + 생성 → 둘 다 Available 될 때까지 기다리기    
 <img width="658" height="265" alt="image" src="https://github.com/user-attachments/assets/d5cbe91e-527b-4a87-8f03-ac22acdd04b6" />
 <img width="656" height="258" alt="image" src="https://github.com/user-attachments/assets/27102702-4b53-4cee-8b5e-52fe992a3502" />
@@ -123,6 +128,17 @@ HUB VPC
 <img width="988" height="313" alt="image" src="https://github.com/user-attachments/assets/76f48aba-81f2-417e-9f93-ca165b3a9eba" />
 <img width="804" height="451" alt="image" src="https://github.com/user-attachments/assets/3bceb017-15e4-467c-9cce-182028c39946" />
 
-  
+(3) spoke private1 편집
++  0304-SPK-KR-01-rtb-private1-ap-northeast-2a tjsxor
++  라우팅 편집 클릭
++  라우팅 추가 클릭
++  Destination : 10.0.0.0/16
++  Target : Transit Gateway -> 0304-TGW-SPK-01
++  변경사항 저장
+<img width="909" height="450" alt="image" src="https://github.com/user-attachments/assets/8963343b-2fde-4f0f-b17f-182f936b23f4" />
+<img width="914" height="638" alt="image" src="https://github.com/user-attachments/assets/8bd4080a-1286-4105-a247-b59edf63a2c5" />
+<img width="731" height="452" alt="image" src="https://github.com/user-attachments/assets/d8b67a52-3743-4d1f-8972-72a4d6c7b379" />
+
+(4) spoke private2 편집
 
 
