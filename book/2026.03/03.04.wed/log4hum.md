@@ -4,10 +4,21 @@
 # 클린 버전
 
 ```
-[SPK01-vpc]          [VPCHUB-vpc]
-10.10.0.0/16    ←→   10.0.0.0/16
-      \               /
-       Transit Gateway (TGWKR)
+SPK VPC
+10.10.0.0/16
+   ├─ private-a 10.10.10.0/24
+   └─ private-b 10.10.20.0/24
+        │
+        │
+     TGW (0304-TGW-KR-01)
+        │
+        │
+HUB VPC
+10.0.0.0/16
+   ├─ public-a 10.0.10.0/24
+   ├─ public-b 10.0.20.0/24
+   ├─ private-a 10.0.30.0/24
+   └─ private-b 10.0.40.0/24
 ```
 ## 1. SPK01 VPC 생성     
 **VPC → VPC 생성**         
