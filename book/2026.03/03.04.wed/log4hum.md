@@ -273,21 +273,36 @@ nano bastion.pem
 chmod 400 bastion.pem
 ```
 
+<img width="1669" height="912" alt="image" src="https://github.com/user-attachments/assets/881e24c2-f58c-43de-8115-20b5717b300e" />
+
 + nginx 서버 접속
 ```
 ssh -i bastion.pem ubuntu@10.10.20.127
 ```
-<img width="1669" height="912" alt="image" src="https://github.com/user-attachments/assets/881e24c2-f58c-43de-8115-20b5717b300e" />
 + nginx 서버 접속 성공 : ubuntu@ip-10-10-20-127
 <img width="1656" height="809" alt="image" src="https://github.com/user-attachments/assets/1cbee3c5-d7bd-4c93-ae26-491609dabd07" />
 
 
-## 9. SSH 테스트
-+ ssh ubuntu@10.10.20.x
-  + 접속 안되면 키 생성
-    ```
-    ssh -i key.pem ubuntu@10.10.20.x
-    ```
++ nginx 설치 : 지금 nginx 서버는  SPK Private Subnet 에 있기 때문에 SPK -> Internet 구조가 없다
+  + 구조는 다음과 같다
+  ```
+  nginx
+10.10.20.127
+   ↓
+10.10.20.1 (subnet gateway)
+   ↓
+! Internet 없음 !
+```
+  + HUB NAT Gateway 통해서 인터넷 나가기
+  + 
+```
+# 설치
+sudo apt update
+sudo apt install nginx -y
+
+# 확인
+niginx -v
+```
 
 ## 9. HTTP 테스트
 **Bastion에서**     
