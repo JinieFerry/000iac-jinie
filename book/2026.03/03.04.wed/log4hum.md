@@ -115,12 +115,18 @@
 <img width="1222" height="487" alt="image" src="https://github.com/user-attachments/assets/c7db9dcc-8142-430e-8228-29338dbf4aac" />
 
 (2) 두 번째 Attachment 생성 (HUB 연결)    
-+ 이름: 0304-TGW-HUB
++ 이름: 0304-TGW-HUB-01
 + Transit Gateway ID : 0304-TGW-KR-01 선택
 + 연결 유형 VPC
 + VPC ID : 0304-HUB-KR-01 선택
-+ 서브넷 2 a, 2b 둘 다 체크    
++ 서브넷 2 a, 2b 둘 다 프라이빗 체크    
 + 생성 → 둘 다 Available 될 때까지 기다리기    
+<img width="658" height="265" alt="image" src="https://github.com/user-attachments/assets/d5cbe91e-527b-4a87-8f03-ac22acdd04b6" />
+<img width="656" height="258" alt="image" src="https://github.com/user-attachments/assets/27102702-4b53-4cee-8b5e-52fe992a3502" />
+<img width="516" height="188" alt="image" src="https://github.com/user-attachments/assets/001943ed-b518-475a-a846-660276843fd6" />
+<img width="515" height="199" alt="image" src="https://github.com/user-attachments/assets/d225709b-4840-494b-8003-7004a18d9795" />
+<img width="641" height="423" alt="image" src="https://github.com/user-attachments/assets/1c528a01-ab92-4d66-9551-b333f06c353a" />
+![Uploading image.png…]()
 
 
 ## 5. 라우팅 테이블 편집   
