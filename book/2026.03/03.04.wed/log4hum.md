@@ -58,7 +58,13 @@ VPC → VPC 생성
 
 ## 2. VPCHUB VPC 생성
 VPC → VPC 생성    
-항목값생성할 리소스VPC 등이름VPCHUBIPv4 CIDR10.0.0.0/16가용영역 수2퍼블릭 서브넷 수2프라이빗 서브넷 수2NAT 게이트웨이없음VPC 엔드포인트없음   
+항목값생성할 리소스VPC 등이름VPCHUBIPv4 CIDR10.0.0.0/16가용영역 수2퍼블릭 서브넷 수2프라이빗 서브넷 수2
++ 10.0.10.0/24
++ 10.0.20.0/24
++ 10.0.30.0/24
++ 10.0.40.0/24
+
+NAT 게이트웨이없음VPC 엔드포인트없음   
 + VPC 생성 클릭
 
 ## 3. Transit Gateway 생성   
@@ -88,6 +94,8 @@ VPCHUB-rtb-private1 선택 → 서브넷 연결 편집
 
 + 저장
 ## 01. VPC 2개 생성 : 아시아 태평양 (서울)   
-<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/d005efbb-a288-4a51-b8df-38bd11d9694f" />
-<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/071b7559-79e8-4c03-b03b-dbe2e1cfc053" />
-<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/28193e46-455f-450e-83e7-c1b3fe44a803" />
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/d85a6948-7e6c-48f5-b284-6f47c3f864a3" />
+ />
+ <img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/bcd6e24f-757d-4b84-aae2-14540462740a" />
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/f5cf6a99-11f6-40a3-8ebc-1f64a5242837" />
+
