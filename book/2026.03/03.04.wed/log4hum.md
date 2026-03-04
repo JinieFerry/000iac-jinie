@@ -183,3 +183,52 @@
 
 ## 7. Bastion 접속
 **EC2 -> Bastion -> 연결**
++ EC2 Instance Connect  또는 Cloudshell 
+  + 접속하면 ubuntu@ip-10-0-30-x으로 뜸
+
+## 8. Nginx 설치
+**Bastion에서**
++ ssh ubuntu@10.10.20.x 접속
++ 업데이트
+```
+sudo apt update
+sudo apt install nginx -y
+```
++ 확인
+```
+curl localhost
+```
+  + 정상 : Welcome to nginx
+
+## 8. 네트워크 테스트
+**Bastion에서**
+```
+ping 10.10.20.x
+```
+
++ 정상 : 64 bytes from
+
+## 9. SSH 테스트
++ ssh ubuntu@10.10.20.x
+  + 접속 안되면 키 생성
+    ```
+    ssh-keygen
+    ```
+
+## 9. HTTP 테스트
+**Bastion에서**
+```
+curl 10.10.20.x
+```
++ 정상 : Welcome to nginx
+
+여기까지 성공하면 통신 성공 , NAT는 과금방지로 아직 생성하지 않음
+```
+Hub
+   Bastion
+      │
+      │ TGW
+      │
+Spoke
+   Nginx
+```
