@@ -38,8 +38,9 @@
 (5) Trasnsit Gat
 <img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/abb53cdb-3ce1-4244-8bf7-53b7d08bd6ea" />
 <img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/d9f8179a-f002-4193-aa36-e0e64bb74b39" />
-
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/84393c8e-3575-4e87-bd16-e9142e4498e9" />
+
+
 -------
 # 클린 버전
 
@@ -99,7 +100,7 @@
 
 ## 4. Transit Gateway Attachment 2개 생성
 **VPC → Transit Gateway 연결 → Attachment 생성**      
-(1) 첫 번째 (0304-TGW-KR-01 연결)
+(1) 첫 번째 Attachment 생성 (0304-TGW-KR-01 연결)
 + 이름: 0304-TGW-SPK-01
 + Transit Gateway ID: 0304-TGW-KR-01 선택
 + 연결 유형 VPC
@@ -111,8 +112,14 @@
 <img width="658" height="262" alt="image" src="https://github.com/user-attachments/assets/8162e950-7f68-4185-9fff-825918cf36c5" />
 <img width="642" height="424" alt="image" src="https://github.com/user-attachments/assets/e7f60180-7ec3-4cc6-8515-c84bec322136" />
 <img width="1222" height="841" alt="image" src="https://github.com/user-attachments/assets/62393d82-977e-48d6-9ba7-a9d15ce05828" />
-(2) 두 번째 (HUB 연결)    
-항목값이름TGW-HUBTransit Gateway IDTGWKR 선택연결 유형VPCVPC IDVPCHUB-vpc 선택서브넷2a, 2b 둘 다 체크    
+<img width="1222" height="487" alt="image" src="https://github.com/user-attachments/assets/c7db9dcc-8142-430e-8228-29338dbf4aac" />
+
+(2) 두 번째 Attachment 생성 (HUB 연결)    
++ 이름: 0304-TGW-HUB
++ Transit Gateway ID : 0304-TGW-KR-01 선택
++ 연결 유형 VPC
++ VPC ID : 0304-HUB-KR-01 선택
++ 서브넷 2 a, 2b 둘 다 체크    
 + 생성 → 둘 다 Available 될 때까지 기다리기    
 
 
