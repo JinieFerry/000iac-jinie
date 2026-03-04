@@ -130,27 +130,26 @@
 
 ## 5. 라우팅 테이블 편집   
 **VPC → 라우팅 테이블 → SPK01-rtb-private1 선택 → 라우팅 편집**    
-(1) SPK01 private1 편집
+(1) 허브 private1 편집
 + 0304-SPK-KR-01-rtb-private1-ap-northeast-2a 선택
 + 라우팅 편집 클릭
 + 라우팅 추가 클릭
-+ Destination : 0.0.0.0/16
++ Destination : 10.0.0.0/16
 + Target : Transit Gateway → 0304-TGW-KR-01
 + 변경사항 저장
-<img width="996" height="325" alt="image" src="https://github.com/user-attachments/assets/ec9da033-4753-4e56-80ee-b6b3b13e4232" />
-<img width="802" height="379" alt="image" src="https://github.com/user-attachments/assets/0fa0bf97-cdaa-4dfd-b6f2-a172d6fb822b" />
-<img width="979" height="260" alt="image" src="https://github.com/user-attachments/assets/0fbc19f9-83d6-4a17-b11d-1e0baae34f25" />
-<img width="985" height="295" alt="image" src="https://github.com/user-attachments/assets/b26b9753-cb33-4756-af32-2294b7f09446" />
-<img width="807" height="446" alt="image" src="https://github.com/user-attachments/assets/3878f5a6-080a-4742-9634-b536a9883f8f" />
+<img width="987" height="294" alt="image" src="https://github.com/user-attachments/assets/1e18b5f1-2e29-4beb-8c08-32e7d7307c71" />
+/>
+<img width="804" height="442" alt="image" src="https://github.com/user-attachments/assets/c62b7365-cc1c-47fa-b547-47ef3fc1fc21" />
 
- → SPK01-rtb-private2도 똑같이!     
-VPCHUB 라우팅 테이블    
-VPCHUB-rtb-private1 선택 → 서브넷 연결 편집     
+() 허브 private2 편집
++ 0304-HUB-KR-01-rtb-private2-ap-northeast-2b 선택     
++ 라우팅 편집 클릭
++ 라우팅 추가 클릭
++ Destination : 10.0.0.0/16
++ Target : Transit Gateway → 0304-TGW-KR-01
++ 변경사항 저장
+<img width="988" height="256" alt="image" src="https://github.com/user-attachments/assets/7dc51435-e181-4568-9c79-5eb8bb02f0de" />
 
-+ VPCHUB-subnet-private1 체크
-+ VPCHUB-subnet-private2 체크
-
-+ 저장
 ## 01. VPC 2개 생성 : 아시아 태평양 (서울)   
 
 
