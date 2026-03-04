@@ -1,6 +1,6 @@
 # 2026.03.04.wed
 
-## 강사님 버전
+## 강사님 버전 : 창을 열어두고 왔다갔다 새 탭을 여러개 열어둬야 함 순서가 섞여있음 (비추천)
 
 1. 아시아 태평양 (서울) vpc 생성 : SPK
 
@@ -63,7 +63,7 @@ VPC → VPC 생성
 
 ## 3. Transit Gateway 생성   
 VPC → Transit Gateway → Transit Gateway 생성    
-항목값이름TGWKRASN비워두기 (기본값)DNS 지원✅VPN ECMP 지원✅기본 라우팅 테이블 연결✅기본 라우팅 테이블 전파✅   
+항목값이름TGWKRASN비워두기 (기본값)DNS 지원 VPN ECMP 지원 기본 라우팅 테이블 연결 기본 라우팅 테이블 전파      
 + 생성 클릭 → 잠깐 기다리기 (Available 될 때까지)    
 
 ## 4. Transit Gateway Attachment 2개 생성
