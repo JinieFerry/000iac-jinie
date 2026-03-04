@@ -109,6 +109,18 @@
 + 0304-HUB-KR-01-rtb-private1-ap-northeast-2a 선택
 + 라우팅 편집 클릭
 + 라우팅 추가 클릭
+
+
+(2) 허브 private2 편집
++ 0304-HUB-KR-01-rtb-private2-ap-northeast-2b 선택     
++ 라우팅 편집 클릭
++ 라우팅 추가 클릭
+
+
+(3) spoke private1 편집
++  0304-SPK-KR-01-rtb-private1-ap-northeast-2a tjsxor
++  라우팅 편집 클릭
++  라우팅 추가 클릭
 + 10.10.0.0/16  0.0.0.0/0 (강사님은 0.0.0.0/16 추천 하지만 gpt는 잘못된 cidr라고 지적해서 다르게 진행함)
 + Target : Transit Gateway → 0304-TGW-KR-01
 + 변경사항 저장
@@ -116,41 +128,16 @@
 <img width="1467" height="307" alt="image" src="https://github.com/user-attachments/assets/6c778fa8-af41-4f4d-a41c-6273289e14da" />
 <img width="1471" height="515" alt="image" src="https://github.com/user-attachments/assets/1b3cc7c6-9445-4d78-8e56-a7b08e3afe1a" />
 
-
-(2) 허브 private2 편집
-+ 0304-HUB-KR-01-rtb-private2-ap-northeast-2b 선택     
+(4) spoke private2 편집
++ 0304-SPK-KR-01-rtb-private2-ap-northeast-2b 선택
 + 라우팅 편집 클릭
 + 라우팅 추가 클릭
 + Destination : 0.0.0.0/0 (강사님은 0.0.0.0/16 추천 하지만 gpt는 잘못된 cidr라고 지적해서 다르게 진행함)
 + Target : Transit Gateway → 0304-TGW-KR-01
 + 변경사항 저장
 <img width="991" height="372" alt="image" src="https://github.com/user-attachments/assets/233589f8-c474-41a3-9051-6ef7183f00b5" />
-<img width="725" height="444" alt="image" src="https://github.com/user-attachments/assets/983e13fc-eb42-424c-b2c6-7437e1e883bf" />
-<img width="725" height="444" alt="image" src="https://github.com/user-attachments/assets/6fda5c99-2f81-4543-9fe6-1b70023d4f6b" />
-
-(3) spoke private1 편집
-+  0304-SPK-KR-01-rtb-private1-ap-northeast-2a tjsxor
-+  라우팅 편집 클릭
-+  라우팅 추가 클릭
-+  Destination : 10.0.0.0/16
-+  Target : Transit Gateway -> 0304-TGW-SPK-01
-+  변경사항 저장
-<img width="909" height="450" alt="image" src="https://github.com/user-attachments/assets/8963343b-2fde-4f0f-b17f-182f936b23f4" />
-<img width="626" height="165" alt="image" src="https://github.com/user-attachments/assets/7fe5ae25-4683-45f4-968d-91d0c9521f38" />
-
-<img width="914" height="638" alt="image" src="https://github.com/user-attachments/assets/8bd4080a-1286-4105-a247-b59edf63a2c5" />
-<img width="731" height="452" alt="image" src="https://github.com/user-attachments/assets/d8b67a52-3743-4d1f-8972-72a4d6c7b379" />
-
-(4) spoke private2 편집
-+ 0304-SPK-KR-01-rtb-private2-ap-northeast-2b 선택
-+ 라우팅 편집 클릭
-+ 라우팅 추가 클릭
-+ Destination : 10.0.0.0/16
-+ Target : Transit Gateway -> 0304-TGW-SPK-01
-<img width="913" height="377" alt="image" src="https://github.com/user-attachments/assets/134084d9-1739-456c-be9f-0e094a320707" />
-<img width="626" height="165" alt="image" src="https://github.com/user-attachments/assets/ef468cfc-0658-4915-8a27-15603c891b2e" />
-<img width="911" height="607" alt="image" src="https://github.com/user-attachments/assets/f4cf2170-a47f-4384-aa3b-b57ef7611547" />
-<img width="725" height="443" alt="image" src="https://github.com/user-attachments/assets/464fb522-0df6-459e-814f-f27e99eac90b" />
+<img width="1472" height="304" alt="image" src="https://github.com/user-attachments/assets/cb5d2ccb-6ce0-4bb8-8abc-d46aebf43347" />
+<img width="1470" height="521" alt="image" src="https://github.com/user-attachments/assets/112e9c0c-95c3-4acb-8570-b8c8bce22233" />
 
 ## 6. EC2 생성
 **EC2 -> 인스턴스 시작**     
