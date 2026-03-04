@@ -222,12 +222,23 @@
 <img width="1913" height="244" alt="image" src="https://github.com/user-attachments/assets/536d5a11-170e-4ca6-8f1e-b1dc4410738f" />
 + 엔드포인트가 아직 생성 중이면 (create-in-progress)가 뜸 : 연결 버튼 활성화 될 때 까지 잠시 대기
 <img width="1468" height="797" alt="image" src="https://github.com/user-attachments/assets/bd1bf018-966d-49d1-b230-697c908d5211" />
-+ EC2 Instance Connect  또는 Cloudshell 
-  + 접속하면 ubuntu@ip-10-0-30-x으로 뜸
+  + (create-complete) 후에 연결 버튼 활성화 됨 - 연결 버튼 클릭
+<img width="366" height="74" alt="image" src="https://github.com/user-attachments/assets/b1ad3d0b-2665-4850-b554-41f8f1b5faef" />
+<img width="1467" height="797" alt="image" src="https://github.com/user-attachments/assets/5fabafa3-6476-47d4-afe7-09a48f3ff4b8" />
+
++ 접속하면 ubuntu@ip-10-0-30-x으로 뜸
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/9b58ece5-75cb-425f-975f-810164e56be0" />
+
+(2) SPK nginx 서버 IP 확인
++ 0227-bastion의 프라이빗 IPv4 주소 확인 : 172.31.1.181
+<img width="1473" height="475" alt="image" src="https://github.com/user-attachments/assets/ddfd9527-989e-4e20-8abb-2358d0035243" />
++ 0304-SPK-NGINX-01의 프라이빗 IPv4 주소 확인 : 10.10.20.127
+<img width="1466" height="526" alt="image" src="https://github.com/user-attachments/assets/8034c235-341d-409d-bdbf-96c562e7dcbc" />
+
 
 ## 8. Nginx 설치 : NAT 만든 후에 
 **Bastion에서**
-+ ssh ubuntu@10.10.20.x 접속
++ ssh ubuntu@10.10.20.x 접속 : 
 + 업데이트
 ```
 sudo apt update
@@ -240,12 +251,36 @@ curl localhost
   + 정상 : Welcome to nginx
 
 ## 8. 네트워크 테스트
-**Bastion에서**
+(1) Bastion에서 ping 테스트
 ```
-ping 10.10.20.x
+# ping 10.10.20.x # 위에서 확인한 프라이빗 주소 넣기
+ping 10.10.20.127
+# 정상 : 64 bytes from
+```
++ 결과 : `PING 10.10.20.127 ~ bytes of data`
+<img width="1921" height="945" alt="image" src="https://github.com/user-attachments/assets/e8d4ce23-eb10-4de2-a86c-b332b4518560" />
++ 정상 결과 뜨면 종료 : Ctrl + C
+
+(2) nginx ssh 접속 테스트
++ Permission denied (publickey) 방지
+```
+nano bastion.pem
+# 직접 로컬 PC에 있는 0227-aws-bastion-key.pem 파일 전체 복사해서 붙여넣기
+
+# 저장하고 나오기
+
+# 권한 설정
+chmod 400 bastion.pem
 ```
 
-+ 정상 : 64 bytes from
++ nginx 서버 접속
+```
+ssh -i bastion.pem ubuntu@10.10.20.127
+```
+<img width="1669" height="912" alt="image" src="https://github.com/user-attachments/assets/881e24c2-f58c-43de-8115-20b5717b300e" />
++ nginx 서버 접속 성공 : ubuntu@ip-10-10-20-127
+<img width="1656" height="809" alt="image" src="https://github.com/user-attachments/assets/1cbee3c5-d7bd-4c93-ae26-491609dabd07" />
+
 
 ## 9. SSH 테스트
 + ssh ubuntu@10.10.20.x
