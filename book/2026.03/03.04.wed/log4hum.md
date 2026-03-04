@@ -109,24 +109,24 @@
 + 0304-HUB-KR-01-rtb-private1-ap-northeast-2a 선택
 + 라우팅 편집 클릭
 + 라우팅 추가 클릭
-+ Destination : 0.0.0.0/16
++ 10.10.0.0/16 (강사님은 0.0.0.0/16 추천 하지만 gpt는 잘못된 cidr라고 지적함 우선 10.10으로 진행함)
 + Target : Transit Gateway → 0304-TGW-KR-01
 + 변경사항 저장
 <img width="989" height="405" alt="image" src="https://github.com/user-attachments/assets/0cf31dc7-8ec6-4b2b-8f56-d96508c0aadb" />
-<img width="992" height="263" alt="image" src="https://github.com/user-attachments/assets/614a41b0-9465-4bdd-8b86-c1b4b77cf8e1" />
-<img width="804" height="445" alt="image" src="https://github.com/user-attachments/assets/daf370b2-6d71-46a1-95a3-a6bff56d5521" />
+<img width="908" height="642" alt="image" src="https://github.com/user-attachments/assets/683a656e-8866-4a52-8c4e-ec7f052ae14b" />
+<img width="732" height="451" alt="image" src="https://github.com/user-attachments/assets/269d68d0-ba95-4bc3-ac96-96f80d029b4d" />
 
 
 (2) 허브 private2 편집
 + 0304-HUB-KR-01-rtb-private2-ap-northeast-2b 선택     
 + 라우팅 편집 클릭
 + 라우팅 추가 클릭
-+ Destination : 0.0.0.0/16
++ Destination : 10.10.0.0/16 (강사님은 0.0.0.0/16 추천 하지만 gpt는 잘못된 cidr라고 지적함 우선 10.10으로 진행함)
 + Target : Transit Gateway → 0304-TGW-KR-01
 + 변경사항 저장
 <img width="991" height="372" alt="image" src="https://github.com/user-attachments/assets/233589f8-c474-41a3-9051-6ef7183f00b5" />
-<img width="988" height="313" alt="image" src="https://github.com/user-attachments/assets/76f48aba-81f2-417e-9f93-ca165b3a9eba" />
-<img width="804" height="451" alt="image" src="https://github.com/user-attachments/assets/3bceb017-15e4-467c-9cce-182028c39946" />
+<img width="725" height="444" alt="image" src="https://github.com/user-attachments/assets/983e13fc-eb42-424c-b2c6-7437e1e883bf" />
+<img width="725" height="444" alt="image" src="https://github.com/user-attachments/assets/6fda5c99-2f81-4543-9fe6-1b70023d4f6b" />
 
 (3) spoke private1 편집
 +  0304-SPK-KR-01-rtb-private1-ap-northeast-2a tjsxor
