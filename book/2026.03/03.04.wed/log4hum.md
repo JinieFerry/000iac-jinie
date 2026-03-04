@@ -124,16 +124,26 @@
 <img width="658" height="265" alt="image" src="https://github.com/user-attachments/assets/d5cbe91e-527b-4a87-8f03-ac22acdd04b6" />
 <img width="656" height="258" alt="image" src="https://github.com/user-attachments/assets/27102702-4b53-4cee-8b5e-52fe992a3502" />
 <img width="516" height="188" alt="image" src="https://github.com/user-attachments/assets/001943ed-b518-475a-a846-660276843fd6" />
-<img width="515" height="199" alt="image" src="https://github.com/user-attachments/assets/d225709b-4840-494b-8003-7004a18d9795" />
-<img width="641" height="423" alt="image" src="https://github.com/user-attachments/assets/1c528a01-ab92-4d66-9551-b333f06c353a" />
-![Uploading image.png…]()
-
+<img width="531" height="400" alt="image" src="https://github.com/user-attachments/assets/5d81f284-ecda-4fcb-bcb8-e6427b4f5b15" />
+<img width="523" height="402" alt="image" src="https://github.com/user-attachments/assets/bc287525-4cfc-454d-b878-867155ab7eef" />
+<img width="802" height="505" alt="image" src="https://github.com/user-attachments/assets/5ec7b62f-b255-4a4a-90a9-f000fae9c91b" />
 
 ## 5. 라우팅 테이블 편집   
-SPK01 라우팅 테이블   
-VPC → 라우팅 테이블 → SPK01-rtb-private1 선택 → 라우팅 편집    
-DestinationTarget0.0.0.0/0Transit Gateway → TGWKR    
-+ 저장 → SPK01-rtb-private2도 똑같이!     
+**VPC → 라우팅 테이블 → SPK01-rtb-private1 선택 → 라우팅 편집**    
+(1) SPK01 private1 편집
++ 0304-SPK-KR-01-rtb-private1-ap-northeast-2a 선택
++ 라우팅 편집 클릭
++ 라우팅 추가 클릭
++ Destination : 0.0.0.0/16
++ Target : Transit Gateway → 0304-TGW-KR-01
++ 변경사항 저장
+<img width="996" height="325" alt="image" src="https://github.com/user-attachments/assets/ec9da033-4753-4e56-80ee-b6b3b13e4232" />
+<img width="802" height="379" alt="image" src="https://github.com/user-attachments/assets/0fa0bf97-cdaa-4dfd-b6f2-a172d6fb822b" />
+<img width="979" height="260" alt="image" src="https://github.com/user-attachments/assets/0fbc19f9-83d6-4a17-b11d-1e0baae34f25" />
+<img width="985" height="295" alt="image" src="https://github.com/user-attachments/assets/b26b9753-cb33-4756-af32-2294b7f09446" />
+<img width="807" height="446" alt="image" src="https://github.com/user-attachments/assets/3878f5a6-080a-4742-9634-b536a9883f8f" />
+
+ → SPK01-rtb-private2도 똑같이!     
 VPCHUB 라우팅 테이블    
 VPCHUB-rtb-private1 선택 → 서브넷 연결 편집     
 
