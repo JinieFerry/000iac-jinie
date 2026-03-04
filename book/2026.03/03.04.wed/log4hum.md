@@ -136,9 +136,19 @@
 +  Target : Transit Gateway -> 0304-TGW-SPK-01
 +  변경사항 저장
 <img width="909" height="450" alt="image" src="https://github.com/user-attachments/assets/8963343b-2fde-4f0f-b17f-182f936b23f4" />
+<img width="626" height="165" alt="image" src="https://github.com/user-attachments/assets/7fe5ae25-4683-45f4-968d-91d0c9521f38" />
+
 <img width="914" height="638" alt="image" src="https://github.com/user-attachments/assets/8bd4080a-1286-4105-a247-b59edf63a2c5" />
 <img width="731" height="452" alt="image" src="https://github.com/user-attachments/assets/d8b67a52-3743-4d1f-8972-72a4d6c7b379" />
 
 (4) spoke private2 편집
-
++ 0304-SPK-KR-01-rtb-private2-ap-northeast-2b 선택
++ 라우팅 편집 클릭
++ 라우팅 추가 클릭
++ Destination : 10.0.0.0/16
++ Target : Transit Gateway -> 0304-TGW-SPK-01
+<img width="913" height="377" alt="image" src="https://github.com/user-attachments/assets/134084d9-1739-456c-be9f-0e094a320707" />
+<img width="626" height="165" alt="image" src="https://github.com/user-attachments/assets/ef468cfc-0658-4915-8a27-15603c891b2e" />
+<img width="911" height="607" alt="image" src="https://github.com/user-attachments/assets/f4cf2170-a47f-4384-aa3b-b57ef7611547" />
+<img width="725" height="443" alt="image" src="https://github.com/user-attachments/assets/464fb522-0df6-459e-814f-f27e99eac90b" />
 
