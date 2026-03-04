@@ -194,17 +194,39 @@
   + source = 0.0.0.0/0
 <img width="1302" height="852" alt="image" src="https://github.com/user-attachments/assets/399f0554-e352-49bf-8b02-394ee7a796d3" />
 <img width="1046" height="770" alt="image" src="https://github.com/user-attachments/assets/b925cbf6-f500-4152-b904-d4e23d99fae0" />
+<img width="1305" height="471" alt="image" src="https://github.com/user-attachments/assets/8cab01f3-6792-4a03-929c-337c86a8fba6" />
+<img width="1306" height="839" alt="image" src="https://github.com/user-attachments/assets/6e015d86-0825-45c7-9d30-1e497087b8bc" />
+<img width="1713" height="159" alt="image" src="https://github.com/user-attachments/assets/35d4abce-11a1-4485-b970-6c88a156684b" />
 
 
+## 7. 엔드포인트 생성
+(1) EC2 인스턴스 연결 엔드포인트 생성      
+**VPC->PrivateLink 및 Lattice->엔드포인트**   
++ 엔드포인트 생성 클릭
++ 이름 : 0304-HUB-ICE-01
++ 유형 : EC2 인스턴스 연결 엔드포인트
++ 네트워크설정 : (0304-HUB-KR-01-vpc)
++ 보안그룹 : 0304-HUB-BASTION-SG-01
++ 서브넷 : 프라이빗1 (0302-HUB-KR-01-subnet-private-1-ap-northeast-2a)
++ IPv4
+<img width="1919" height="205" alt="image" src="https://github.com/user-attachments/assets/589ae663-278a-4769-9de3-a3db51c0054e" />
+<img width="1471" height="753" alt="image" src="https://github.com/user-attachments/assets/94db40b8-7c23-42dc-b524-a04db026afed" />
+<img width="1460" height="487" alt="image" src="https://github.com/user-attachments/assets/8fe3d1c3-6aab-4701-b593-381e2572f484" />
++ 0304-HUB-ICE-01 상태가 사용가능으로 변해야 함 (30초 ~ 2분)
+<img width="1696" height="195" alt="image" src="https://github.com/user-attachments/assets/8b45b228-8c27-4662-a70d-bb18a25b3836" />
 
-
-## 7. Bastion 접속
-**EC2 -> Bastion -> 연결**     
+## 8. Bastion 접속
+**EC2 -> 인스턴스**        
+(1) 0304-HUB-BASTION-01 선택 → 연결  
++ 연결유형 : 프라이빗 IP를 사용하여 연결 클릭
+<img width="1913" height="244" alt="image" src="https://github.com/user-attachments/assets/536d5a11-170e-4ca6-8f1e-b1dc4410738f" />
++ 엔드포인트가 아직 생성 중이면 (create-in-progress)가 뜸 : 연결 버튼 활성화 될 때 까지 잠시 대기
+<img width="1468" height="797" alt="image" src="https://github.com/user-attachments/assets/bd1bf018-966d-49d1-b230-697c908d5211" />
 + EC2 Instance Connect  또는 Cloudshell 
   + 접속하면 ubuntu@ip-10-0-30-x으로 뜸
 
 ## 8. Nginx 설치 : NAT 만든 후에 
-**Bastion에서**    
+**Bastion에서**
 + ssh ubuntu@10.10.20.x 접속
 + 업데이트
 ```
