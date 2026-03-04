@@ -152,3 +152,34 @@
 <img width="911" height="607" alt="image" src="https://github.com/user-attachments/assets/f4cf2170-a47f-4384-aa3b-b57ef7611547" />
 <img width="725" height="443" alt="image" src="https://github.com/user-attachments/assets/464fb522-0df6-459e-814f-f27e99eac90b" />
 
+## 6. EC2 생성
+**EC2 -> 인스턴스 시작**
+(1) 설정
++ Name : SPK-NGINX-01
++ AMI : Ubuntu
++ Instance type : t3.micro 또는 t4g.micro
++ 네트워크
+  + VPC : 0304-SPK-KR-01
+  + Subnet : private2 (10.10.20.0/24)
+  + Public IP : Disable
++ 보안그룹
+  + Inbound
+   + SSH 22
+   + source = 10.0.0.0/16
+
+  + HTTP 80
+   + source = 0.0.0.0/0
+ 
+## 7. Bastion 서버 생성 (Hub)
+**EC2 -> 인스턴스 시작**
++ Name : HUB-BASTION-01
++ 네트워크
+  + VPC : 0304-HUB-KR-01
+  + Subnet : private1 (10.0.30.0/24)
++ Public IP : Disable
++ 보안그룹
+  + SSH : 22
+  + source = 0.0.0.0/0
+
+## 7. Bastion 접속
+**EC2 -> Bastion -> 연결**
