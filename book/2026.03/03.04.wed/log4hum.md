@@ -189,10 +189,11 @@
   + Subnet : private1 (10.0.30.0/24)
 + Public IP : Disable
 + 보안그룹생성
-  + 이름 : 0304-SPK-NGINX-SG-01
+  + 이름 : 0304-HUB-BASTION-SG-01
   + SSH : 22
   + source = 0.0.0.0/0
 <img width="1302" height="852" alt="image" src="https://github.com/user-attachments/assets/399f0554-e352-49bf-8b02-394ee7a796d3" />
+<img width="1046" height="770" alt="image" src="https://github.com/user-attachments/assets/b925cbf6-f500-4152-b904-d4e23d99fae0" />
 
 
 
