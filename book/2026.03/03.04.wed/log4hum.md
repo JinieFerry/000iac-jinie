@@ -51,8 +51,8 @@
        Transit Gateway (TGWKR)
 ```
 ## 1. SPK01 VPC 생성     
-VPC → VPC 생성     
-+ 이름SPK-01
+**VPC → VPC 생성**         
++ 이름: 0304-SPK-KR-01
 + IPv4
 + CIDR : 10.10.0.0/16
 + 가용영역 수 2
@@ -62,15 +62,13 @@ VPC → VPC 생성
 + 프라이빗 서브넷 CIDR 210.10.20.0/24
 + NAT 게이트웨이없음VPC 엔드포인트없음
 + VPC 생성 클릭
-<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/d85a6948-7e6c-48f5-b284-6f47c3f864a3" />
- />
- <img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/bcd6e24f-757d-4b84-aae2-14540462740a" />
-<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/f5cf6a99-11f6-40a3-8ebc-1f64a5242837" />
+<img width="1277" height="839" alt="image" src="https://github.com/user-attachments/assets/39f461c3-92f5-46aa-af25-e841278be1f8" />
+<img width="1256" height="828" alt="image" src="https://github.com/user-attachments/assets/d32ba199-f17a-4138-9db3-2a317f690009" />
 
 
 ## 2. VPCHUB VPC 생성
-VPC → VPC 생성    
-+ 이름 : 0304-HUB
+**VPC → VPC 생성**    
++ 이름 : 0304
 + VPCHUBIPv4 CIDR10.0.0.0/16
 + 가용영역 수 2
 + 퍼블릭 서브넷 수 2
@@ -86,7 +84,7 @@ VPC → VPC 생성
 <img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/0024850e-a767-4a0f-9f4c-1fd370fc0f46" />
 
 ## 3. Transit Gateway 생성   
-VPC → Transit Gateway → Transit Gateway 생성    
+**VPC → Transit Gateway → Transit Gateway 생성**      
 + 이름,설명: 0304-TGW     
 + ASN 비워두기(기본값)
 + DNS 지원 VPN
@@ -97,7 +95,6 @@ VPC → Transit Gateway → Transit Gateway 생성
 <img width="999" height="1046" alt="image" src="https://github.com/user-attachments/assets/5aea5c10-e732-48af-b27a-28c317884e5c" />
 <img width="999" height="1046" alt="image" src="https://github.com/user-attachments/assets/92b3e85f-0e87-48a3-a5bb-ec394b9cc9b1" />
 <img width="999" height="1046" alt="image" src="https://github.com/user-attachments/assets/072afcab-d8c0-4d2b-b8cc-52357c233513" />
-
 
 ## 4. Transit Gateway Attachment 2개 생성
 VPC → Transit Gateway 연결 → Attachment 생성    
