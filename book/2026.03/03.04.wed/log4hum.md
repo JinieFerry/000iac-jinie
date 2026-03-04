@@ -17,8 +17,8 @@
 + 가용영역 수 2
 + 퍼블릭 서브넷 수 0 ← 먼저 0으로 설정!
 + 프라이빗 서브넷 수 2
-+ 프라이빗 서브넷 CIDR 110.10.10.0/24
-+ 프라이빗 서브넷 CIDR 210.10.20.0/24
++ 프라이빗 서브넷 CIDR 10.10.10.0/24
++ 프라이빗 서브넷 CIDR 10.10.20.0/24
 + NAT 게이트웨이없음VPC 엔드포인트없음
 + VPC 생성 클릭
 <img width="1277" height="839" alt="image" src="https://github.com/user-attachments/assets/39f461c3-92f5-46aa-af25-e841278be1f8" />
