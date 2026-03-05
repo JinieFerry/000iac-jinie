@@ -528,6 +528,35 @@ HTTP 80
 ```
 EC2 보안 그룹의 역할은 ALB → EC2 만 허용으로, 외부 사용자는 EC2에 직접 접근하지 못 한다.
 
++ 리스너 및 라우팅
+```
+Internet
+   │
+ALB (HTTP:80)
+   │
+Target Group
+0305-tg-web-01
+   │
+EC2 Instances
+```
+구조는 위와 같다. 그래서 ALB가 하는 일은 아래와 같다.
+```
+http://ALB주소
 
+요청 받음
+   ↓
+0305-tg-web-01으로 전달
+   ↓
+EC2 중 하나로 트래픽 분산
+```
++ 리스너
+  + 프로토콜 : HTTP
+  + 포트 : 80
++ 기본 작업
+  + 라우팅 액션 : 대상 그룹으로 전달
+  + 대상 그룹 : 0305-tg-web-01
 
-+ 
+<img width="1072" height="397" alt="image" src="https://github.com/user-attachments/assets/2dfd84c7-79e6-45d6-b10c-4dc9e2d446cb" />
+
++ 아래로는 설정을 건들지 않고 로드 밸런서를 생성한다.
+<img width="1254" height="717" alt="image" src="https://github.com/user-attachments/assets/4957f5f2-9288-44d9-adab-c8f0240fe20c" />
