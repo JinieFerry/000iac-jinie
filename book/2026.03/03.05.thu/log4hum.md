@@ -736,3 +736,53 @@ FERRYS WEB02
    + 가용영역 및 서브넷: ap-northeast-2a , 2b ~  public1,2만 선택 
 <img width="453" height="522" alt="image" src="https://github.com/user-attachments/assets/8aced785-0ec3-4965-bab9-c04365174428" />
 <img width="813" height="786" alt="image" src="https://github.com/user-attachments/assets/994e8d51-741c-4c1e-9282-83870319992b" />
+
++ 3단계 : 다른 서비스와 통합
+  + 기존 로드 밸런서에 연결
+  + 대상 그룹 선택 : 0305-th-web-01
+  + 상태 확인 : Elastic Load Balancer 상태 확인 켜기만 체크
+<img width="814" height="684" alt="image" src="https://github.com/user-attachments/assets/22c54412-7d34-43cf-84d2-efbf82df3b40" />
+<img width="818" height="806" alt="image" src="https://github.com/user-attachments/assets/ec38f747-d906-4632-b5a5-e20680393cf7" />
+
++ 4단계 : 그룹 크기 및 크기 조정 구성
+   + 그룹 크기 : 원하는 용량 2
+   + 크기 조정 : 최소 용량 2 , 최대 용량 4
+```
+평소 EC2 2개 유지
+장애 나면 새로 생성
+필요하면 최대 4개까지 확장
+```
+   + 인스턴스 유지 관리 정책 : 혼합동작 정책 없음
+   + 추가 용량 설정 : 기본값
+   + 추가설정 : 없음
+          
+<img width="809" height="585" alt="image" src="https://github.com/user-attachments/assets/f50170aa-2bba-48aa-929d-fd0708665a3b" />
+<img width="811" height="846" alt="image" src="https://github.com/user-attachments/assets/8d9af813-4e10-4653-94da-febd6b2bca72" />
+
++ 5단계 : 알림 추가 하지 않고 다음
+<img width="836" height="133" alt="image" src="https://github.com/user-attachments/assets/7c5f3b74-5ec8-4a50-bd47-1675ab765257" />
+
++ 6단계 : 태그 추가 하지 않고 다음
+<img width="1873" height="139" alt="image" src="https://github.com/user-attachments/assets/7627bd86-a0e9-42e4-b742-69ecd613217b" />
+
+## 11. Auto Scaling - Auto Healing 테스트
+
++ EC2 인스턴스 확인  
+오토 스케일링 그룹을 생성하면 AWS가 EC2를 2개 자동생성한다. 
+
+```
+기존 EC2
+0305-ec2-web-01
+0305-ec2-web-02
+        +
+Auto Scaling이 새로 만든 EC2 2개
+```
+<img width="1711" height="215" alt="image" src="https://github.com/user-attachments/assets/54a4fb4b-329e-4ef6-ab42-85e958885a47" />
+
+** 지금 있는 EC2 중 하나를 종료해보면 AWS 내부에서 현재 서버 수 = 1 , 최소 유지 수 = 2 라서 , 새 EC2를 자동 생성한다.**
+
++ EC2 하나 삭제
+<img width="913" height="585" alt="image" src="https://github.com/user-attachments/assets/c5a524b3-b4d9-408e-bd0a-fc6fac08b41a" />
+
++ 자동으로 새 EC2 생성
+<img width="1719" height="281" alt="image" src="https://github.com/user-attachments/assets/e4ce9a94-3387-428d-aca4-f0c1781baff7" />
