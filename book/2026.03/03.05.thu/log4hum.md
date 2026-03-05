@@ -1,5 +1,5 @@
 
-# 010. 콘솔 기초 실습1
+010. 콘솔 기초 실습1
 
 ## 0. 실습 목표
 
@@ -64,7 +64,9 @@ NAT Gateway
 ↓
 Internet
 ```
----
+
+# 네트워크 단계
+===
 
 # 0000. 아키텍처 설계
 1. 구조
@@ -197,6 +199,24 @@ VPC
 
 ## 2. 퍼블릭 서브넷 설정 : 퍼블릭 IPv4 주소 자동할당을 활성화하지 않으면 EC2 퍼블릭 IP없어서  ALB 테스트, SSH 접속이 불가능     
 
+```
+                Internet
+                    │
+                    ▼
+             Internet Gateway
+                    │
+        ┌───────────┴───────────┐
+        │                       │
+  Public Subnet A         Public Subnet B
+   10.30.10.0/24           10.30.20.0/24
+        │                       │
+        │                       │
+  Private Subnet A        Private Subnet B
+   10.30.30.0/24           10.30.40.0/24
+        │                       │
+        └─────── S3 VPC Endpoint ───────┘
+```
+
 **VPC > 서브넷 > 서브넷 선택 > 작업 > 서브넷 설정 편집**
 
 1) 0305-net-01-subnet-public1-ap-northeast-2a : 퍼블릭 IPv4 주소 할당 활성화
@@ -220,6 +240,89 @@ VPC
 
 <img width="1262" height="460" alt="image" src="https://github.com/user-attachments/assets/a9842378-2d07-43a2-a8cd-22d9ee9eb106" />
 
-## 3. 보안그룹
+---
 
+## 3. 보안그룹
+**VPC > 보안그룹 > 보안그룹 생성**
+
+Security Group은 같은 VPC 안에서만 서로 참조할 수 있다.
+
+지금 우리가 만들 구조
+```
+Internet
+   │
+   ▼
+ALB  (0305-sg-alb-01)
+   │
+   ▼
+EC2  (0305-sg-ec2-01)
+```
+여기서 중요한 설정이
+```
+EC2 Security Group
+source = 0305-sg-alb-01
+```
+인데 이게 같은 VPC에 있어야만 선택 가능하므로 보안그룹의 vpc는 0305-net-01-vpc로 통일한다.
+
+1) ALB Security Group 생성
+
++ 기본
+  + 이름 : 0305-sg-alb-01    
+  + 설명 : 0305-sg-alb-01
+  + VPC : 0305-net-01-vpc <- 보안그룹은 같은 vpc 안에서만 서로 참조 가능하므로 통일
+
++ 인바운드 규칙
+  + 유형 :  HTTP
+  + 포트 범위 : 80포트
+  + 소스 : Anywhere-IPv4 0.0.0.0/0
+ 
++ 아웃바운드 규칙 : ALB는 뒤에 있느 EC2로 요청 보내야 함 = 기본값 그대로
+  + 모든 트래픽
+  + 0.0.0.0/0
+    
+<img width="711" height="277" alt="image" src="https://github.com/user-attachments/assets/fd156b6c-ceda-4c77-a714-040ed064e7e5" />
+
+<img width="1303" height="210" alt="image" src="https://github.com/user-attachments/assets/9c368dd3-7816-46ee-b514-2fa40bb9d95b" />
+
+<img width="1310" height="561" alt="image" src="https://github.com/user-attachments/assets/640ea477-cdc4-46f8-b1e7-dd6cc31b2595" />
+
+<img width="1258" height="427" alt="image" src="https://github.com/user-attachments/assets/2fe9eae1-b157-4f36-983e-63edb418d260" />
+
+2) EC2용 Security Group 생성
+3) 
+```
+Internet
+   │
+   ▼
+ALB (0305-sg-alb-01)
+   │
+   ▼
+EC2 (0305-sg-ec2-01)
+```
+
+직접 접속 (Internet -> EC2)은 막는 구조      
+
++ 기본
+  + 이름 : 0305-sg-ec2-01  
+  + 설명 : 0305-sg-ec2-01
+  + VPC : 0305-net-01-vpc <- 보안그룹은 같은 vpc 안에서만 서로 참조 가능하므로 통일
+
++ 인바운드 규칙 : ALB -> EC2만 허용
+  + 유형 :  HTTP
+  + 포트 범위 : 80포트
+  + 소스 : 사용자 지정 -> 0305-sg-alb-01 (같은 vpc 안에 있어야 선택 가능)
+ 
++ 아웃바운드 규칙 : EC2 -> 외부 트래픽 허용. EC2는 여러 외부 리소스에 접근해야 할 수 있기 때문에 열어둠 (패키지 설치: yum / apt , S3 접근 , 외부 API 호출 )
+  + 모든 트래픽
+  + 프로토콜: 전체
+  + 포트 범위: 전체
+  + 대상 : 0.0.0.0/0
+
+ <img width="708" height="272" alt="image" src="https://github.com/user-attachments/assets/8c835905-d518-40ca-9093-2a4209bc8bc9" />
+
+<img width="1035" height="529" alt="image" src="https://github.com/user-attachments/assets/e2fef0e0-137f-4dd7-98a3-da827b6830a9" />
+
+<img width="1308" height="841" alt="image" src="https://github.com/user-attachments/assets/9095e19d-a942-4eb1-b041-f6bea1ee86e9" />
+
+<img width="1260" height="427" alt="image" src="https://github.com/user-attachments/assets/1c3acbef-6476-4711-8c45-266a6e818792" />
 
