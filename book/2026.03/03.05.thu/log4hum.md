@@ -1,6 +1,3 @@
-
-010. 콘솔 기초 실습1
-
 ## 0. 실습 목표
 
 * EC2 시작 템플릿 생성
@@ -98,9 +95,11 @@ Internet
 ```
 
 ---
+# 네트워크 레이어
+---
 
-# 1. VPC 생성
-## 1) 0305-vpc-01 생성
+## 1. VPC 생성
+1) 0305-vpc-01 생성
 ```
 VPC
 0305-vpc-01
@@ -326,3 +325,31 @@ EC2 (0305-sg-ec2-01)
 
 <img width="1260" height="427" alt="image" src="https://github.com/user-attachments/assets/1c3acbef-6476-4711-8c45-266a6e818792" />
 
+
+---
+여기까지 네트워크 레이어 완료    
+
+```
+VPC
+Subnets
+IGW
+S3 Endpoint
+Route Tables
+Security Groups
+```
+---
+# 서비스 레이어
+---
+## 순서
+```
+Launch Template
+→ Target Group
+→ ALB
+→ Auto Scaling
+```
+
+(1) Launch Template
+**EC2 > 시작템플릿 > 시작 템플릿 생성**
+
++ 이름 : 0305-launch-template-01
++ 설명 : 0305-web-server
