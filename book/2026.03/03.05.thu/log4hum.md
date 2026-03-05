@@ -628,6 +628,29 @@ echo "<h1>FERRY'S WEB02</h1>" > /var/www/html/index.html
 
 <img width="1299" height="805" alt="image" src="https://github.com/user-attachments/assets/b8f06c25-3a98-4db9-989d-5f032eb4b52e" />
 
+
++ 정리
+<img width="1708" height="161" alt="image" src="https://github.com/user-attachments/assets/99aca82e-a22f-4de3-81a3-d6813599882d" />
+
+```
+첫번째 EC2
+10.30.30.19
+private1 subnet
+```
+```
+두번째 EC2
+10.30.40.189
+private2 subnet
+```
+
+```
+ALB
+ │
+ ├─ EC2 #1 (10.30.30.x)
+ └─ EC2 #2 (10.30.40.x)
+```
+위와 같은 구조로 AZ도 분산된 상태이다.
+
 ## 7. 대상 그룹에 EC2 등록
 현재 구조는 아래와 같다.   
 
@@ -660,5 +683,42 @@ EC2 중 하나로 트래픽 분산
 
 <img width="1248" height="600" alt="image" src="https://github.com/user-attachments/assets/36feffd4-96ab-4aeb-9418-dd844f0cb47a" />
 
++ 대상 등록 > 사용 가능한 인스턴스
+   + 0305-ec2-web-01과 02 선택 
+<img width="1643" height="440" alt="image" src="https://github.com/user-attachments/assets/4163b031-cd95-4008-87c7-e2ee7606611b" />
 
+<img width="1641" height="433" alt="image" src="https://github.com/user-attachments/assets/642142bb-8dcf-4abb-bafe-bffb1ba2f357" />
 
++ '아래에 보류 중인 것으로 포함' 클릭
+<img width="1642" height="741" alt="image" src="https://github.com/user-attachments/assets/614a0817-42d3-4a35-9b5d-1103f0f61643" />
+
++ '보류 중인 대상으로 등록' 클릭
+<img width="1306" height="825" alt="image" src="https://github.com/user-attachments/assets/2e259193-8f5c-42e9-a77a-5b0b502323bc" />
+
+## 8. ALB DNS 찾기
+**EC2 > 로드밸런서 > 0305-alb-web-01 클릭**
+<img width="1449" height="156" alt="image" src="https://github.com/user-attachments/assets/3789a769-32f3-4ff1-afe8-7c7da73e3a8a" />
+
++ DNS 이름 복사
+```
+0305-alb-web-01-531676862.ap-northeast-2.elb.amazonaws.com
+```
+<img width="1305" height="287" alt="image" src="https://github.com/user-attachments/assets/ea9946e5-aae1-4530-bf58-5380bd52d769" />
+
+## 9. 브라우저 접속 : 위에서 복사한 DNS 주소로 접속 
+
+새로고침 여러번 하면 번갈아 나옴 : ALB 로드밸런싱 성공
+
+```
+FERRYS WEB01
+FERRYS WEB02
+FERRYS WEB01
+FERRYS WEB02
+```
+<img width="1053" height="239" alt="image" src="https://github.com/user-attachments/assets/189c5035-3583-4947-9f8c-547a590b825e" />
+
+<img width="1050" height="248" alt="image" src="https://github.com/user-attachments/assets/2c116c8c-a8cb-4934-8f3b-f2a89c66a324" />
+
+<img width="1057" height="281" alt="image" src="https://github.com/user-attachments/assets/8e3a57de-4364-4ae5-bd44-9921e5906c40" />
+
+<img width="1053" height="294" alt="image" src="https://github.com/user-attachments/assets/300fcee6-7f13-4806-9bad-72d23da7ec6f" />
