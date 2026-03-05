@@ -830,3 +830,209 @@ EC2 서버들
 
 요청5 → AutoScaling EC2
 <img width="1057" height="1040" alt="image" src="https://github.com/user-attachments/assets/a61910db-9c12-4718-b663-5eb424ac40ba" />
+
+## 13. 실습 종료 후 리소스 삭제 (과금 방지)
+
+AWS는 리소스를 삭제하지 않으면 계속 과금된다.     
+특히 다음 리소스는 과금이 발생할 수 있다.       
+
+EC2      
+ALB     
+NAT Gateway     
+Elastic IP    
+
+따라서 실습이 끝난 후에는 반드시 리소스를 삭제한다.    
+
+삭제 순서는 의존성이 있기 때문에 아래 순서를 지켜야 한다.    
+
+Auto Scaling    
+→ EC2    
+→ Load Balancer    
+→ Target Group    
+→ Launch Template   
+→ VPC    
+
+## 13-1. Auto Scaling 그룹 삭제
+
+EC2 > Auto Scaling 그룹   
+
+0305-asg-web-01    선택 → 삭제
+
+삭제하면 Auto Scaling이 생성했던 EC2도 함께 종료된다. 
+<i83-0ca23432d3cd" />
+
+```
+Auto Scaling EC2     
+↓
+자동으로 Terminated
+```
+
+<img width="1004" height="592" alt="image" src="https://github.com/user-attachments/assets/64e36172-a027-4682-a798-50cecfe7f001" />
+
+<img width="1857" height="124" alt="image" src="https://github.com/user-attachments/assets/c785449a-2026-4513-95b7-8b1e88a7e4b2" />
+
+
+## 13-2. EC2 인스턴스 삭제
+
+EC2 > 인스턴스    
+
+삭제 대상   
+
+```
+0305-ec2-web-01
+0305-ec2-web-02
+```
+선택     
+
+작업    
+→ 인스턴스 상태   
+→ 인스턴스 종료    
+
+상태 확인     : Terminated  
+
+
+<img width="1725" height="586" alt="image" src="https://github.com/user-attachments/assets/16060926-56ea-4411-b6ad-157d573f5c13" />
+
+<img width="474" height="231" alt="image" src="https://github.com/user-attachments/assets/3ba078ba-6041-452b-89e6-16d7d4eb94b4" />
+
++ 자동 생성 인스턴스 삭제
+
+<img width="903" height="602" alt="image" src="https://github.com/user-attachments/assets/900a0f58-f211-4b0f-81f4-28b73dd67698" />
+
+<img width="475" height="239" alt="image" src="https://github.com/user-attachments/assets/25f8c1dc-c317-48dd-8316-77ebd84b8140" />
+
+
+## 13-3. Load Balancer 삭제
+
+EC2 > 로드 밸런서      
+
+선택    
+
+0305-alb-web-01  
+
+삭제
+
+
+ALB는 시간 단위로 과금되므로 반드시 삭제한다.
+<img width="829" height="573" alt="image" src="https://github.com/user-attachments/assets/7e5d9b10-86e0-404b-a402-05c81ca0ee17" />
+
+<img width="898" height="418" alt="image" src="https://github.com/user-attachments/assets/d6663887-ade4-4824-a6c7-8297e58df3ac" />
+
+
+
+13-4. Target Group 삭제
+
+EC2 > 대상 그룹
+
+선택
+
+0305-tg-web-01
+
+삭제
+
+
+<img width="913" height="538" alt="image" src="https://github.com/user-attachments/assets/de89a51d-d5b4-4e9f-91b6-6650c9493b34" />
+
+
+<img width="917" height="255" alt="image" src="https://github.com/user-attachments/assets/fb36d09c-dedd-4c94-af17-15e1ae46afbe" />
+
+
+
+13-5. Launch Template 삭제
+
+EC2 > 시작 템플릿
+
+선택
+
+0305-launch-template-01
+
+삭제
+
+<img width="1097" height="569" alt="image" src="https://github.com/user-attachments/assets/82283f22-ef83-4a28-a27e-1ff28476431a" />
+
+
+<img width="1116" height="201" alt="image" src="https://github.com/user-attachments/assets/03717489-6520-4bb5-a659-110d817b3cee" />
+
+13-6. VPC 삭제 (선택)
+
+네트워크까지 정리하려면 VPC도 삭제한다.
+
+VPC > VPC
+
+선택
+
+0305-net-01-vpc
+
+삭제
+
+<img width="1113" height="677" alt="image" src="https://github.com/user-attachments/assets/136868e3-b061-4094-acb6-b4bbb754969a" />
+
+삭제되면서 같이 제거되는 리소스
+
+Subnets
+Route Tables
+Security Groups
+VPC Endpoint
+Internet Gateway
+
+
+
+13-7. 최종 과금 확인
+
+마지막으로 다음 리소스가 0개인지 확인한다.
+
+EC2
+EC2 > 인스턴스
+Running = 0
+
+<img width="1914" height="326" alt="image" src="https://github.com/user-attachments/assets/097be75f-69c2-4784-b2c8-a7fc09e64864" />
+
+Load Balancer
+EC2 > 로드 밸런서
+0개
+
+<img width="1905" height="528" alt="image" src="https://github.com/user-attachments/assets/47dac154-f986-482c-85f5-a7685b96ba22" />
+
+NAT Gateway
+VPC > NAT Gateway
+0개
+
+<img width="1917" height="187" alt="image" src="https://github.com/user-attachments/assets/a033eb56-5255-4e97-b6ff-741452253dda" />
+
+실습 전체 구조 (정리)
+
+이번 실습에서 만든 구조
+
+Internet
+   │
+Internet Gateway
+   │
+Public Subnet
+   │
+ALB
+   │
+Target Group
+   │
+Auto Scaling Group
+   │
+EC2 (Nginx)
+
+웹 요청 흐름
+
+User
+↓
+ALB
+↓
+Target Group
+↓
+EC2
+↓
+index.html
+
+로드밸런싱 확인
+
+FERRYS WEB01
+FERRYS WEB02
+Hello from i-xxxx
+
+새로고침할 때마다 서버가 바뀌면 정상이다.
