@@ -529,26 +529,7 @@ HTTP 80
 EC2 보안 그룹의 역할은 ALB → EC2 만 허용으로, 외부 사용자는 EC2에 직접 접근하지 못 한다.
 
 + 리스너 및 라우팅
-```
-Internet
-   │
-ALB (HTTP:80)
-   │
-Target Group
-0305-tg-web-01
-   │
-EC2 Instances
-```
-구조는 위와 같다. 그래서 ALB가 하는 일은 아래와 같다.
-```
-http://ALB주소
 
-요청 받음
-   ↓
-0305-tg-web-01으로 전달
-   ↓
-EC2 중 하나로 트래픽 분산
-```
 + 리스너
   + 프로토콜 : HTTP
   + 포트 : 80
@@ -560,3 +541,124 @@ EC2 중 하나로 트래픽 분산
 
 + 아래로는 설정을 건들지 않고 로드 밸런서를 생성한다.
 <img width="1254" height="717" alt="image" src="https://github.com/user-attachments/assets/4957f5f2-9288-44d9-adab-c8f0240fe20c" />
+
+
+## 6. 대상 그룹에 넣을 EC2 생성
+**EC2 > 인스턴스 > 인스턴스 시작**
+
+### 첫번째 EC2
++ 이름 및 태그
+   + 이름 : 0305-ec2-web-01
+     
++ 애플리케이션 및 OS 이미지
+   + AMI : Amazon Linux 2023
+     
+<img width="866" height="750" alt="image" src="https://github.com/user-attachments/assets/31aa3614-230e-4a59-9a35-8b9753d971e6" />
+
++ 인스턴스 유형 : t3.micro
++ 키 페어 : 키페어 없이 진행 <- ssh 접속 테스트는 AWS 콘솔로
+
+<img width="791" height="319" alt="image" src="https://github.com/user-attachments/assets/95453cc4-f89e-42ac-b64b-eb7ce6d9a473" />
+
++ 네트워크 설정
+   + VPC : 편집 눌러서 0305-net-01-vpc (10.30.0.0/16)으로 설정
+   + 서브넷 (첫번째 EC2) : 0305-net-01-subnet-private1 (10.30.10.0/24)
+   + 퍼블릭 IP 자동 할당 : 비활성화
+   + 방화벽 : 기존 보안 그룹 선택
+   + 일반 보안 그룹 : 0305-sg-ec2-01 
+
+<img width="791" height="482" alt="image" src="https://github.com/user-attachments/assets/987d61b5-dd9d-4406-8bae-6960fe2a7f24" />
+
+<img width="661" height="429" alt="image" src="https://github.com/user-attachments/assets/62cb9272-1007-4a6c-9df6-3b66619bbdc7" />
+
++ 고급 네트워크 구성, 스토리지 구성 건너뜀
++ 고급 세부 정보
+   + 사용자 데이터 (첫번째 EC2): 웹서버 자동 설치용
+
+```     
+#!/bin/bash
+dnf install -y httpd
+systemctl start httpd
+systemctl enable httpd
+echo "<h1> FERRY's WEB01</h1>" > /var/www/html/index.html
+```
++ 인스턴스 시작 클릭
+  
+<img width="1303" height="470" alt="image" src="https://github.com/user-attachments/assets/4495ab98-0f14-40f1-990a-a17cc5906a1c" />
+
+<img width="1300" height="807" alt="image" src="https://github.com/user-attachments/assets/7ed023db-78b5-4b58-9dc1-bc6f75f47b29" />
+
+### 두번째 EC2
++ 이름 및 태그
+   + 이름 : 0305-ec2-web-02
+     
++ 애플리케이션 및 OS 이미지
+   + AMI : Amazon Linux 2023
+<img width="867" height="751" alt="image" src="https://github.com/user-attachments/assets/f04729f4-879b-48fe-a917-3d7d56b1480d" />
+
++ 인스턴스 유형 : t3.micro
++ 키 페어 : 키페어 없이 진행 <- ssh 접속 테스트는 AWS 콘솔로
+<img width="865" height="319" alt="image" src="https://github.com/user-attachments/assets/91588674-f6f7-4ee2-8a5e-7d74649cc3b2" />
+
++ 네트워크 설정
+   + VPC : 편집 눌러서 0305-net-01-vpc (10.30.0.0/16)으로 설정
+   + 서브넷 (두번째 EC2) : 0305-net-01-subnet-private2 (10.40.10.0/24) <- AZ분산
+   + 퍼블릭 IP 자동 할당 : 비활성화
+   + 방화벽 : 기존 보안 그룹 선택
+   + 일반 보안 그룹 : 0305-sg-ec2-01
+<img width="719" height="483" alt="image" src="https://github.com/user-attachments/assets/6f426bc3-54c1-406e-8042-d919c6a74d08" />
+
+<img width="701" height="483" alt="image" src="https://github.com/user-attachments/assets/0789dc23-ad1e-4b61-bb1f-2c3c8c8ad9c2" />
+
++ 고급 네트워크 구성, 스토리지 구성 건너뜀
++ 고급 세부 정보
+   + 사용자 데이터 (두번째 EC2): 웹서버 자동 설치용
+```
+#!/bin/bash
+dnf install -y httpd
+systemctl start httpd
+systemctl enable httpd
+echo "<h1>FERRY'S WEB02</h1>" > /var/www/html/index.html
+```
++ 인스턴스 시작 클릭
+  
+<img width="586" height="382" alt="image" src="https://github.com/user-attachments/assets/fa425834-bb48-4047-bd7a-ae3d84896f29" />
+
+<img width="1301" height="489" alt="image" src="https://github.com/user-attachments/assets/921bd835-67f9-467d-91b7-020ee9b25b58" />
+
+<img width="1299" height="805" alt="image" src="https://github.com/user-attachments/assets/b8f06c25-3a98-4db9-989d-5f032eb4b52e" />
+
+## 7. 대상 그룹에 EC2 등록
+현재 구조는 아래와 같다.   
+
+```
+Internet
+   │
+ALB (HTTP:80)
+   │
+Target Group
+0305-tg-web-01
+   │
+EC2 Instances
+```
+그래서 ALB가 하는 일은 아래와 같다.    
+
+```
+http://ALB주소
+
+요청 받음
+   ↓
+0305-tg-web-01으로 전달
+   ↓
+EC2 중 하나로 트래픽 분산
+```
+따라서 로드밸런서 생성 후에는 EC2를 반드시 Target Group에 등록해야 한다. 안그러면 ALB는 만들어져도 연결할 서버가 없는 상태가 된다.     
+
+**EC2 > 대상그룹 > 0305-tg-web-01 선택 > 대상 등록 클릭**
+
+<img width="1454" height="163" alt="image" src="https://github.com/user-attachments/assets/1166b95b-f442-4b18-a972-b29d3f15b6ab" />
+
+<img width="1248" height="600" alt="image" src="https://github.com/user-attachments/assets/36feffd4-96ab-4aeb-9418-dd844f0cb47a" />
+
+
+
