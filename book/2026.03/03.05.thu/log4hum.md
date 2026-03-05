@@ -143,11 +143,12 @@ Private EC2
    │
    └─ Internet → NAT Gateway (유료)
 ```
-+ DNS 옵션 : 모두 활성화 (안 켜면 나중에 apt update 실패 할 수 있음)   
-<img width="1227" height="513" alt="image" src="https://github.com/user-attachments/assets/2ffc8099-cca1-4aad-a23e-ff1f2bbd252a" />
-<img width="1246" height="672" alt="image" src="https://github.com/user-attachments/assets/586cd9a0-48ce-41a6-a5c0-9fbf7ebf349d" />
-<img width="1229" height="825" alt="image" src="https://github.com/user-attachments/assets/6537c053-11ab-4d2e-8118-3f4e4c8c8bb7" />
++ DNS 옵션 : 모두 활성화 (안 켜면 나중에 apt update 실패 할 수 있음)
+<img width="1275" height="518" alt="image" src="https://github.com/user-attachments/assets/c2259f56-e604-4799-8202-10d29bf0663d" />
 
+<img width="1245" height="632" alt="image" src="https://github.com/user-attachments/assets/9e39b40d-56b0-45b5-924a-e50ac0581300" />
+
+<img width="395" height="487" alt="image" src="https://github.com/user-attachments/assets/e494c5c2-86d7-4e41-9c58-9346e0c5d960" />
 
 지금 단계에서의 vpc 실제 구조 (NAT 아직 안 만듦)    
 
