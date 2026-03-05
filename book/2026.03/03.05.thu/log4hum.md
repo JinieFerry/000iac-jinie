@@ -722,3 +722,17 @@ FERRYS WEB02
 <img width="1057" height="281" alt="image" src="https://github.com/user-attachments/assets/8e3a57de-4364-4ae5-bd44-9921e5906c40" />
 
 <img width="1053" height="294" alt="image" src="https://github.com/user-attachments/assets/300fcee6-7f13-4806-9bad-72d23da7ec6f" />
+
+## 10. Auto Scailing 그룹
+**EC2 > Auto Scailing 그룹 > 생성**
+
++ 1단계 : 시작 템플릿 선택
+   + 이름 : 0305-asg-web-01
+   + 시작 템플릿 : 0305-launch-templete-01
+<img width="830" height="797" alt="image" src="https://github.com/user-attachments/assets/74754190-d879-4e41-949f-8be72dd0fa2f" />
+
++ 2단계 : 인스턴스 시작 옵션 선택
+   + vpc : 0305-net-01-vpc
+   + 가용영역 및 서브넷: ap-northeast-2a , 2b ~  public1,2만 선택 
+<img width="453" height="522" alt="image" src="https://github.com/user-attachments/assets/8aced785-0ec3-4965-bab9-c04365174428" />
+<img width="813" height="786" alt="image" src="https://github.com/user-attachments/assets/994e8d51-741c-4c1e-9282-83870319992b" />
