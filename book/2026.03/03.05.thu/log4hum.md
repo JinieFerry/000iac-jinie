@@ -185,13 +185,41 @@ VPC
 
 2) 자동으로 만들어진 것  
 
- (1) 라우팅 테이블
++ 라우팅 테이블
  0305-net-01-rtb-public   
  0305-net-01-rtb-private-2a   
  0305-net-01-rtb-private-2b   
 
- (2) 네트워크 연결
++ 네트워크 연결
   0305-net-01-igw   
   0305-net-01-vpce-s3
 ---
+
+## 2. 퍼블릭 서브넷 설정 : 퍼블릭 IPv4 주소 자동할당을 활성화하지 않으면 EC2 퍼블릭 IP없어서  ALB 테스트, SSH 접속이 불가능     
+
+**VPC > 서브넷 > 서브넷 선택 > 작업 > 서브넷 설정 편집**
+
+1) 0305-net-01-subnet-public1-ap-northeast-2a : 퍼블릭 IPv4 주소 할당 활성화
+
++ 자동 할당 IP 설정 : 퍼블릭 IPv4 주소 자동 할당 활성화 : 체크표시 켜기 -> 저장
+
+<img width="1461" height="509" alt="image" src="https://github.com/user-attachments/assets/6c796b3e-96a7-4a48-9bbe-e049f5e47b1b" />
+
+<img width="1274" height="421" alt="image" src="https://github.com/user-attachments/assets/bc3a3c07-9ce6-4ed7-9433-2e89584522e9" />
+
+<img width="655" height="283" alt="image" src="https://github.com/user-attachments/assets/004ba2c6-5bc8-4d5d-a041-b3a31758451d" />
+
+<img width="1265" height="463" alt="image" src="https://github.com/user-attachments/assets/fb5807f7-85f9-4678-87c0-f94c139279cd" />
+
+
+2) 0305-net-01-subnet-public2-ap-northeast-2b : 퍼블릭 IPv4 주소 할당 활성화
+
++ public1과 같은 방식으로 활성화 -> 저장
+
+<img width="932" height="222" alt="image" src="https://github.com/user-attachments/assets/e75e6698-f399-4b35-a093-7448cfe3cd07" />
+
+<img width="1262" height="460" alt="image" src="https://github.com/user-attachments/assets/a9842378-2d07-43a2-a8cd-22d9ee9eb106" />
+
+## 3. 보안그룹
+
 
