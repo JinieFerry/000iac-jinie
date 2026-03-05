@@ -353,3 +353,8 @@ Launch Template
 
 + 이름 : 0305-launch-template-01
 + 설명 : 0305-web-server
++ AMI : Amazon Linux 2023 kernel-6.1 AMI (EC2 타입을 보통 t3.micro , t3.small 쓰고 있엇 같은 x86 CPU라서 x86 AMI 써야 함 )
++ 인스턴스 유형 : t3.micro
++ 키 페어 : 없음 <- SSH 접속 안하고 웹서버 테스트만 하니까 필요 업음
++ 
+<img width="952" height="838" alt="image" src="https://github.com/user-attachments/assets/edd9d0b4-94ed-400c-8ad4-8b06991cf9e3" />
