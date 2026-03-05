@@ -196,7 +196,8 @@ VPC
   0305-net-01-vpce-s3
 ---
 
-## 2. 퍼블릭 서브넷 설정 : 퍼블릭 IPv4 주소 자동할당을 활성화하지 않으면 EC2 퍼블릭 IP없어서  ALB 테스트, SSH 접속이 불가능     
+## 2. 퍼블릭 서브넷 설정    
+: 퍼블릭 IPv4 주소 자동할당을 활성화하지 않으면 EC2 퍼블릭 IP없어서  ALB 테스트, SSH 접속이 불가능     
 
 ```
                 Internet
@@ -348,7 +349,7 @@ Launch Template
 → Auto Scaling
 ```
 
-(1) Launch Template
+## 4. 시작 템플릿 Launch Template
 **EC2 > 시작템플릿 > 시작 템플릿 생성**
 + 기본
    + 이름 : 0305-launch-template-01
@@ -424,3 +425,109 @@ Hello from i-2
 <img width="541" height="382" alt="image" src="https://github.com/user-attachments/assets/960abc61-b2c2-4386-8dd1-058f083b4386" />
 
 <img width="1254" height="442" alt="image" src="https://github.com/user-attachments/assets/91d209a1-02fe-49c3-8098-3ba1221b260d" />
+
+## 5. 타켓 그룹
+```
+Internet
+   ↓
+ALB
+   ↓
+Target Group
+   ↓
+EC2
+```
+현재 구조는 위와 같기 때문에 ALB는 EC2를 직접 모른다. 따라서 중간 연결이 필요하다. (ALB → TargetGroup → EC2)
+
+**EC2 > 로드 밸런싱 > 대상 그룹 > 대상 그룹 생성**
++  설정
+  + 대상 유형 : 인스턴스
+  + 대상 그룹 이름 : 0305-tg-web-01
+  + 프로토콜 : HTTP
+  + 포트 : 80
+  + VPC : 0305-net-01-vpc
+
++ 상태 검사 : 그대로 두기
+  + 프로토콜 : HTTp
+  + 상태 검사 경로 : /
+
+<img width="864" height="792" alt="image" src="https://github.com/user-attachments/assets/930397cb-7e94-44ac-8b24-0576a4c8fd4a" />
+
+
+<img width="1081" height="669" alt="image" src="https://github.com/user-attachments/assets/e0d36441-c60e-45d1-b058-41535b1435a6" />
+
++ 대상 등록 : 수정 없이 '다음' 클릭
+
+<img width="1454" height="781" alt="image" src="https://github.com/user-attachments/assets/e306c4ec-cede-4224-8aec-cc7c08ce06a1" />
+
++ 검토 및 생성 : '대상 그룹 생성' 클릭
++<img width="1309" height="647" alt="image" src="https://github.com/user-attachments/assets/cf80ee95-cfaa-4832-b8a3-6b0b8b83e909" />
+
+
+<img width="1251" height="658" alt="image" src="https://github.com/user-attachments/assets/3ab62ce3-94f3-4ff0-a3ed-a72fd0763337" />
+
+#### 아직 ALB , Auto Scailing, EC2 없기 때문에 대상은 0으로 뜸. 나중에 구조가 이렇게 되면 자동으로 들어감.
+```
+Internet
+   ↓
+ALB
+   ↓
+Target Group
+   ↓
+Auto Scaling
+   ↓
+EC2 생성 → Target Group 자동 등록
+```
+
+## 5. ALB 생성
+**EC2 > 로드 밸런싱 > 로드 밸런서 생성**
+
++ Application Load Balancer 선택
+<img width="811" height="707" alt="image" src="https://github.com/user-attachments/assets/b2fce369-72e3-43a5-9ea6-f26e861ac94c" />
+
++ 기본
+   + 이름 : 0305-alb-web-01
+   + 체계 : 인터넷 경계 = 외부접속 허용 (Internet → ALB)
+   + IP 주소 유형 : IPv4
+
+<img width="862" height="554" alt="image" src="https://github.com/user-attachments/assets/1a39954e-42ee-4bc0-a926-a081d54ecbd0" />
+
++ 네트워크 매핑
+   + VPC : 0305-net-01-vpc 선택 10.30.0.0/16
+   + IP 풀 : 아무것도 선택하지 않음 (ALB는 자동으로 퍼블릭 IP할당 되니까 필요없음, IPAM은 대기업 네트워크 관리에서 사용)
+   + 가용 영역 및 서브넷 :  ap-northeast-2a 과 ap-northeast-2b . 둘 다 체크
+   + 서브넷 선택 : public subnet 두 개 각각 선택 (0305 ~ pubic1 ~ : 10.30.10.0/24 , 0305 ~ public2 ~ : 10.30.20.0/24 )
+
+<img width="1001" height="477" alt="image" src="https://github.com/user-attachments/assets/ab295746-d896-401e-82e8-42506b918a68" />
+
++ 보안 그룹
+   + 보안 그룹 : 0305-sg-alb-01 선택 (사용자가 EC2에 직접 접속하는 게 아니라 ALB에 접속하는 것익 때문에 외부 트래픽을 받는 보안 그룹은 ALB에 붙어야 한다.
+
+전체 보안 구조는 아래와 같다. 외부 -> EC2 직접 접근을 차단하고, 외부 -> ALB만 접근 가능하다. (보안이 좋아지고, 트래픽 분산과 오토 스케일링이 가능하다.)  
+
+```
+Internet
+   │
+[SG: ALB]
+   │
+Application Load Balancer
+   │
+[SG: EC2]
+   │
+EC2 Instance
+```
+사용자가 EC2에 직접 접속하지 않고, ALB에 접속하기 때문에 외부 트래픽을 받는 보안그룹은 ALB에 붙어야 한다.
+
+ALB 보안 그룹의 역할은 인터넷 -> ALB 접속 허용이다. 즉 사용자가 http://ALB-DNS 로 접속한다.
+
+```
+Inbound
+HTTP 80
+0.0.0.0/0
+```
+
+EC2 보안 그룹의 역할은 ALB → EC2 만 허용으로, 외부 사용자는 EC2에 직접 접근하지 못 한다.
+
+
+<img width="307" height="218" alt="image" src="https://github.com/user-attachments/assets/a3a007a3-1a44-4d5f-8f7b-e6d245354428" />
+
++ 
