@@ -350,11 +350,77 @@ Launch Template
 
 (1) Launch Template
 **EC2 > 시작템플릿 > 시작 템플릿 생성**
++ 기본
+   + 이름 : 0305-launch-template-01
+   + 설명 : 0305-web-server
+   + AMI : Amazon Linux 2023 kernel-6.1 AMI (EC2 타입을 보통 t3.micro , t3.small 쓰고 있엇 같은 x86 CPU라서 x86 AMI 써야 함 )
+   + 인스턴스 유형 : t3.micro
+   + 키 페어 : 없음 <- SSH 접속 안하고 웹서버 테스트만 하니까 필요 없음
 
-+ 이름 : 0305-launch-template-01
-+ 설명 : 0305-web-server
-+ AMI : Amazon Linux 2023 kernel-6.1 AMI (EC2 타입을 보통 t3.micro , t3.small 쓰고 있엇 같은 x86 CPU라서 x86 AMI 써야 함 )
-+ 인스턴스 유형 : t3.micro
-+ 키 페어 : 없음 <- SSH 접속 안하고 웹서버 테스트만 하니까 필요 업음
-+ 
+```
+실습 : Key Pair 없음
+요즘 실무 : SSM 사용
+옛날 방식 : SSH + Key Pair
+```
++ 네트워크
+   + 서브넷 : 시작 템플릿에 포함하지 않음
+   + 가용 영역 : 시작 템플릿에 포함하지 않음
+   + 방화벽 :기존 보안 그룹 선택 <- 아까 만든 0305-sg-ec2-01 써야 함
+
+```
+구조
+
+Internet
+   │
+ALB (0305-sg-alb-01)
+   │
+EC2 (0305-sg-ec2-01)
+
+보안 그룹 규칙
+HTTP 80
+source = 0305-sg-alb-01
+```
+즉, ALB만 EC2 접근 가능하다. 
+
++ 고급 세부 정보 > 사용자 데이터 : 아래 코드 붙여넣음
+
+```
+#!/bin/bash
+
+dnf update -y
+dnf install -y nginx
+
+systemctl start nginx
+systemctl enable nginx
+
+INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
+
+echo "<h1>Hello! from $INSTANCE_ID</h1>" > /usr/share/nginx/html/index.html
+```     
+
+### 위 코드가 하는 일 : EC2가 생성되면 자동으로       
+1. nginx 설치
+2. 웹서버 실행
+3. index.html 생성
+4. 인스턴스 ID 표시
+
+브라우저에서 Hell from i-xxxxxxxx로 나옴 : ALB 테스트 시 새로고침하면 
+
+```
+Hello from i-1
+Hello from i-2
+```
+위와 같이 바뀌므로 로드밸런싱 확인 가능하다.
++ #!/bin/bash  없으면 스크립트 실행 안됨
++ base64 체크박스 : 체크하면 안됨
+
+
 <img width="952" height="838" alt="image" src="https://github.com/user-attachments/assets/edd9d0b4-94ed-400c-8ad4-8b06991cf9e3" />
+
+<img width="1480" height="649" alt="image" src="https://github.com/user-attachments/assets/9f7f954e-eb55-4652-9330-72fd1aea57b4" />
+
+<img width="714" height="489" alt="image" src="https://github.com/user-attachments/assets/855ccbec-b3fa-474f-a0c0-8fdf86e3d0bb" />
+
+<img width="541" height="382" alt="image" src="https://github.com/user-attachments/assets/960abc61-b2c2-4386-8dd1-058f083b4386" />
+
+<img width="1254" height="442" alt="image" src="https://github.com/user-attachments/assets/91d209a1-02fe-49c3-8098-3ba1221b260d" />
