@@ -495,15 +495,17 @@ EC2 생성 → Target Group 자동 등록
    + VPC : 0305-net-01-vpc 선택 10.30.0.0/16
    + IP 풀 : 아무것도 선택하지 않음 (ALB는 자동으로 퍼블릭 IP할당 되니까 필요없음, IPAM은 대기업 네트워크 관리에서 사용)
    + 가용 영역 및 서브넷 :  ap-northeast-2a 과 ap-northeast-2b . 둘 다 체크
-   + 서브넷 선택 : public subnet 두 개 각각 선택 (0305 ~ pubic1 ~ : 10.30.10.0/24 , 0305 ~ public2 ~ : 10.30.20.0/24 )
+   + 서브넷 선택 : public subnet 두 개 각각 선택      
+     + ap-northeast-2a (apne2-az1) : 0305 ~ pubic1 ~ : 10.30.10.0/24
+     + ap-northeast-2b (apne2-az2) : 0305 ~ public2 ~ : 10.30.20.0/24 
 
 <img width="1001" height="477" alt="image" src="https://github.com/user-attachments/assets/ab295746-d896-401e-82e8-42506b918a68" />
 
 + 보안 그룹
-   + 보안 그룹 : 0305-sg-alb-01 선택 (사용자가 EC2에 직접 접속하는 게 아니라 ALB에 접속하는 것익 때문에 외부 트래픽을 받는 보안 그룹은 ALB에 붙어야 한다.
-
-전체 보안 구조는 아래와 같다. 외부 -> EC2 직접 접근을 차단하고, 외부 -> ALB만 접근 가능하다. (보안이 좋아지고, 트래픽 분산과 오토 스케일링이 가능하다.)  
-
+   + 보안 그룹 : 0305-sg-alb-01 선택
+<img width="906" height="239" alt="image" src="https://github.com/user-attachments/assets/91132310-0a51-42d6-930d-a81d5c720ba1" />
+    
+전체 보안 구조는 아래와 같다. 외부 -> EC2 직접 접근을 차단하고, 외부 -> ALB만 접근 가능하다. (보안이 좋아지고, 트래픽 분산과 오토 스케일링이 가능하다.) 
 ```
 Internet
    │
@@ -524,10 +526,8 @@ Inbound
 HTTP 80
 0.0.0.0/0
 ```
-
 EC2 보안 그룹의 역할은 ALB → EC2 만 허용으로, 외부 사용자는 EC2에 직접 접근하지 못 한다.
 
 
-<img width="307" height="218" alt="image" src="https://github.com/user-attachments/assets/a3a007a3-1a44-4d5f-8f7b-e6d245354428" />
 
 + 
