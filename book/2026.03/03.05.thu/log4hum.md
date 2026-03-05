@@ -98,7 +98,7 @@ Internet
 ---
 
 # 1. VPC 생성
-## <1> 0305-vpc-01 생성
+## 1) 0305-vpc-01 생성
 ```
 VPC
 0305-vpc-01
@@ -155,7 +155,8 @@ Private EC2
 <img width="1320" height="795" alt="image" src="https://github.com/user-attachments/assets/79f1715c-5a66-49a6-8323-1debd2dee802" />
 
 
-## <2> vpc 생성 점검
+## 1-2. vpc 생성 점검
+
 1) 현재 구조 (NAT 아직 안 만듦)    
 
 ```
@@ -184,13 +185,13 @@ VPC
 
 2) 자동으로 만들어진 것  
 
-(1) 라우팅 테이블
+ (1) 라우팅 테이블
  0305-net-01-rtb-public   
  0305-net-01-rtb-private-2a   
  0305-net-01-rtb-private-2b   
 
  (2) 네트워크 연결
- 0305-net-01-igw   
- 0305-net-01-vpce-s3
+  0305-net-01-igw   
+  0305-net-01-vpce-s3
 ---
 
