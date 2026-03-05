@@ -786,3 +786,47 @@ Auto Scaling이 새로 만든 EC2 2개
 
 + 자동으로 새 EC2 생성
 <img width="1719" height="281" alt="image" src="https://github.com/user-attachments/assets/e4ce9a94-3387-428d-aca4-f0c1781baff7" />
+
+## 12. ALB 접속 테스트
+**EC2 > 로드밸런서 > 0305-alb-web-01 선택**
++ DNS 이름 복사 : 0305-alb-web-01-531676862.ap-northeast-2.elb.amazonaws.com
++ 브라우저 접속
+  
+Round Robin (새로고침 할 때 마다 바뀜)
+
+현재 AWS 내부 구조는 다음과 같다.
+```
+사용자 (브라우저)
+        ↓
+ALB (Application Load Balancer)
+        ↓
+Target Group
+        ↓
+EC2 서버들
+   WEB01
+   WEB02
+   AutoScaling 서버
+```
+그래서 브라우저가 요청 할 때 마다 ALB가 이렇게 처리한다.
+```
+요청1 → WEB01
+요청2 → WEB02
+요청3 → AutoScaling EC2
+요청4 → WEB01
+요청5 → WEB02
+```
+
+요청1 → WEB01
+<img width="1057" height="1040" alt="image" src="https://github.com/user-attachments/assets/3c8b5dff-73e7-468e-b336-6507f70e6eb3" />
+
+요청2 → WEB02
+<img width="1057" height="1040" alt="image" src="https://github.com/user-attachments/assets/ee03e903-7e78-41b3-acb6-edeb084eaa75" />
+
+요청3 → AutoScaling EC2
+<img width="1057" height="1040" alt="image" src="https://github.com/user-attachments/assets/e6fa7b23-d7c3-44a9-8110-298d83cafb54" />
+
+요청4 → WEB01
+<img width="1057" height="1040" alt="image" src="https://github.com/user-attachments/assets/0c18b6ff-8ef2-4df6-85d4-4f81030b826d" />
+
+요청5 → WEB02
+<img width="1057" height="1040" alt="image" src="https://github.com/user-attachments/assets/a61910db-9c12-4718-b663-5eb424ac40ba" />
