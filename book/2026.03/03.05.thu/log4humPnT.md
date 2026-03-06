@@ -289,7 +289,7 @@ source = 0305-sg-alb-01
 <img width="1258" height="427" alt="image" src="https://github.com/user-attachments/assets/2fe9eae1-b157-4f36-983e-63edb418d260" />
 
 2) EC2용 Security Group 생성
-3) 
+3)  
 ```
 Internet
    │
