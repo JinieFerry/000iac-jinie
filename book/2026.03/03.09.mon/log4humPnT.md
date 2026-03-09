@@ -190,7 +190,7 @@ terragrunt run-all apply
 
 ```
 ### 콘솔에서 hub-vpc 생성 확인 : 성공
-<img width="1701" height="201" alt="image" src="https://github.com/user-attachments/assets/056daacc-f775-4c2c-b44d-21b0ed40f101" />
+<img width="1717" height="190" alt="image" src="https://github.com/user-attachments/assets/d5e4ec9d-6210-4a6e-8f1b-79c2d08b08a5" />
 자동 생성 되는 것:
 ```
 public subnet
@@ -199,12 +199,15 @@ NAT
 IGW
 route table
 ```
+<img width="1722" height="371" alt="image" src="https://github.com/user-attachments/assets/35104b98-d7aa-4311-b1b8-a2c87fd58e64" />
+<img width="1729" height="136" alt="image" src="https://github.com/user-attachments/assets/035b0072-bd5e-4436-b270-a1cb891b0872" />
+<img width="1047" height="159" alt="image" src="https://github.com/user-attachments/assets/2c316a8c-4c88-4914-9361-28a2a8ffffbb" />
+<img width="1721" height="275" alt="image" src="https://github.com/user-attachments/assets/095c0e96-edf9-4af9-846b-4b092dd873f7" />
+
 *참고 (과금)
 
 여기서 과금되는 건 NAT Gateway 하나다.    
-서울 리전 시간당 약 $0.045     
-
-그래서 실습 끝나면 `terragrunt run-all destroy` 해야 한다.
+서울 리전 시간당 약 $0.045 = 실습 끝나면 `terragrunt run-all destroy` 해야 한다.
 
 현재 구조 : Hub 네트워크 중심 생성 완료 (env.hcl , terragrunt.hcl ✔ , S3 backend ✔ , DynamoDB lock ✔ , 01-hub-vpc ✔)
 ``` 
@@ -221,5 +224,71 @@ Hub VPC (10.0.0.0/16)
    └ Private subnet
 ```
 
+---
+
+
+## 05. Service VPC 생성
+```
+#위치
+cd 02-service-vpc/
+ls
+
+# terragrunt.hcl 파일 작성
+nano terragrunt.hcl
+```
+### 02-service-vpc/terragrunt.hcl
+```
+include "root" {
+  path = find_in_parent_folders()
+}
+
+terraform {
+  source = "tfr:///terraform-aws-modules/vpc/aws?version=6.3.0"
+}
+
+inputs = {
+  name = "service-vpc"
+  cidr = "10.1.0.0/16"
+
+  azs = ["ap-northeast-2a", "ap-northeast-2c"]
+
+  private_subnets = ["10.1.1.0/24", "10.1.2.0/24"]
+
+  enable_nat_gateway = false
+
+  tags = {
+    Environment = "prod"
+    Role        = "service"
+  }
+}
+```
+```
+#prod로 이동
+cd ..
+
+#실행
+terragrunt run-all plan
+
+#실제 생성
+terragrunt run-all apply
+```
+
+/d/tg/0309/hubspoke/prod
+AWS 안에는 지금 이 구조
+```
+01-hub-vpc
+02-service-vpc
+03-tgw
+03-2-routing
+04-alb
+05-ec2
+env.hcl
+```
+Terraform 구조
+```
+hub-vpc      10.0.0.0/16
+service-vpc  10.1.0.0/16
+```
+즉, 지금까지 : VPC 두 개 생성 완료
 ---
 
