@@ -120,3 +120,106 @@ Partition key: LockID       Type: String
 <img width="863" height="735" alt="image" src="https://github.com/user-attachments/assets/36ba8f27-2f65-4ca7-845e-7fc1caa15004" />
 
 ### 다시 Git Bash로 이동
+#AWS 콘솔에서 버킷 , Dynamo DB 테이블 생성 후 GIt Bash로 컴백
+## 3. HUB VPC 생성
+```
+ls
+cd ..
+ls
+cd 0306/
+ls
+cd hubspoke/
+ls
+cd prod/
+ls
+pwd
+
+#hub vpc 작성
+cd 01-hub-vpc/
+
+nano terragrunt.hcl
+```
+### terragrunt.hcl
+```
+include "root" {
+  path = find_in_parent_folders()
+}
+
+terraform {
+  source = "tfr:///terraform-aws-modules/vpc/aws?version=6.3.0"
+}
+
+inputs = {
+  name = "hub-vpc"
+  cidr = "10.0.0.0/16"
+
+  azs = ["ap-northeast-2a", "ap-northeast-2c"]
+
+  public_subnets  = ["10.0.1.0/24", "10.0.2.0/24"]
+  private_subnets = ["10.0.11.0/24", "10.0.12.0/24"]
+
+  enable_nat_gateway = true
+  single_nat_gateway = true
+
+  tags = {
+    Environment = "prod"
+    Role        = "hub"
+  }
+}
+```
+```
+#prod로 이동
+cd ..
+
+pwd
+
+#첫 terragrunt 실행
+terragrunt run-all init
+terragrunt run-all plan
+```
+
+```
+#prod로 이동
+pwd
+#실제 생성
+#지금까지 한 것은 HUb VPC 생성 계획 확인단계로 아직 생성은 하지 않았음
+```
+## 04. 실제 생성
+```
+terragrunt run-all apply
+
+```
+### 콘솔에서 hub-vpc 생성 확인 : 성공
+<img width="1701" height="201" alt="image" src="https://github.com/user-attachments/assets/056daacc-f775-4c2c-b44d-21b0ed40f101" />
+자동 생성 되는 것:
+```
+public subnet
+private subnet
+NAT
+IGW
+route table
+```
+*참고 (과금)
+
+여기서 과금되는 건 NAT Gateway 하나다.    
+서울 리전 시간당 약 $0.045     
+
+그래서 실습 끝나면 `terragrunt run-all destroy` 해야 한다.
+
+현재 구조 : Hub 네트워크 중심 생성 완료 (env.hcl , terragrunt.hcl ✔ , S3 backend ✔ , DynamoDB lock ✔ , 01-hub-vpc ✔)
+``` 
+Internet
+   │
+   ▼
+IGW
+   │
+   ▼
+Hub VPC (10.0.0.0/16)
+   ├ Public subnet
+   ├ Public subnet
+   ├ Private subnet
+   └ Private subnet
+```
+
+---
+
