@@ -1,0 +1,563 @@
+
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod
+$ ls
+01-hub-vpc/  02-service-vpc/  03-tgw/  04-alb/  05-ec2-nginx/  env.hcl
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod
+$ cat env.hcl
+# 환경별(운영, 개발 등) 공통 변수를 정의합니다.
+locals {
+  environment = "prod"
+  aws_region  = "ap-northeast-2" # 아시아 태평양 (서울) 리전
+}
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod
+$ cd 01-hub-vpc/
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/01-hub-vpc
+$ ls
+main.tf  terraform.tfstate  terraform.tfstate.backup  terragrunt.hcl
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/01-hub-vpc
+$ cat terragrunt.hcl
+include "root" {
+  path = find_in_parent_folders()
+}
+
+terraform {
+  source = "." # 현재 디렉터리의 .tf 파일들을 실행
+}
+
+inputs = {
+  vpc_name = "hub-vpc"
+  vpc_cidr = "10.0.0.0/16"
+}
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/01-hub-vpc
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/01-hub-vpc
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/01-hub-vpc
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/01-hub-vpc
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/01-hub-vpc
+$ cat main.tf
+variable "vpc_name" { type = string }
+variable "vpc_cidr" { type = string }
+
+module "hub_vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "5.0.0"
+
+  name = var.vpc_name
+  cidr = var.vpc_cidr
+
+  azs             = ["ap-northeast-2a", "ap-northeast-2c"]
+  public_subnets  = ["10.0.1.0/24", "10.0.2.0/24"]
+  private_subnets = ["10.0.11.0/24", "10.0.12.0/24"]
+
+  enable_nat_gateway = true
+  single_nat_gateway = true # 실습용 단일 NAT
+}
+
+output "vpc_id" { value = module.hub_vpc.vpc_id }
+output "public_subnets" { value = module.hub_vpc.public_subnets }
+output "private_subnets" { value = module.hub_vpc.private_subnets }
+output "private_route_table_ids" { value = module.hub_vpc.private_route_table_ids }
+output "public_route_table_ids" { value = module.hub_vpc.public_route_table_ids }
+output "nat_gateway_ids" { value = module.hub_vpc.natgw_ids }
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/01-hub-vpc
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/01-hub-vpc
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/01-hub-vpc
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/01-hub-vpc
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/01-hub-vpc
+$ cd ../02-service-vpc/
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/02-service-vpc
+$ ls
+main.tf  terraform.tfstate  terraform.tfstate.backup  terragrunt.hcl
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/02-service-vpc
+$ cat terragrunt.hcl
+include "root" {
+  path = find_in_parent_folders()
+}
+
+terraform { source = "." }
+
+inputs = {
+  vpc_name = "service-vpc"
+  vpc_cidr = "10.1.0.0/16"
+}
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/02-service-vpc
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/02-service-vpc
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/02-service-vpc
+$ cat main.tf
+variable "vpc_name" { type = string }
+variable "vpc_cidr" { type = string }
+
+module "service_vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "5.0.0"
+
+  name = var.vpc_name
+  cidr = var.vpc_cidr
+
+  azs             = ["ap-northeast-2a", "ap-northeast-2c"]
+  private_subnets = ["10.1.1.0/24", "10.1.2.0/24"]
+
+  enable_nat_gateway = false # NAT 없음 (Hub VPC 의존)
+}
+
+output "vpc_id" { value = module.service_vpc.vpc_id }
+output "private_subnets" { value = module.service_vpc.private_subnets }
+output "private_route_table_ids" { value = module.service_vpc.private_route_table_ids }
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/02-service-vpc
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/02-service-vpc
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/02-service-vpc
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/02-service-vpc
+$ cd ../03-tgw/
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/03-tgw
+$ ls
+main.tf  terraform.tfstate  terraform.tfstate.backup  terragrunt.hcl
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/03-tgw
+$ cat terragrunt.hcl
+include "root" { path = find_in_parent_folders() }
+
+#dependency "hub" { config_path = "../01-hub-vpc" }
+#dependency "service" { config_path = "../02-service-vpc" }
+
+
+dependency "hub" {
+  config_path = "../01-hub-vpc"
+  mock_outputs = {
+    vpc_id                  = "vpc-mock-12345"
+    private_subnets         = ["subnet-mock-1", "subnet-mock-2"]
+    public_subnets          = ["subnet-mock-pub1", "subnet-mock-pub2"]
+    private_route_table_ids = ["rtb-mock-1", "rtb-mock-2"]
+    public_route_table_ids  = ["rtb-mock-pub1", "rtb-mock-pub2"]
+    nat_gateway_ids         = ["nat-12345"]
+
+
+  }
+  mock_outputs_allowed_terraform_commands = ["init","plan", "validate"]
+}
+
+dependency "service" {
+  config_path = "../02-service-vpc"
+  mock_outputs = {
+    vpc_id                  = "vpc-mock-67890"
+    private_subnets         = ["subnet-mock-3", "subnet-mock-4"]
+    private_route_table_ids = ["rtb-mock-3", "rtb-mock-4"]
+  }
+  mock_outputs_allowed_terraform_commands = ["init","plan", "validate"]
+}
+
+terraform { source = "." }
+
+inputs = {
+  hub_vpc_id              = dependency.hub.outputs.vpc_id
+  hub_subnet_ids          = dependency.hub.outputs.private_subnets
+  service_vpc_id          = dependency.service.outputs.vpc_id
+  service_subnet_ids      = dependency.service.outputs.private_subnets
+  hub_route_table_ids     = dependency.hub.outputs.private_route_table_ids
+  hub_public_route_table_ids = dependency.hub.outputs.public_route_table_ids
+  service_route_table_ids = dependency.service.outputs.private_route_table_ids
+  # [핵심 수정] Hub VPC 모듈에서 생성된 NAT Gateway ID를 주입합니다.
+  # 01-hub-vpc/main.tf의 모듈 출력값 명칭을 확인해야 합니다.
+  nat_gateway_ids         = dependency.hub.outputs.nat_gateway_ids
+}
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/03-tgw
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/03-tgw
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/03-tgw
+$ cat main.tf
+variable "hub_vpc_id" { type = string }
+variable "hub_public_route_table_ids" { type = list(string) }
+variable "hub_subnet_ids" { type = list(string) }
+variable "service_vpc_id" { type = string }
+variable "service_subnet_ids" { type = list(string) }
+variable "hub_route_table_ids" { type = list(string) }
+variable "service_route_table_ids" { type = list(string) }
+variable "nat_gateway_ids" { type = list(string) }
+
+
+# TGW 생성
+resource "aws_ec2_transit_gateway" "main" {
+  description = "Hub and Spoke TGW"
+  tags = { Name = "main-tgw" }
+}
+
+# Hub VPC 연결
+resource "aws_ec2_transit_gateway_vpc_attachment" "hub" {
+  subnet_ids         = var.hub_subnet_ids
+  transit_gateway_id = aws_ec2_transit_gateway.main.id
+  vpc_id             = var.hub_vpc_id
+  tags = { Name = "hub-attachment" }
+}
+
+# Service VPC 연결
+resource "aws_ec2_transit_gateway_vpc_attachment" "service" {
+  subnet_ids         = var.service_subnet_ids
+  transit_gateway_id = aws_ec2_transit_gateway.main.id
+  vpc_id             = var.service_vpc_id
+  tags = { Name = "service-attachment" }
+}
+
+# [핵심 라우팅] Service VPC에서 외부(0.0.0.0/0)로 가는 트래픽을 TGW로 전송
+resource "aws_route" "service_to_tgw" {
+  count                  = length(var.service_route_table_ids)
+  route_table_id         = var.service_route_table_ids[count.index]
+  destination_cidr_block = "0.0.0.0/0"
+  transit_gateway_id     = aws_ec2_transit_gateway.main.id
+  depends_on             = [aws_ec2_transit_gateway_vpc_attachment.service]
+}
+
+# [핵심 라우팅] Hub VPC에서 Service VPC(10.1.0.0/16)로 가는 트래픽을 TGW로 전송
+resource "aws_route" "hub_private_to_service" {
+  count                  = length(var.hub_route_table_ids)
+  route_table_id         = var.hub_route_table_ids[count.index]
+  destination_cidr_block = "10.1.0.0/16"
+  transit_gateway_id     = aws_ec2_transit_gateway.main.id
+  depends_on             = [aws_ec2_transit_gateway_vpc_attachment.hub]
+}
+
+# [수정] Hub VPC의 Public Subnet에서 Service VPC(10.1.0.0/16)로 가는 트래픽을 TGW로 전송
+resource "aws_route" "hub_pub_to_service" {
+  count                  = length(var.hub_public_route_table_ids)
+  route_table_id         = var.hub_public_route_table_ids[count.index]
+  destination_cidr_block = "10.1.0.0/16"
+  transit_gateway_id     = aws_ec2_transit_gateway.main.id
+  depends_on             = [aws_ec2_transit_gateway_vpc_attachment.hub]
+}
+
+
+
+# 7. [수정 추가] TGW Route Table 내 외부(0.0.0.0/0) 경로 추가
+# TGW 자체가 어디로 인터넷 트래픽을 보낼지 결정하는 설정입니다.
+resource "aws_ec2_transit_gateway_route" "tgw_default_route" {
+  destination_cidr_block         = "0.0.0.0/0"
+  transit_gateway_route_table_id = aws_ec2_transit_gateway.main.association_default_route_table_id
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.hub.id
+  depends_on                     = [aws_ec2_transit_gateway_vpc_attachment.hub]
+}
+
+
+
+# 8. [출력] 결과 확인을 위한 아웃풋 설정
+output "tgw_final_info" {
+  value = {
+    tgw_id            = aws_ec2_transit_gateway.main.id
+    tgw_route_table   = aws_ec2_transit_gateway.main.association_default_route_table_id
+    hub_attachment_id = aws_ec2_transit_gateway_vpc_attachment.hub.id
+    #nat_routes_count  = length(aws_route.hub_private_to_nat)
+  }
+}
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/03-tgw
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/03-tgw
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/03-tgw
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/03-tgw
+$ cd ../04-alb/
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/04-alb
+$ ls
+main.tf  terraform.tfstate  terraform.tfstate.backup  terragrunt.hcl
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/04-alb
+$ cat terragrunt.hcl
+include "root" { path = find_in_parent_folders() }
+#dependency "hub" { config_path = "../01-hub-vpc" }
+
+
+
+dependency "hub" {
+  config_path = "../01-hub-vpc"
+  mock_outputs = {
+    vpc_id         = "vpc-mock-12345"
+    public_subnets = ["subnet-mock-pub1", "subnet-mock-pub2"]
+  }
+  mock_outputs_allowed_terraform_commands = ["init","plan", "validate"]
+}
+
+terraform { source = "." }
+
+inputs = {
+  vpc_id         = dependency.hub.outputs.vpc_id
+  public_subnets = dependency.hub.outputs.public_subnets
+}
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/04-alb
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/04-alb
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/04-alb
+$ cat main.tf
+variable "vpc_id" { type = string }
+variable "public_subnets" { type = list(string) }
+
+# ALB 전용 보안 그룹 (인바운드: 외부 허용, 아웃바운드: Service VPC 대역 허용)
+resource "aws_security_group" "alb_sg" {
+  name        = "hub-alb-sg"
+  description = "ALB Security Group"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["10.1.0.0/16"] # Service VPC 향 트래픽 허용
+  }
+}
+
+module "alb" {
+  source  = "terraform-aws-modules/alb/aws"
+  version = "~> 9.0" # 최신 9.x 버전 대역으로 마이그레이션
+  #version = "8.7.0"
+
+  name               = "hub-central-alb"
+  load_balancer_type = "application"
+  vpc_id             = var.vpc_id
+  subnets            = var.public_subnets
+  security_groups    = [aws_security_group.alb_sg.id]
+
+  # 최신 문법: http_tcp_listeners 속성이 listeners 맵(Map) 구조로 변경됨
+
+  listeners = {
+    http = {
+      port     = 80
+      protocol = "HTTP"
+      forward = {
+        target_group_key = "nginx_tg" # 아래 target_groups 블록에서 선언할 키(Key) 값 참조
+      }
+    }
+  }
+  target_groups = {
+    nginx_tg = {
+      name_prefix      = "ngnx-" # 이름이 길면 에러가 날 수 있으므로 prefix 권장
+      protocol         = "HTTP"
+      port             = 80
+      target_type      = "ip"
+      # 모듈 내부에서 자체적으로 attachment를 생성하려 할 때 발생하는 에러를 방지하기 위해
+      # 아래 create_attachment 속성을 false로 하거나, targets 블록을 정확히 정의해야 합니다.
+      create_attachment = false
+    }
+  }
+
+}
+
+# [수정됨] 최신 문법에 맞춘 출력값(Outputs) 속성명 변경
+output "target_group_arns" {
+  # 최신 버전에서는 target_groups가 객체 맵이므로 특정 키(nginx_tg)의 arn을 추출하여 단일 리스트로 묶어 하위 호환성(05-ec2-nginx 모듈 연동용) 유지
+  value = [module.alb.target_groups["nginx_tg"].arn]
+}
+
+output "alb_dns_name" {
+  # 최신 버전의 DNS 속성명은 lb_dns_name에서 dns_name으로 변경됨
+  value = module.alb.dns_name
+}
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/04-alb
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/04-alb
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/04-alb
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/04-alb
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/04-alb
+$ cd ../05-ec2-nginx/
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/05-ec2-nginx
+$ ls
+main.tf  terraform.tfstate  terraform.tfstate.backup  terragrunt.hcl
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/05-ec2-nginx
+$ cat terragrunt.hcl
+include "root" { path = find_in_parent_folders() }
+#dependency "service" { config_path = "../02-service-vpc" }
+#dependency "alb" { config_path = "../04-alb" }
+
+
+
+dependency "service" {
+  config_path = "../02-service-vpc"
+  mock_outputs = {
+    vpc_id          = "vpc-mock-67890"
+    private_subnets = ["subnet-mock-3", "subnet-mock-4"]
+  }
+  mock_outputs_allowed_terraform_commands = ["init", "plan", "validate"]
+}
+
+dependency "alb" {
+  config_path = "../04-alb"
+  mock_outputs = {
+    target_group_arns = ["arn:aws:elasticloadbalancing:ap-northeast-2:123456789012:targetgroup/mock/123"]
+  }
+  mock_outputs_allowed_terraform_commands = ["init", "plan", "validate"]
+}
+
+terraform { source = "." }
+
+inputs = {
+  vpc_id           = dependency.service.outputs.vpc_id
+  subnet_id        = dependency.service.outputs.private_subnets[0]
+  target_group_arn = dependency.alb.outputs.target_group_arns[0]
+}
+
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/05-ec2-nginx
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/05-ec2-nginx
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/05-ec2-nginx
+$ cat main.tf
+variable "vpc_id" { type = string }
+variable "subnet_id" { type = string }
+variable "target_group_arn" { type = string }
+
+# Nginx 전용 보안 그룹 (인바운드: Hub VPC 대역만 허용)
+resource "aws_security_group" "nginx_sg" {
+  name        = "nginx-service-sg"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"] # TGW를 넘어오는 Hub VPC 트래픽 수용
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"] # OS 업데이트 및 SSM 통신을 위한 외부 아웃바운드 허용
+  }
+}
+
+# --- [추가] SSM (Systems Manager) 접속을 위한 IAM 설정 ---
+
+# 1. EC2가 역할을 수임(Assume)할 수 있도록 신뢰 정책 생성
+resource "aws_iam_role" "ssm_role" {
+  name = "nginx-ssm-role_v2"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      }
+    }]
+  })
+}
+
+# 2. 역할에 SSM 관리형 정책(AmazonSSMManagedInstanceCore) 연결
+resource "aws_iam_role_policy_attachment" "ssm_policy" {
+  role       = aws_iam_role.ssm_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+# 3. EC2 인스턴스에 부착할 인스턴스 프로파일 생성
+resource "aws_iam_instance_profile" "ssm_profile" {
+  name = "nginx-ssm-profile_v2"
+  role = aws_iam_role.ssm_role.name
+}
+
+# --------------------------------------------------------
+
+resource "aws_instance" "nginx" {
+  ami           = "ami-0c9c942bd7bf113a2" # Ubuntu 22.04 LTS
+  instance_type = "t3.micro"
+  subnet_id     = var.subnet_id
+  vpc_security_group_ids = [aws_security_group.nginx_sg.id]
+
+  # 생성한 SSM 인스턴스 프로파일을 EC2에 적용
+  iam_instance_profile = aws_iam_instance_profile.ssm_profile.name
+
+  user_data = <<-EOF
+              #!/bin/bash
+              apt-get update -y
+              apt-get install -y nginx
+              systemctl start nginx
+              systemctl enable nginx
+              echo "Welcome to Centralized Network Nginx!" > /var/www/html/index.html
+              EOF
+  tags = { Name = "nginx-service-instance" }
+}
+
+# ALB 타겟 그룹에 생성된 EC2의 Private IP 자동 등록 매핑
+resource "aws_lb_target_group_attachment" "nginx_attach" {
+  target_group_arn = var.target_group_arn
+  target_id        = aws_instance.nginx.private_ip
+  port             = 80
+  # 대상 IP가 VPC 네트워크 범위 외부일 경우 반드시 추가해야 하는 설정
+  availability_zone = "all"
+}
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/05-ec2-nginx
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/05-ec2-nginx
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/05-ec2-nginx
+$
+
+B1-MAIN@DESKTOP-2F0TLNC MINGW64 ~/lab_terra/prod/05-ec2-nginx
+$
