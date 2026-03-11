@@ -85,7 +85,7 @@ Private
 
 # 2. 디렉터리 생성
 
-
+```
 NatAlb/
 │
 ├ terragrunt.hcl
@@ -113,7 +113,7 @@ NatAlb/
 └ 05-ec2-nginx
 ├ terragrunt.hcl
 └ main.tf
-
+```
 
 ---
 
