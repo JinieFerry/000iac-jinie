@@ -241,5 +241,28 @@ pwd
 terragrunt run-all apply
 ```
 
+성공
+```
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+```
+<img width="1001" height="1042" alt="image" src="https://github.com/user-attachments/assets/991c2cd2-58c7-457a-b1aa-1417b85d70f1" />
+<img width="1001" height="1042" alt="image" src="https://github.com/user-attachments/assets/1fad7975-583a-48b7-8fa1-a9bfd4b7efc6" />
+
 
 
