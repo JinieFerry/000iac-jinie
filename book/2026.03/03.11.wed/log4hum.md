@@ -45,12 +45,12 @@ EOF
 remote_state {
   backend = "local"
 
-  generate {
+  generate = {
     path      = "backend.tf"
     if_exists = "overwrite_terragrunt"
   }
 
-  config {
+  config = {
     path = "${get_terragrunt_dir()}/terraform.tfstate"
   }
 }
@@ -68,7 +68,7 @@ ls
 ```
 vi env.hcl
 ```
-### /d/0311-NatAlb/env.hcl
+### /d/0311-NatAlb/prod/env.hcl
 
 ```
 locals {
