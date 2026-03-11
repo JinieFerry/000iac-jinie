@@ -187,10 +187,11 @@ inputs = {
 
   vpc_name = "hub-vpc"
 
-  vpc_cidr = "10.0.0.0/16"
+  vpc_cidr = "10.150.0.0/16"
 
 }
 ```
+<img width="1745" height="855" alt="image" src="https://github.com/user-attachments/assets/42fbf86c-c5d0-4417-b590-84ae5476940d" />
 
 ---
 
@@ -215,13 +216,13 @@ module "hub_vpc" {
   ]
 
   public_subnets = [
-    "10.0.1.0/24",
-    "10.0.2.0/24"
+    "10.150.21.0/24",
+    "10.150.23.0/24"
   ]
 
   private_subnets = [
-    "10.0.11.0/24",
-    "10.0.12.0/24"
+    "10.150.101.0/24",
+    "10.150.103.0/24"
   ]
 
   enable_nat_gateway = true
@@ -236,6 +237,7 @@ output "vpc_id" {
 
 }
 ```
+<img width="1751" height="836" alt="image" src="https://github.com/user-attachments/assets/97e4bb1b-0b42-453e-8227-6192eb02afd9" />
 
 ---
 
@@ -274,11 +276,11 @@ inputs = {
 
   vpc_name = "service-vpc"
 
-  vpc_cidr = "10.1.0.0/16"
+  vpc_cidr = "10.151.0.0/16"   
 
 }
 ```
-
+spoke는 10.150 + 1 . 0.0/16
 ---
 
 ## main.tf
@@ -303,14 +305,15 @@ module "service_vpc" {
   ]
 
   private_subnets = [
-    "10.1.1.0/24",
-    "10.1.2.0/24"
+    "10.151.101.0/24",
+    "10.151.103.0/24"
   ]
 
   enable_nat_gateway = false
 
 }
 ```
+<img width="1776" height="864" alt="image" src="https://github.com/user-attachments/assets/0b6fdee8-e7c8-4df3-9e44-2fea30f77fa5" />
 
 ---
 
