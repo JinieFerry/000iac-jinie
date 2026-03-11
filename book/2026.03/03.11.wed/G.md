@@ -155,7 +155,6 @@ path = "${get_terragrunt_dir()}/terraform.tfstate"
 
 }
 ```
-
 ---
 
 # 4. 환경 변수 설정
