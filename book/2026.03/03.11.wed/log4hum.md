@@ -242,27 +242,106 @@ terragrunt run-all apply
 ```
 
 성공
+
+
+
+# 코어 네트워크 구축 (Hub & Service VPC)
+
+### /d/0311-NatAlb/prod/03-tgw/main.tf
+
+```
+pwd
+touch main.tf
+vi main.tf
 ```
 
-Terraform has been successfully initialized!
-
-You may now begin working with Terraform. Try running "terraform plan" to see
-any changes that are required for your infrastructure. All Terraform commands
-should now work.
-
-If you ever set or change modules or backend configuration for Terraform,
-rerun this command to reinitialize your working directory. If you forget, other
-commands will detect it and remind you to do so if necessary.
-
-No changes. Your infrastructure matches the configuration.
-
-Terraform has compared your real infrastructure against your configuration
-and found no differences, so no changes are needed.
-
-Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
 ```
-<img width="1001" height="1042" alt="image" src="https://github.com/user-attachments/assets/991c2cd2-58c7-457a-b1aa-1417b85d70f1" />
-<img width="1001" height="1042" alt="image" src="https://github.com/user-attachments/assets/1fad7975-583a-48b7-8fa1-a9bfd4b7efc6" />
+variable "hub_vpc_id" { type = string }
+variable "hub_subnet_ids" { type = list(string) }
+
+variable "service_vpc_id" { type = string }
+variable "service_subnet_ids" { type = list(string) }
+
+resource "aws_ec2_transit_gateway" "main" {
+  description = "Hub and Spoke TGW"
+
+  tags = {
+    Name = "main-tgw"
+  }
+}
+
+resource "aws_ec2_transit_gateway_vpc_attachment" "hub" {
+  subnet_ids         = var.hub_subnet_ids
+  transit_gateway_id = aws_ec2_transit_gateway.main.id
+  vpc_id             = var.hub_vpc_id
+
+  tags = {
+    Name = "hub-attachment"
+  }
+}
+
+resource "aws_ec2_transit_gateway_vpc_attachment" "service" {
+  subnet_ids         = var.service_subnet_ids
+  transit_gateway_id = aws_ec2_transit_gateway.main.id
+  vpc_id             = var.service_vpc_id
+
+  tags = {
+    Name = "service-attachment"
+  }
+}
+
+output "tgw_id" {
+  value = aws_ec2_transit_gateway.main.id
+}
+
+output "hub_attachment_id" {
+  value = aws_ec2_transit_gateway_vpc_attachment.hub.id
+}
+
+output "service_attachment_id" {
+  value = aws_ec2_transit_gateway_vpc_attachment.service.id
+}
+```
+#03-tgw 단독으로 먼저 확인
+```
+terragrunt init
+terragrunt plan
+terragrunt apply
+```
+
+```
+#  3개 생성 되어야 함
+aws_ec2_transit_gateway.main
+
+aws_ec2_transit_gateway_vpc_attachment.hub
+
+aws_ec2_transit_gateway_vpc_attachment.service
+```
+<img width="1001" height="1042" alt="image" src="https://github.com/user-attachments/assets/2e1e1b5e-1625-4b13-8681-09f41c206b4a" />
+<img width="1001" height="1042" alt="image" src="https://github.com/user-attachments/assets/72eda1c3-47f6-45db-af09-aceebd0b4542" />
 
 
+## 삭제 전 콘솔에서 확인
+
++ vpc - transit gateway
+<img width="997" height="1037" alt="image" src="https://github.com/user-attachments/assets/6a6d2538-3402-4e6f-b68e-c121d0f5e747" />
++ 삭제
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/7cda042a-42f5-44f9-892e-2ab15e1bacac" />
+
++ vpc - tgw attachments
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/a78942a0-71cd-492f-b783-4325c0fc38f9" />
++ 삭제
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/8cadac10-bef4-4a6f-8f20-c771db481fac" />
+
++ vpc
+ + hub vpc
+ + service vpc
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/9bec5ab0-5f48-4d18-af3c-f575d651e7fe" />
+ + 삭제
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/acb12d7f-4950-4ce6-9669-13abadb27920" />
+
++ Nat Gateway
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/329b7a2b-29f8-4703-8336-ed7f8eb83cd8" />
++ 삭제
+<img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/84b073b7-df18-4ef2-ba2a-a6cd17cc6c27" />
 
