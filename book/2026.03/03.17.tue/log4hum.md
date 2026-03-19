@@ -12,7 +12,7 @@ kali linux amd64 settingss
 + 네트워크 : 어댑터1 : 어댑터에 브리지 , 어댑터2: NAT
 <img width="809" height="571" alt="image" src="https://github.com/user-attachments/assets/d363e7d1-9b6f-4254-b01f-19a1e9ca3a6b" />
 <img width="809" height="571" alt="image" src="https://github.com/user-attachments/assets/ed1ea300-d87f-4590-bbf7-9bdac50ab77c" />
-
++ 아이디 비번 : kaliamster kali1234
 
 타겟서버 : TGserver 
 <img width="788" height="397" alt="image" src="https://github.com/user-attachments/assets/002b3f88-5566-4c4b-a5b9-9b77360814d2" />
