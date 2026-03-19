@@ -16,10 +16,11 @@ root@kali:~# apt update && apt full-upgrade -y
 root@kali:~# apt autoremove -y
 ```
 
-DNS 수정
+## DNS 수정
 <img width="1282" height="875" alt="image" src="https://github.com/user-attachments/assets/17593497-cd60-48fc-9e26-d1507ad575a4" />
 
-한글폰트 설치
+## 한글폰트 설치
+
 ```
 # passwd kalimaster #npwd : 1234
 
@@ -58,7 +59,7 @@ iface eth0 inet static
 sudo nano /etc/resolv.conf
 ```
 
-/etc/resolv.conf
+### /etc/resolv.conf
 
 ```
 nameserver 8.8.8.8
@@ -78,17 +79,53 @@ sudo update-rc.d ssh defaults  # 부팅시 자동 서비스
 <img width="734" height="649" alt="image" src="https://github.com/user-attachments/assets/b645315f-eea0-44a7-982d-5184b12796b0" />
 <img width="734" height="649" alt="image" src="https://github.com/user-attachments/assets/7dc7c15c-f409-4aae-94c3-825ec7700b10" />
 
-vm TGserver에서 방화벽
+## vm TGserver에서 방화벽
 ```
 sudo ufw disatble
 ```
 
-저장소 초기화
+## 저장소 초기화
 `sudo nano /etc/apt/source.list`
 
-/etc/apt/source.list
+### /etc/apt/source.list
 
 ```
-deb http://old-releases.ubuntu.com/ubuntu trusty main universe
-deb http://old-releases.ubuntu.com/ubuntu trusty-updates main universe
+deb http://old-releases.ubuntu.com/ubuntu trusty main restricted universe multiverse
+deb http://old-releases.ubuntu.com/ubuntu trusty-updates main restricted universe multiverse
+deb http://old-releases.ubuntu.com/ubuntu trusty-security main restricted universe multiverse
 ```
+
+## apache2 설치
+```
+# 설치
+sudo apt-get update
+
+# 아파치2  다운로드
+wget https://archive.apache.org/dist/httpd/httpd-2.2.8.tar.bz2
+
+# 압축 풀기
+tar -xvjf httpd-2.2.8.tar.bz2
+
+# 이동
+cd httpd-2.2.8
+```
+
+## TGserver 재설치
+
+<img width="771" height="547" alt="image" src="https://github.com/user-attachments/assets/1034d922-bfdb-49bf-b792-bf8b6e312ad2" />
+<img width="771" height="547" alt="image" src="https://github.com/user-attachments/assets/70f62108-2816-4cd9-8154-fac6e9c76d22" />
+<img width="771" height="547" alt="image" src="https://github.com/user-attachments/assets/7d384599-d29c-47f3-9168-dbdaeb1ce200" />
+<img width="771" height="547" alt="image" src="https://github.com/user-attachments/assets/3256dd2c-7314-4044-ab33-183d24b44216" />
+
+## 설정 변경
+<img width="809" height="514" alt="image" src="https://github.com/user-attachments/assets/2866e8fd-d7cd-4e8d-8fc5-c8b6e47eadbc" />
+<img width="809" height="514" alt="image" src="https://github.com/user-attachments/assets/fe70533e-5157-4c6c-85d1-4b0ca4469539" />
+
+# 시작
+<img width="1067" height="884" alt="image" src="https://github.com/user-attachments/assets/ec817e8f-4c95-43f4-a8fe-bcc8a630174b" />
+<img width="1026" height="843" alt="image" src="https://github.com/user-attachments/assets/b2f2bf78-c6ce-4ca2-9cf7-c5de0e290b07" />
+<img width="1026" height="843" alt="image" src="https://github.com/user-attachments/assets/f686aac4-96ef-4c76-8c2c-027ce8a05970" />
+
+
+
+
