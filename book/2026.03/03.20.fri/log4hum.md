@@ -125,7 +125,7 @@ ubuntu-14.04.6-desktop-amd64.iso 다운로드 (server 아님)
 <img width="946" height="113" alt="image" src="https://github.com/user-attachments/assets/9d506197-4b48-4e39-bca1-9875e860dfca" />
 <img width="943" height="246" alt="image" src="https://github.com/user-attachments/assets/74bb7415-387e-4367-adc1-345dd161833e" />
 
-# 5. Virtual Box에 추가
+# 5. Virtual Box에 Meatasploitable2 추가 : meta
 
 ## 1) Virtual Box 실행
 <img width="962" height="689" alt="image" src="https://github.com/user-attachments/assets/15760d69-f9bf-49a3-bce0-2f946dc4fde1" />
@@ -155,3 +155,15 @@ ubuntu-14.04.6-desktop-amd64.iso 다운로드 (server 아님)
 
 ## 3-3) 설정 수정하기 3 : 일반 > Features 모두 양방향
 <img width="809" height="514" alt="image" src="https://github.com/user-attachments/assets/c0672332-d42b-4cf5-ba03-f9735d1b4c1c" />
+
+
+## 4. 실행 & IP 확인 
+### 최초 로그인은 기본 아이디 비번으로 **Login with msfadmin/msfadmin**
+<img width="738" height="490" alt="image" src="https://github.com/user-attachments/assets/5cfd1c48-21f6-4488-a36b-29f80295e159" />
+
+### 고정 ip 확인하기 : eth0 192.168.10.3
+```
+ifconfig
+```
+<img width="738" height="490" alt="image" src="https://github.com/user-attachments/assets/4b355b98-13c6-404b-97d3-f38da740d8c7" />
+
