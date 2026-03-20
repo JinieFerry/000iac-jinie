@@ -193,3 +193,11 @@ ifconfig
 
 ### Graphic Install
 <img width="663" height="560" alt="image" src="https://github.com/user-attachments/assets/266821f7-2394-4749-9871-025c052a1ffc" />
+
+### 언어선택 (영어 권장) : English - United States - American English
+<img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/d29acbcd-c860-4bc8-8d3b-d07237e74048" />
+<img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/07f5bbfc-7a38-42a6-b6de-e3c9bc97878c" />
+<img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/f1c3f43f-eadb-4012-a96d-77ed1a70ec7b" />
+
+### 호스트네임 설정 (kali ~~ 권장) : kali-attacker
+<img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/73dbb0da-1676-4bb3-b08a-7ab688d67e91" />
