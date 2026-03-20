@@ -114,4 +114,7 @@ kali-linux-2025.x-installer-amd64.iso 다운로드
 ## 2. 타겟서버 1  = 취약서버 1 설치 (Metasploitable2) : https://sourceforge.net/projects/metasploitable/
 metasploitable-linux-2.0.0 다운로드    
 
-## 3. 타겟서버 2 = 취약서버 2 설치 (Ubuntu)
+## 3. 타겟서버 2 = 취약서버 2 설치 (Ubuntu 14.4) : https://releases.ubuntu.com/14.04/   
+ubuntu-14.04.6-desktop-amd64.iso 다운로드 (server 아님)
+
+
