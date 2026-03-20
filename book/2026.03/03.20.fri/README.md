@@ -33,3 +33,8 @@ nat는 버추얼박스는 독립된 애들이라서 통신이 되도록 하는 �
 
 + kali2에서 msf> 로 들어가서 서치부터 하기
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/7019f61f-743b-4428-a921-4dc81fdc3ee5" />
+
++ kali에서 루트로 가서  실행 다운로드 받기
+```
+wget -O /root/users.txt https://raw.githubusercontent.com/danielmiessler/SecLists/master/Usernames/top-usernames-shortlist.txt
+```
