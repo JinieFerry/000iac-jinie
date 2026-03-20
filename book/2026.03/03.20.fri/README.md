@@ -27,3 +27,9 @@ iso 설치할 때 ssh 체크안했으면 ssh 서버 설치 및 시작단계 진�
 nat는 버추얼박스는 독립된 애들이라서 통신이 되도록 하는 것, 어댑터에 브릿지는 접속을 하려면 브릿지로 해야지만이 설명을 했음   
 
 세 서버 모두 어댑터에 브릿지로 설정     
+
++ metasploit은 서버만 제공 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/2f12f737-5e85-4396-81cb-335e4681d0ab" />
+
++ kali2에서 msf> 로 들어가서 서치부터 하기
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/7019f61f-743b-4428-a921-4dc81fdc3ee5" />
