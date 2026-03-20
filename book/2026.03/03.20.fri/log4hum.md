@@ -199,5 +199,24 @@ ifconfig
 <img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/07f5bbfc-7a38-42a6-b6de-e3c9bc97878c" />
 <img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/f1c3f43f-eadb-4012-a96d-77ed1a70ec7b" />
 
-### 호스트네임 설정 (kali ~~ 권장) : kali-attacker
+### 호스트네임 설정 (kali ~~ 권장) : kali-attacker , 도메인 네임 비워둠
 <img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/73dbb0da-1676-4bb3-b08a-7ab688d67e91" />
+<img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/0ec87151-b56b-4540-84d9-f6fd6dd6761f" />
+
+### 유저네임 : kali-attacker (표시용)
+<img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/3db68042-b16c-45c3-8fed-30711cf5a9de" />
+
+### username & pw : kali(로그인용)  
+<img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/1b9e7820-6ef9-4306-820e-61a398025cd7" />
+<img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/a851e92c-8b8a-4fd0-be9d-34684fcf0bf2" />
+
+### continue만 누르기
+<img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/a956230b-584c-4b23-b3e7-62985751f933" />
+<img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/ac25779a-9209-4a6c-817f-b53699c57872" />
+<img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/bc2f3c4f-bb21-4e89-aa67-400ff5da6018" />
+<img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/596020ef-0f29-4002-af4b-96103d57c970" />
+<img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/e2e3fdc8-dea9-4546-a4fa-64e85ed6b807" />
+<img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/3e0491eb-40b1-4a1e-8e2d-ae32004c9ed4" />
+
+### yes : 설치 시작
+<img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/25184cc5-953a-473e-95c7-3ac9e8f4d124" />
