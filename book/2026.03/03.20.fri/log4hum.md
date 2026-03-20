@@ -1,6 +1,6 @@
 # 최종 구조 픽스 부탁드림
 
-## 0. 실습 구조 : 셋 다 같은 네트워크에 있어야 함 (그래서 '어댑터에 브릿지' 설정)
+# 0. 실습 구조 : 셋 다 같은 네트워크에 있어야 함 (그래서 '어댑터에 브릿지' 설정)
 ```
 [내 PC]
    │
@@ -28,12 +28,12 @@ IP 수동 설정
 최종) nmap 스캔 → metasploit 공격
 ```
 
-## 1. 설치 전략
+# 1. 설치 전략
 + OVA/VM 파일로 설치 (ISO 설치는 오류 많아서 생략)
 + ISO = 설치 중 ssh,네트워크,패키지 꼬일 가능성 농후
 + OVA = 이미 세팅 된 상태 그대로 설치
 
-## 2. VM 구성
+# 2. VM 구성
 
 1) Kali (공격 서버)
 
@@ -46,12 +46,12 @@ IP 수동 설정
 방식: OVA (702-200)      
 네트워크: Bridge     
 
-3) Target2 (정상 서버)   
+## 3) Target2 (정상 서버)   
 방식: ISO or 직접 설치 (702-100)   
 네트워크: Bridge    
 IP: 192.168.10.1xx (xx = 본인 PC 번호 ex. 1 + 15 = 115)      
 
-## 3. 설정 시 통일해야하는 조건 (여기서 많이 터짐)
+# 3. 설정 시 통일해야하는 조건 (여기서 많이 터짐)
 
 **VirtualBox → 설정 → 네트워크**
 
@@ -59,7 +59,7 @@ IP: 192.168.10.1xx (xx = 본인 PC 번호 ex. 1 + 15 = 115)
 
 어댑터 선택: → 본인 실제 인터넷 (Wi-Fi or Ethernet)
 
-## 4. IP전략
+# 4. IP전략
 
 기본 : 192.168.1+PC번호.xxx 
 
@@ -70,13 +70,13 @@ Metasploitable: 192.168.10.116
 Target2:        192.168.10.117   
 Gateway:        192.168.10.1    
 
-## 5. Target2 네트워크 설정 (여기서 많이 막힘)
+# 5. Target2 네트워크 설정 (여기서 많이 막힘)
 
-Ubuntu 기준:
+## Ubuntu 기준:
 ```
 sudo vi /etc/network/interfaces
 ```
-+/etc/network/interfaces
+## +/etc/network/interfaces
 ```
 auto eth0
 iface eth0 inet static
@@ -85,21 +85,21 @@ netmask 255.255.255.0
 gateway 192.168.10.1
 dns-nameservers 8.8.8.8
 ```
-적용:
+## 적용:
 ```
 sudo ifconfig eth0 down
 sudo ifconfig eth0 up
 ```
 
-## 6. SSH 안될 때 
+# 6. SSH 안될 때 
 ```
 sudo apt update
 sudo apt install openssh-server -y
 sudo service ssh start
 ```
 
-## 7. 통신 확인 (여기까지 되면 성공)
-Kali에서
+# 7. 통신 확인 (여기까지 되면 성공)
+## Kali에서
 ```
 ping 192.168.10.116
 ping 192.168.10.117
@@ -108,13 +108,13 @@ ping 192.168.10.117
 
 # 실습 진행 로그
 
-## 1. 공격서버 설치 (Kali Linux)  : https://www.kali.org/get-kali/#kali-installer-images
+# 1. 공격서버 설치 (Kali Linux)  : https://www.kali.org/get-kali/#kali-installer-images
 kali-linux-2025.x-installer-amd64.iso 다운로드   
 
-## 2. 타겟서버 1  = 취약서버 1 설치 (Metasploitable2) : https://sourceforge.net/projects/metasploitable/
+# 2. 타겟서버 1  = 취약서버 1 설치 (Metasploitable2) : https://sourceforge.net/projects/metasploitable/
 metasploitable-linux-2.0.0 다운로드    
 
-## 3. 타겟서버 2 = 취약서버 2 설치 (Ubuntu 14.4) : https://releases.ubuntu.com/14.04/   
+# 3. 타겟서버 2 = 취약서버 2 설치 (Ubuntu 14.4) : https://releases.ubuntu.com/14.04/   
 ubuntu-14.04.6-desktop-amd64.iso 다운로드 (server 아님)
 
 ## 4. 폴더 정리
@@ -125,32 +125,33 @@ ubuntu-14.04.6-desktop-amd64.iso 다운로드 (server 아님)
 <img width="946" height="113" alt="image" src="https://github.com/user-attachments/assets/9d506197-4b48-4e39-bca1-9875e860dfca" />
 <img width="943" height="246" alt="image" src="https://github.com/user-attachments/assets/74bb7415-387e-4367-adc1-345dd161833e" />
 
-## 5. Virtual Box에 추가
+# 5. Virtual Box에 추가
 
-1) Virtual Box 실행
+## 1) Virtual Box 실행
 <img width="962" height="689" alt="image" src="https://github.com/user-attachments/assets/15760d69-f9bf-49a3-bce0-2f946dc4fde1" />
 
-2-1) 새로만들기 -> metasploitable2 생성
+## 2-1) 새로만들기 -> metasploitable2 생성
 <img width="788" height="383" alt="image" src="https://github.com/user-attachments/assets/e77ec0e2-11a6-4ffb-bf08-a2a869ae8d69" />
 <img width="788" height="383" alt="image" src="https://github.com/user-attachments/assets/ee23aa85-796f-43b3-b833-e919cbeb2bac" />
 <img width="788" height="383" alt="image" src="https://github.com/user-attachments/assets/7b7f6db1-9379-4461-95f2-f97e74c31e12" />
 
-3-1) 설정 수정하기 1 : 저장소
+## 3-1) 설정 수정하기 1 : 저장소
 **met -> 설정 -> 저장소**
 기존 SATA 디스크 삭제하고 .vmdk 추가하기   
 
-+ 삭제전 : meta.vid선택하고 삭제하기
+### 삭제전 : meta.vid선택하고 삭제하기
 <img width="809" height="514" alt="image" src="https://github.com/user-attachments/assets/d3eafa9d-742d-4c00-8d5f-558dbbd5496f" />
-+ 디스크 추가하기 : + 아이콘 > 추가 (A) 클릭 > 압축 해제해 둔 Metasploitable.vmdk 선택하기 (!! .vdi 파일 아님 !!)
+
+### 디스크 추가하기 : + 아이콘 > 추가 (A) 클릭 > 압축 해제해 둔 Metasploitable.vmdk 선택하기 (!! .vdi 파일 아님 !!)
 <img width="962" height="812" alt="image" src="https://github.com/user-attachments/assets/f77c7390-ad68-4ac4-8a80-dd23c1a8ebda" />
 <img width="946" height="533" alt="image" src="https://github.com/user-attachments/assets/7fc90f96-0ab6-4c78-9468-3db8bce9340d" />
-+ Metasploitable.vmdk 추가 후 선택 > 선택 > 확인
+### Metasploitable.vmdk 추가 후 선택 > 선택 > 확인
 <img width="962" height="812" alt="image" src="https://github.com/user-attachments/assets/174d5f40-63a1-439b-a72a-97708304f885" />
 <img width="809" height="514" alt="image" src="https://github.com/user-attachments/assets/b123bd25-98ff-42b2-a900-572db3b86a1f" />
 
-3-2) 설정 수정하기 2 : 네트워크
-어댑터에 브리지로 변경
+## 3-2) 설정 수정하기 2 : 네트워크
+### 어댑터에 브리지로 변경
 <img width="809" height="514" alt="image" src="https://github.com/user-attachments/assets/83f51ced-ee49-4b87-a624-e7d29ee50bdf" />
 
-3-3) 설정 수정하기 3 : 일반 > Features 모두 양방향
+## 3-3) 설정 수정하기 3 : 일반 > Features 모두 양방향
 <img width="809" height="514" alt="image" src="https://github.com/user-attachments/assets/c0672332-d42b-4cf5-ba03-f9735d1b4c1c" />
