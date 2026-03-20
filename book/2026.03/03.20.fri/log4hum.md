@@ -1,4 +1,4 @@
-# 최종 픽스 부탁드림
+# 최종 구조 픽스 부탁드림
 
 ## 0. 실습 구조 : 셋 다 같은 네트워크에 있어야 함 (그래서 '어댑터에 브릿지' 설정)
 ```
@@ -10,32 +10,23 @@
 ```
 
 # 00. 진행순서
-STEP 1 
-
-Kali OVA 설치
-
+```
+1) Kali OVA 설치
+    │
 Bridge 설정
-
-STEP 2
-
-Metasploitable2 OVA 설치
-
+    │
+2) Metasploitable2 OVA 설치
+    │
 Bridge 설정
-
-STEP 3
-
-둘 다 켜고 ping 확인
-
-STEP 4
-
-Target2 설치
-
+    │
+3) 둘 다 켜고 ping 확인
+    │
+4) Target2 설치
+    │
 IP 수동 설정
-
-최종
-
-nmap 스캔 → metasploit 공격
-
+    │
+최종) nmap 스캔 → metasploit 공격
+```
 
 ## 1. 설치 전략
 + OVA/VM 파일로 설치 (ISO 설치는 오류 많아서 생략)
@@ -46,38 +37,27 @@ nmap 스캔 → metasploit 공격
 
 1) Kali (공격 서버)
 
-타입: Linux / Debian 64bit
+타입: Linux / Debian 64bit    
+방식: OVA (702-14)      
+네트워크: Bridge      
 
-방식: OVA (702-14)
+2) Metasploitable2 (취약 서버)     
+타입: Linux / Ubuntu 32bit      
+방식: OVA (702-200)      
+네트워크: Bridge     
 
-네트워크: Bridge
-
-2) Metasploitable2 (취약 서버)
-
-타입: Linux / Ubuntu 32bit
-
-방식: OVA (702-200)
-
-네트워크: Bridge
-
-3) Target2 (정상 서버)
-
-방식: ISO or 직접 설치 (702-100)
-
-네트워크: Bridge
-
-IP:
-
-192.168.10.1xx (xx = 본인 PC 번호 ex. 1 + 15 = 115)
+3) Target2 (정상 서버)   
+방식: ISO or 직접 설치 (702-100)   
+네트워크: Bridge    
+IP: 192.168.10.1xx (xx = 본인 PC 번호 ex. 1 + 15 = 115)      
 
 ## 3. 설정 시 통일해야하는 조건 (여기서 많이 터짐)
 
 **VirtualBox → 설정 → 네트워크**
 
-어댑터 1: Bridge Adapter
+어댑터 1: Bridge Adapter      
 
-어댑터 선택:
-→ 본인 실제 인터넷 (Wi-Fi or Ethernet)
+어댑터 선택: → 본인 실제 인터넷 (Wi-Fi or Ethernet)
 
 ## 4. IP전략
 
@@ -125,3 +105,13 @@ ping 192.168.10.116
 ping 192.168.10.117
 ```
 → 둘 다 살아야 정상
+
+# 실습 진행 로그
+
+## 1. 공격서버 설치 (Kali Linux)  : https://www.kali.org/get-kali/#kali-installer-images
+kali-linux-2025.x-installer-amd64.iso 다운로드   
+
+## 2. 타겟서버 1  = 취약서버 1 설치 (Metasploitable2) : https://sourceforge.net/projects/metasploitable/
+metasploitable-linux-2.0.0 다운로드    
+
+## 3. 타겟서버 2 = 취약서버 2 설치 (Ubuntu)
