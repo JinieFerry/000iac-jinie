@@ -221,6 +221,10 @@ ifconfig
 ### yes : 설치 시작
 <img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/25184cc5-953a-473e-95c7-3ac9e8f4d124" />
 
+### continue
+<img width="830" height="664" alt="image" src="https://github.com/user-attachments/assets/51b30c49-a9b6-4c3f-b0f6-dbe68739a4fe" />
+
+
 # 7. Virtual Box에서 타겟 서버 2 Ubuntu 14.4 설치
 
 1) 새로생성하기 -> ubuntu14
