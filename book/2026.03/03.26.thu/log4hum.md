@@ -66,3 +66,19 @@
 <img width="428" height="430" alt="image" src="https://github.com/user-attachments/assets/abea100b-3fbf-4eb9-9baa-7d7e20d16dcc" />
 
 ## Network Adapter > Network Connection : Host-Only 
+
+
+----- 여기까지 하고 kali 7z으로 까는 걸로 바꿈 -----
+
+# Kali 7z로 깔기
+## virtual box -> vmware 다운로드
+<img width="1255" height="1049" alt="image" src="https://github.com/user-attachments/assets/11def81e-762d-4f22-8553-6be3d126461a" />
+<img width="1255" height="1049" alt="image" src="https://github.com/user-attachments/assets/4d88815f-1ac8-4b25-8005-b73532966f69" />
+
+## 관리자 권한으로 vmware 실행하기 
+
+## File > Open 에서 kali vmx 파일 open
+<img width="951" height="822" alt="image" src="https://github.com/user-attachments/assets/892912e9-cd99-488a-bc86-2aab844e8105" />
+<img width="946" height="533" alt="image" src="https://github.com/user-attachments/assets/9cf72a5e-1e99-4a99-a6a8-972c203efca6" />
+
+## File > Open 에서 meta2 vmx 파일 open
