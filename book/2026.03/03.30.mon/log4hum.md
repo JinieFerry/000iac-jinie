@@ -27,6 +27,13 @@
 
 업데이트
 ```
-sudo apt update
-sudo apt upgrade -y
+# 2026.03.30.mon #
+# update #
+sudo apt install apache2 -y
+# Apache install
+sudo apt install apache2 -y
+# check
+systemctl status apache2
+sudo ss -tlnp | grep 80
+
 ```
